@@ -34,7 +34,7 @@ export class OceanAmbience extends BaseEntity implements Entity {
 
     const t = this.game!.audio.currentTime;
     const speed = 0.12;
-    if (depth > 0) {
+    if (depth > 0.4) {
       // below water
       const target = lerp(
         WAVES_CUTOFF_HIGH,
