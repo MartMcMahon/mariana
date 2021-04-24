@@ -1,12 +1,13 @@
 import { Body, Circle } from "p2";
-import { Graphics } from "pixi.js";
+import { Graphics, Sprite } from "pixi.js";
+import img_diver from "../../resources/images/diver.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
 
 const DIVER_RADIUS = 1.0; // Size in meters
 
 export class Diver extends BaseEntity implements Entity {
-  sprite: Graphics;
+  sprite: Sprite;
   body: Body;
 
   constructor() {
@@ -16,10 +17,14 @@ export class Diver extends BaseEntity implements Entity {
     const shape = new Circle({ radius: DIVER_RADIUS });
     this.body.addShape(shape);
 
-    this.sprite = new Graphics();
-    this.sprite.beginFill(0xffff00);
-    this.sprite.drawCircle(0, 0, DIVER_RADIUS);
-    this.sprite.endFill();
+    // this.sprite = new Graphics();
+    // this.sprite.beginFill(0xffff00);
+    // this.sprite.drawCircle(0, 0, DIVER_RADIUS);
+    // this.sprite.endFill();
+
+    this.sprite = Sprite.from(img_diver);
+    this.sprite.scale.set(DIVER_RADIUS / this.sprite.texture.width);
+
   }
 
   onRender() {
