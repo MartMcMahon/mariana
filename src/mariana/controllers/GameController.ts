@@ -53,7 +53,7 @@ export class GameController extends BaseEntity implements Entity {
     diveStart: () => {
       console.log("dive start");
       this.gamePhase = GamePhase.Diving;
-      const diver = this.game!.addEntity(new Diver(V(0, -5)));
+      const diver = this.game!.addEntity(new Diver(V(5,-3.5)));
       this.game?.addEntity(new CameraController(this.game.camera, diver));
 
       this.game!.addEntity(new Obstacle(8, 10, 3, 3));

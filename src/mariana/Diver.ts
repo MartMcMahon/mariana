@@ -15,7 +15,7 @@ import img_diverLeft from "../../resources/images/diver_left.png";
 import img_diverRight from "../../resources/images/diver_right.png";
 
 const DIVER_RADIUS = 1.0; // Size in meters
-const DIVER_SPEED = 35.0; // Newtons?
+const DIVER_SPEED = 25.0; // Newtons?
 const DIVER_FRICTION = 6.0; // not really sure of the unit
 const SURFACE_GRAVITY = 9.8; // meters / second
 
@@ -24,6 +24,7 @@ interface Sprites {
   left: Sprite;
   right: Sprite;
 }
+
 export class Diver extends BaseEntity implements Entity {
   sprite: Sprite;
   body: Body;
@@ -32,6 +33,8 @@ export class Diver extends BaseEntity implements Entity {
 
   // Amount of health we have
   hp = 100;
+
+  onBoat = true;
 
   subSprites: Sprites = {
     forward: Sprite.from(img_diver),
@@ -87,40 +90,48 @@ export class Diver extends BaseEntity implements Entity {
   }
 
   onTick(dt: number) {
-    if (this.getDepth() >= 0) {
-      if (rBool(dt)) {
-        this.game!.addEntity(new Bubble(this.getPosition().iadd([0, -0.7])));
-      }
-      if (this.hp > 0) {
-        const movementDirection = this.getPlayerMoveInput();
-        this.body.applyForce(movementDirection.imul(DIVER_SPEED));
-      }
+    if (!this.onBoat) {
+        if (this.getDepth() >= 0) {
+            if (rBool(dt)) {
+                this.game!.addEntity(new Bubble(this.getPosition().iadd([0, -0.7])));
+            }
+            if (this.hp > 0) {
+                const movementDirection = this.getPlayerMoveInput();
+                this.body.applyForce(movementDirection.imul(DIVER_SPEED));
+            }
 
-      const friction = V(this.body.velocity).imul(-DIVER_FRICTION);
-      this.body.applyForce(friction);
-    } else {
-      this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY]);
+            const friction = V(this.body.velocity).imul(-DIVER_FRICTION);
+            this.body.applyForce(friction);
+        } else {
+            this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY]);
+        }
     }
   }
 
-  // Returns the direction that the player wants the diver to move
-  getPlayerMoveInput(): V2d {
-    const movementDirection = V(
-      this.game!.io.getAxis(ControllerAxis.LEFT_X),
-      this.game!.io.getAxis(ControllerAxis.LEFT_Y)
-    );
-    if (this.game!.io.keyIsDown("KeyS")) {
-      movementDirection[1] += 1;
-    }
-    if (this.game!.io.keyIsDown("KeyW")) {
-      movementDirection[1] -= 1;
-    }
-    if (this.game!.io.keyIsDown("KeyA")) {
-      movementDirection[0] -= 1;
-    }
-    if (this.game!.io.keyIsDown("KeyD")) {
-      movementDirection[0] += 1;
-    }
+    // Returns the direction that the player wants the diver to move
+    getPlayerMoveInput(): V2d {
+        const movementDirection = V(
+            this.game!.io.getAxis(ControllerAxis.LEFT_X),
+            this.game!.io.getAxis(ControllerAxis.LEFT_Y)
+        );
+
+        if (this.onBoat && this.game!.io.keyIsDown("Space")) {
+            this.onBoat = false;
+            this.body.applyForce(V(-1000, -1000));
+        }
+
+        if (this.game!.io.keyIsDown("KeyS")) {
+            movementDirection[1] += 1;
+        }
+        if (this.game!.io.keyIsDown("KeyW")) {
+            movementDirection[1] -= 1;
+        }
+        if (this.game!.io.keyIsDown("KeyA")) {
+            movementDirection[0] -= 1;
+        }
+        if (this.game!.io.keyIsDown("KeyD")) {
+            movementDirection[0] += 1;
+        }
 
     // so we don't move faster on diagonals
     movementDirection.magnitude = clamp(movementDirection.magnitude, 0, 1);
