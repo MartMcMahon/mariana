@@ -1,26 +1,41 @@
 import { Body, Circle } from "p2";
-import { AnimatedSprite, Sprite, Texture } from "pixi.js";
-import { runInContext } from "vm";
-import img_jellyfish from "../../../resources/images/jellyfish.png";
-import img_jellyfish1 from "../../../resources/images/jellyfish_1.png";
-import img_jellyfish2 from "../../../resources/images/jellyfish_2.png";
+import { AnimatedSprite } from "pixi.js";
+import img_puffer0 from "../../../resources/images/puffer0.png";
+import img_puffer1 from "../../../resources/images/puffer1.png";
+import img_puffer2 from "../../../resources/images/puffer2.png";
+import img_puffer3 from "../../../resources/images/puffer3.png";
+import img_puffer4 from "../../../resources/images/puffer4.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
-import { rUniform } from "../../core/util/Random";
-import { V2d } from "../../core/Vector";
+import { rBool, rUniform } from "../../core/util/Random";
+import { V, V2d } from "../../core/Vector";
 import { Diver } from "../Diver";
+
+const SPEED = 5;
+const FRICTION = 2.0;
+const PATROL_TIME = 5.0; // seconds travelled in each direction
 
 export class PufferFish extends BaseEntity implements Entity {
   sprite: AnimatedSprite & GameSprite;
+  body: Body;
 
-  constructor(position: V2d, radius: number = rUniform(0.4, 0.9)) {
+  movingRight = rBool();
+
+  constructor(position: V2d, radius: number = rUniform(1.0, 1.5)) {
     super();
 
-    this.body = new Body({ mass: 0, collisionResponse: false });
+    this.body = new Body({ mass: 1, collisionResponse: false });
     this.body.addShape(new Circle({ radius }));
     this.body.position = position;
 
-    this.sprite = AnimatedSprite.fromImages([img_jellyfish1, img_jellyfish2]);
+    this.sprite = AnimatedSprite.fromImages([
+      img_puffer0,
+      img_puffer1,
+      img_puffer2,
+      img_puffer3,
+      img_puffer4,
+    ]);
+
     this.sprite.animationSpeed = rUniform(0.9, 1.2);
     this.sprite.autoUpdate = false;
     this.sprite.width = radius * 2;
@@ -29,10 +44,34 @@ export class PufferFish extends BaseEntity implements Entity {
     this.sprite.loop = true;
     this.sprite.position.set(...position);
 
-    this.sprite.update(Math.random() * 1.0);
+    if (this.movingRight) {
+      this.sprite.scale.x *= -1;
+    }
   }
 
-  onRender(dt: number) {}
+  async onAdd() {
+    await this.wait(Math.random() * PATROL_TIME);
+    this.turnAround();
+  }
+
+  async turnAround() {
+    this.sprite.scale.x *= -1;
+    this.movingRight = !this.movingRight;
+
+    await this.wait(PATROL_TIME);
+    this.turnAround();
+  }
+
+  onRender(dt: number) {
+    this.sprite.position.set(...this.body!.position);
+  }
+
+  onTick(dt: number) {
+    const direction = this.movingRight ? 1 : -1;
+    this.body.applyForce([direction * SPEED, 0]);
+
+    this.body.applyForce(V(this.body.velocity).imul(-FRICTION));
+  }
 
   onBeginContact(other: Entity) {
     if (other instanceof Diver) {

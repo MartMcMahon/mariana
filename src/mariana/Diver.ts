@@ -6,7 +6,7 @@ import img_diver from "../../resources/images/diver.png";
 import { Bubble } from "./effects/Bubble";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
-import { ControllerAxis } from "../core/io/Gamepad";
+import { ControllerAxis, ControllerButton } from "../core/io/Gamepad";
 import { SoundInstance } from "../core/sound/SoundInstance";
 import { clamp } from "../core/util/MathUtil";
 import { rBool } from "../core/util/Random";
@@ -102,12 +102,15 @@ export class Diver extends BaseEntity implements Entity {
           this.body.applyForce(movementDirection.imul(DIVER_SPEED));
         }
 
-          const friction = V(this.body.velocity).imul(-DIVER_FRICTION);
-          this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY / DIVER_BUOYANCY]);
-          this.body.applyForce(friction);
-        } else {
-            this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY]);
-        }
+        const friction = V(this.body.velocity).imul(-DIVER_FRICTION);
+        this.body.applyForce([
+          0,
+          (this.body.mass * SURFACE_GRAVITY) / DIVER_BUOYANCY,
+        ]);
+        this.body.applyForce(friction);
+      } else {
+        this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY]);
+      }
     }
   }
 
@@ -140,11 +143,22 @@ export class Diver extends BaseEntity implements Entity {
   onKeyDown(key: KeyCode) {
     switch (key) {
       case "Space": {
-        if (this.onBoat) {
-          this.onBoat = false;
-          this.body.applyImpulse(V(-3, -4));
-        }
+        this.jump();
       }
+    }
+  }
+
+  onButtonDown(button: ControllerButton) {
+    switch (button) {
+      case ControllerButton.A:
+        this.jump();
+    }
+  }
+
+  jump() {
+    if (this.onBoat) {
+      this.onBoat = false;
+      this.body.applyImpulse(V(-3, -4));
     }
   }
 

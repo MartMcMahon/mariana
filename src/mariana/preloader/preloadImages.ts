@@ -7,6 +7,11 @@ import img_diverRight from "../../../resources/images/diver_right.png";
 import img_jellyfish from "../../../resources/images/jellyfish.png";
 import img_jellyfish1 from "../../../resources/images/jellyfish_1.png";
 import img_jellyfish2 from "../../../resources/images/jellyfish_2.png";
+import img_puffer0 from "../../../resources/images/puffer0.png";
+import img_puffer1 from "../../../resources/images/puffer1.png";
+import img_puffer2 from "../../../resources/images/puffer2.png";
+import img_puffer3 from "../../../resources/images/puffer3.png";
+import img_puffer4 from "../../../resources/images/puffer4.png";
 
 // Returns the list of all
 export function getImagesToPreload(): Set<string> {
@@ -21,6 +26,11 @@ export function getImagesToPreload(): Set<string> {
     img_jellyfish,
     img_jellyfish1,
     img_jellyfish2,
+    img_puffer0,
+    img_puffer1,
+    img_puffer2,
+    img_puffer3,
+    img_puffer4,
   ]);
 
   // Just in case this sneaks in there somehow, make sure we don't load it
