@@ -109,12 +109,19 @@ export default abstract class BaseEntity implements Entity {
   /**
    * Wait until a condition is filled. Probably not great to use, but seems kinda cool too.
    */
-  waitUntil(predicate: () => boolean, timerId?: string): Promise<void> {
+  waitUntil(
+    predicate: () => boolean,
+    onTick?: (dt: number, t: number) => void,
+    timerId?: string
+  ): Promise<void> {
     return new Promise((resolve) => {
       const timer = new Timer(
         Infinity,
         () => resolve(),
-        () => {
+        (dt, t) => {
+          if (onTick) {
+            onTick(dt, t);
+          }
           if (predicate()) {
             timer.timeRemaining = 0;
           }

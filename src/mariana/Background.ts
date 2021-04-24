@@ -6,6 +6,8 @@ import { Layer } from "./config/layers";
 import { OCEAN_DEPTH } from "./constants";
 
 export class Background extends BaseEntity implements Entity {
+  persistenceLevel = 1;
+
   sprite: GameSprite & Sprite;
   constructor() {
     super();

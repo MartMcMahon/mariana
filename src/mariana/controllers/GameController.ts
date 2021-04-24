@@ -1,5 +1,6 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
+import { KeyCode } from "../../core/io/Keys";
 import { rUniform } from "../../core/util/Random";
 import { V } from "../../core/Vector";
 import { Background } from "../Background";
@@ -9,6 +10,7 @@ import { Diver } from "../Diver";
 import { Jellyfish } from "../enemies/Jellyfish";
 import { DepthGauge } from "../hud/DepthGauge";
 import { Obstacle } from "../Obstacle";
+import { UpgradeShop } from "../upgrade/UpgradeShop";
 import { WaterOverlay } from "../WaterOverlay";
 import CameraController from "./CameraController";
 
@@ -19,6 +21,8 @@ enum GamePhase {
   Buying,
   // We're actively diving
   Diving,
+  // We're celebrating
+  Victory,
   // We've died and it's playing the animation as we surface
   Dead,
 }
@@ -38,6 +42,10 @@ export class GameController extends BaseEntity implements Entity {
       console.log("game started");
 
       this.game!.dispatch({ type: "diveStart" });
+
+      this.game!.addEntity(new Background());
+      this.game!.addEntity(new Boat());
+      this.game!.addEntity(new WaterOverlay());
     },
 
     diveStart: () => {
@@ -45,11 +53,9 @@ export class GameController extends BaseEntity implements Entity {
       this.gamePhase = GamePhase.Diving;
       const diver = this.game!.addEntity(new Diver());
       this.game?.addEntity(new CameraController(this.game.camera, diver));
-      this.game!.addEntity(new Obstacle(8, 10, 10, 10));
-      this.game!.addEntity(new Background());
-      this.game!.addEntity(new WaterOverlay());
+
+      this.game!.addEntity(new Obstacle(8, 10, 3, 3));
       this.game!.addEntity(new DepthGauge());
-      this.game!.addEntity(new Boat());
 
       for (let i = 0; i < 10; i++) {
         this.game?.addEntity(
@@ -59,23 +65,26 @@ export class GameController extends BaseEntity implements Entity {
     },
 
     diveEnd: async () => {
-      this.game!.clearScene();
       this.gamePhase = GamePhase.Dead;
 
       console.log("dive over");
 
       // TODO: drag body up on rope
-      await this.wait(2.0);
+      await this.wait(0.1);
+      this.game!.camera.vy = -10;
+      this.game!.camera.vx = 0;
+      await this.waitUntil(() => this.game!.camera.y <= 0);
+      console.log("at surface");
+      this.game!.camera.vy = 0;
 
       // Remove all entities with a persistence level of 0 (the default)
-      this.game?.clearScene(0);
-
-      this.game!.dispatch({ type: "diveStart" });
+      this.game!.clearScene(0);
+      this.game!.addEntity(new UpgradeShop());
     },
 
     victory: async () => {
       console.log("You win!");
-
+      this.gamePhase = GamePhase.Victory;
       // TODO: More victory stuff
       await this.wait(2.0);
 
@@ -93,6 +102,13 @@ export class GameController extends BaseEntity implements Entity {
       if (depth > OCEAN_DEPTH) {
         this.game?.dispatch({ type: "victory" });
       }
+    }
+  }
+
+  onKeyDown(key: KeyCode) {
+    switch (key) {
+      case "KeyR":
+        this.game?.dispatch({ type: "diveEnd" });
     }
   }
 }

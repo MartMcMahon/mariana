@@ -24,4 +24,10 @@ export default class CameraController extends BaseEntity implements Entity {
       this.game?.renderer.setCursor("crosshair");
     }
   }
+
+  handlers = {
+    diveEnd: () => {
+      this.destroy();
+    },
+  };
 }

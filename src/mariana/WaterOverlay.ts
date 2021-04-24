@@ -5,6 +5,8 @@ import { Layer } from "./config/layers";
 import { OCEAN_DEPTH } from "./constants";
 
 export class WaterOverlay extends BaseEntity implements Entity {
+  persistenceLevel = 1;
+
   constructor() {
     super();
 

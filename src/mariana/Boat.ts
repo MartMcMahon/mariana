@@ -6,6 +6,8 @@ import { Layer } from "./config/layers";
 
 /** The boat on the surface */
 export class Boat extends BaseEntity implements Entity {
+  persistenceLevel = 1;
+
   constructor() {
     super();
 
