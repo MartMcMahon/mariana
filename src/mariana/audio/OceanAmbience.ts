@@ -24,10 +24,10 @@ export class OceanAmbience extends SoundInstance {
   onTick() {
     const diver = this.game!.entities.getById("diver") as Diver;
     if (!diver.isSurfaced()) {
-      this.gain = 0.4;
+      this.gain = 0.2;
       this.filter.frequency.value = 250;
     } else {
-      this.gain = 0.15;
+      this.gain = 0.7;
       this.filter.frequency.value = 100000;
     }
   }
