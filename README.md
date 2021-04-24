@@ -39,17 +39,23 @@ You can access the game object from an entity through `this.entity`.
 
 `game.io` gives you access to input state like which keys are down and where the mouse is.
 
-`game.entities` gives you access to an Entity list which has a few
+`game.entities` gives you access to the entities in the game. It has a few ways of getting this entities you want:
+`game.entities.all` gives you all the entities.
+`game.entities.getById('diver')` gets you the entity with a specific id.
+See `EntityList.ts` for more options.
 
 ### Entities
 
-Basically anything in the game that has state.
+An entity is basically anything in the game that has state.
+You define an entity by creating a class that extends `BaseEntity` and implements `Entity`.
+
 Inside an entity you can access the game through `this.entity`.
-Defined by extending `BaseEntity` and implementing `Entity`.
+
+Define an `id` on an entity to be able to find it easily from other entities.
 
 Define a `sprite` on an entity if you want the entity to have a graphical component.
 
-Define a `body` on an entity if you want it to interact with the physics world.
+Define a `body` on an entity if you want the entity to interact with the physics world.
 
 Define an `onTick` method to do something every physics step.
 
@@ -57,9 +63,24 @@ Define an `onRender` method to do something right before each frame is rendered.
 
 ### Events
 
-You can fire custom events by calling `game.dispatch({ type: yourEventTypeHere, ... })`.
-You can listen to custom events in any entity you want by adding `handlers = { yourEventTypeHere: () => { /* do something */}}`.
-This is a good way for implementing control flow.
+Events are a nice way to pass messages between entities.
+They are a good way to implement control flow.
+
+You can fire custom events by calling
+
+```typescript
+game.dispatch({ type: yourEventTypeHere, ... });
+```
+
+You can listen to custom events in any entity you want by adding
+
+```typescript
+handlers = {
+  yourEventTypeHere: () => {
+    /* do something */
+  },
+};
+```
 
 ### Vectors
 
@@ -68,14 +89,14 @@ It has an easy constructor called `V()` that takes an array, a pair of numbers, 
 
 ## Working With Assets
 
-### Where should I put assets?
+### Where should I put assets/resources?
 
-See the `resources` folder for completed assets.
-`resources/audio` for sound files.
-`resources/fonts` for fonts.
-`resources/images` for images.
+All assets should live somewhere in the `resources` folder
 
-For intermediate assets that are used to generate the final assets (think photoshop documents instead of completed assets), use `resources/intermediate`.
+- `resources/audio` — sound files.
+- `resources/fonts` — fonts.
+- `resources/images` — images.
+- `resources/intermediate` — For intermediate assets that are used to generate the final assets (think photoshop documents instead of completed assets).
 
 ### What file types are supported?
 
@@ -93,7 +114,7 @@ Importing the file of the asset returns the url that you can give to the browser
 Before you can actually use an asset, you need to make sure you _preload_ the asset.
 This is done by adding going to `preloadImages.ts` or `preloadSounds.ts` or `preloadFonts.ts`, importing the asset, and adding it to the list of urls to load.
 
-```
+```typescript
 // sets the sprite for this entity
 this.sprite = Sprite.from(img_myImage);
 

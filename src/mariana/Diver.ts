@@ -3,8 +3,8 @@ import { Sprite } from "pixi.js";
 import img_diver from "../../resources/images/diver.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
-import Game from "../core/Game";
 import { ControllerButton } from "../core/io/Gamepad";
+import { V, V2d } from "../core/Vector";
 
 const DIVER_RADIUS = 1.0; // Size in meters
 
@@ -15,10 +15,10 @@ export class Diver extends BaseEntity implements Entity {
   // So we can easily grab the diver from other entities
   id = "diver";
 
-  constructor() {
+  constructor(position: V2d = V(0, 0)) {
     super();
 
-    this.body = new Body({ mass: 1 });
+    this.body = new Body({ mass: 1, position: position.clone() });
     const shape = new Circle({ radius: DIVER_RADIUS });
     this.body.addShape(shape);
 
