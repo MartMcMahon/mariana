@@ -11,12 +11,19 @@ import { SoundInstance } from "../core/sound/SoundInstance";
 import { clamp } from "../core/util/MathUtil";
 import { rBool } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
+import img_diverLeft from "../../resources/images/diver_left.png";
+import img_diverRight from "../../resources/images/diver_right.png";
 
 const DIVER_RADIUS = 1.0; // Size in meters
 const DIVER_SPEED = 35.0; // Newtons?
 const DIVER_FRICTION = 6.0; // not really sure of the unit
 const SURFACE_GRAVITY = 9.8; // meters / second
 
+interface Sprites {
+  forward: Sprite;
+  left: Sprite;
+  right: Sprite;
+}
 export class Diver extends BaseEntity implements Entity {
   sprite: Sprite;
   body: Body;
@@ -26,6 +33,12 @@ export class Diver extends BaseEntity implements Entity {
   // Amount of health we have
   hp = 100;
 
+  subSprites: Sprites = {
+    forward: Sprite.from(img_diver),
+    left: Sprite.from(img_diverLeft),
+    right: Sprite.from(img_diverRight),
+  };
+
   constructor(position: V2d = V(0, 0)) {
     super();
 
@@ -33,9 +46,21 @@ export class Diver extends BaseEntity implements Entity {
     const shape = new Circle({ radius: DIVER_RADIUS });
     this.body.addShape(shape);
 
-    this.sprite = Sprite.from(img_diver);
-    this.sprite.scale.set((DIVER_RADIUS * 2) / this.sprite.texture.width);
+    this.sprite = new Sprite();
     this.sprite.anchor.set(0.5);
+    for (const subSprite of Object.values(this.subSprites) as Sprite[]) {
+      subSprite.scale.set((2 * DIVER_RADIUS) / subSprite.texture.width);
+      subSprite.anchor.set(0.5);
+      this.sprite.addChild(subSprite);
+    }
+
+    this.setSprite("forward");
+  }
+
+  setSprite(visibleSprite: keyof Sprites) {
+    for (const [name, sprite] of Object.entries(this.subSprites)) {
+      sprite.visible = name === visibleSprite;
+    }
   }
 
   // Return the current depth in meters under the surface
@@ -46,6 +71,15 @@ export class Diver extends BaseEntity implements Entity {
   onRender() {
     this.sprite.x = this.body.position[0];
     this.sprite.y = this.body.position[1];
+
+    const xMove = this.getPlayerMoveInput()[0];
+    if (xMove > 0.1) {
+      this.setSprite("right");
+    } else if (xMove < -0.1) {
+      this.setSprite("left");
+    } else {
+      this.setSprite("forward");
+    }
   }
 
   onTick(dt: number) {
