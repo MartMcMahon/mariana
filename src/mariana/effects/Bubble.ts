@@ -1,10 +1,10 @@
 import { Sprite } from "pixi.js";
-import img_bubble from "../resources/images/bubble.png";
-import BaseEntity from "./core/entity/BaseEntity";
-import Entity from "./core/entity/Entity";
-import { rNormal } from "./core/util/Random";
-import { V2d } from "./core/Vector";
-import { Layer } from "./mariana/config/layers";
+import img_bubble from "../../../resources/images/bubble.png";
+import BaseEntity from "../../core/entity/BaseEntity";
+import Entity from "../../core/entity/Entity";
+import { rNormal } from "../../core/util/Random";
+import { V2d } from "../../core/Vector";
+import { Layer } from "../config/layers";
 
 const SPEED = 12.0; // meters per second
 

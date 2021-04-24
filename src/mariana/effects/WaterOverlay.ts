@@ -1,8 +1,8 @@
 import { Graphics } from "pixi.js";
-import BaseEntity from "../core/entity/BaseEntity";
-import Entity from "../core/entity/Entity";
-import { Layer } from "./config/layers";
-import { OCEAN_DEPTH } from "./constants";
+import BaseEntity from "../../core/entity/BaseEntity";
+import Entity from "../../core/entity/Entity";
+import { Layer } from "../config/layers";
+import { OCEAN_DEPTH } from "../constants";
 
 export class WaterOverlay extends BaseEntity implements Entity {
   persistenceLevel = 1;

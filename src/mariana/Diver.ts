@@ -3,7 +3,7 @@ import { Sprite } from "pixi.js";
 import snd_dead from "../../resources/audio/dead.flac";
 import snd_oww from "../../resources/audio/oww.flac";
 import img_diver from "../../resources/images/diver.png";
-import { Bubble } from "../Bubble";
+import { Bubble } from "./effects/Bubble";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
 import { ControllerAxis } from "../core/io/Gamepad";
@@ -53,8 +53,10 @@ export class Diver extends BaseEntity implements Entity {
       if (rBool(dt)) {
         this.game!.addEntity(new Bubble(this.getPosition().iadd([0, -0.7])));
       }
-      const movementDirection = this.getPlayerMoveInput();
-      this.body.applyForce(movementDirection.imul(DIVER_SPEED));
+      if (this.hp > 0) {
+        const movementDirection = this.getPlayerMoveInput();
+        this.body.applyForce(movementDirection.imul(DIVER_SPEED));
+      }
 
       const friction = V(this.body.velocity).imul(-DIVER_FRICTION);
       this.body.applyForce(friction);

@@ -3,7 +3,13 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background: #000000;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    0deg,
+    rgba(2, 15, 40, 1) 0%,
+    rgba(9, 32, 121, 1) 35%,
+    rgba(20, 120, 200, 1) 100%
+  );
   cursor: none;
 }
 
@@ -14,8 +20,8 @@ canvas {
 }
 
 #preloader {
-  color: #fff;
-  font: 20px monospace;
+  color: #adf;
+  font: 20px sans-serif;
   left: 50vw;
   position: absolute;
   top: 30vh;

@@ -11,7 +11,7 @@ import { Jellyfish } from "../enemies/Jellyfish";
 import { DepthGauge } from "../hud/DepthGauge";
 import { Obstacle } from "../Obstacle";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
-import { WaterOverlay } from "../WaterOverlay";
+import { WaterOverlay } from "../effects/WaterOverlay";
 import CameraController from "./CameraController";
 
 enum GamePhase {
