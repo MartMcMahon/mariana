@@ -19,10 +19,6 @@ export class Bubble extends BaseEntity implements Entity {
     this.sprite.layerName = Layer.WORLD_FRONT;
   }
 
-  onAdd() {
-    console.log("new bubble");
-  }
-
   onTick(dt: number) {
     this.sprite!.y -= dt * SPEED * this.size;
 
