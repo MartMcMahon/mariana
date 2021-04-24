@@ -1,9 +1,0 @@
-
-Menu Sounds?
- - Pause/unpause
- - Hover over clickable things
- - Click on menu items
-
-Enemy Sounds
- - Necromancer
- - 
