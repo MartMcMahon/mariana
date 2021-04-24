@@ -93,7 +93,9 @@ export class Diver extends BaseEntity implements Entity {
     this.hp -= amount;
 
     if (this.hp <= 0) {
-      this.game?.addEntity(new SoundInstance(snd_dead));
+      this.game?.addEntity(
+        new SoundInstance(snd_dead, { persistenceLevel: 1 })
+      );
       this.game?.dispatch({ type: "diveEnd" });
     }
   }
