@@ -16,8 +16,9 @@ import { PufferFish } from "../enemies/PufferFish";
 import { ShuffleRing } from "../utils/ShuffleRing";
 
 const SIZE = 2.0; // Length in meters
-const TETHER_LENGTH = 10.0; // meters
-const RETRACT_SPEED = 5.0; // meters per second
+const TETHER_LENGTH = 12.0; // meters
+const RETRACT_SPEED = 9.0; // meters / second
+const SHOOT_SPEED = 50; // meters / second
 
 const SOUND_RING = new ShuffleRing([
   snd_smallweapon1,
@@ -37,7 +38,7 @@ export class HarpoonGun extends BaseEntity implements Entity {
   shoot(direction: V2d) {
     if (!this.harpoon) {
       console.log("shooting");
-      const velocity = direction.normalize().imul(100);
+      const velocity = direction.normalize().imul(SHOOT_SPEED);
       this.harpoon = this.addChild(
         new Harpoon(this.diver.getPosition(), velocity)
       );
@@ -73,14 +74,14 @@ class Harpoon extends BaseEntity implements Entity {
     sprite.anchor.set(0.5);
 
     this.body = new Body({
-      mass: 0.1,
+      mass: 0.03,
       collisionResponse: false,
-      fixedRotation: true,
       position,
     });
     this.body.addShape(new Box({ width: SIZE, height: 0.2 }));
     this.body.velocity = velocity;
     this.body.angle = velocity.angle;
+    this.body.angularDamping = 0.5;
   }
 
   onAdd() {
@@ -92,11 +93,11 @@ class Harpoon extends BaseEntity implements Entity {
   }
 
   onTick() {
-    this.body.angle = V(this.body.velocity).angle;
+    // this.body.angle = V(this.body.velocity).angle;
 
     // gravity
     this.body.applyForce([0, 9.8 * this.body.mass]);
-    this.body.applyDamping(0.12);
+    this.body.applyDamping(0.15);
   }
 
   onRender() {
@@ -121,6 +122,8 @@ class Tether extends BaseEntity implements Entity {
 
     this.ropeSpring = new RopeSpring(diver.body, harpoon.body, {
       restLength: TETHER_LENGTH,
+      damping: 6,
+      stiffness: 30,
     });
     this.springs = [this.ropeSpring];
 
@@ -139,7 +142,7 @@ class Tether extends BaseEntity implements Entity {
     this.sprite.clear();
     this.sprite.lineStyle(0.04, 0x000000, 0.95);
     const [diverX, diverY] = this.diver.getPosition();
-    const [harpoonX, harpoonY] = this.harpoon.getPosition();
+    const [harpoonX, harpoonY] = this.harpoon.localToWorld(V(-0.45, 0));
     this.sprite.moveTo(diverX, diverY);
     this.sprite.lineTo(harpoonX, harpoonY);
   }

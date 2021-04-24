@@ -16,6 +16,7 @@ import CameraController from "./CameraController";
 import { OceanAmbience } from "../audio/OceanAmbience";
 import { PufferFish } from "../enemies/PufferFish";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
+import { DiverController } from "../DiverController";
 
 enum GamePhase {
   // The menu before we've started
@@ -56,8 +57,9 @@ export class GameController extends BaseEntity implements Entity {
     diveStart: () => {
       console.log("dive start");
       this.gamePhase = GamePhase.Diving;
-      const diver = this.game!.addEntity(new Diver(V(5, -3.5)));
+      const diver = this.game!.addEntity(new Diver(V(9.7, -1.8)));
       this.game?.addEntity(new CameraController(this.game.camera, diver));
+      this.game?.addEntity(new DiverController(diver));
 
       this.game!.addEntity(new DepthGauge());
 

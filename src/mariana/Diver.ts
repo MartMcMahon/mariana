@@ -18,7 +18,6 @@ import { HarpoonGun } from "./weapons/HarpoonGun";
 
 const DIVER_RADIUS = 1.0; // Size in meters
 const DIVER_SPEED = 25.0; // Newtons?
-const DIVER_FRICTION = 6.0; // not really sure of the unit
 const DIVER_BUOYANCY = 1.5;
 const SURFACE_GRAVITY = 9.8; // meters / second
 
@@ -46,6 +45,9 @@ export class Diver extends BaseEntity implements Entity {
   };
 
   harpoonGun: HarpoonGun;
+
+  aimDirection: V2d = V(0, 1);
+  moveDirection: V2d = V(0, 0);
 
   constructor(position: V2d = V(0, 0)) {
     super();
@@ -86,7 +88,7 @@ export class Diver extends BaseEntity implements Entity {
     this.sprite.x = this.body.position[0];
     this.sprite.y = this.body.position[1];
 
-    const xMove = this.getPlayerMoveInput()[0];
+    const xMove = this.moveDirection[0];
     if (xMove > 0.1) {
       this.setSprite("right");
     } else if (xMove < -0.1) {
@@ -103,8 +105,7 @@ export class Diver extends BaseEntity implements Entity {
           this.game!.addEntity(new Bubble(this.getPosition().iadd([0, -0.7])));
         }
         if (this.hp > 0) {
-          const movementDirection = this.getPlayerMoveInput();
-          this.body.applyForce(movementDirection.imul(DIVER_SPEED));
+          this.body.applyForce(this.moveDirection.mul(DIVER_SPEED));
         }
 
         this.body.applyDamping(0.1);
@@ -118,55 +119,10 @@ export class Diver extends BaseEntity implements Entity {
     }
   }
 
-  // Returns the direction that the player wants the diver to move
-  getPlayerMoveInput(): V2d {
-    const movementDirection = V(
-      this.game!.io.getAxis(ControllerAxis.LEFT_X),
-      this.game!.io.getAxis(ControllerAxis.LEFT_Y)
-    );
-
-    if (this.game!.io.keyIsDown("KeyS")) {
-      movementDirection[1] += 1;
-    }
-    if (this.game!.io.keyIsDown("KeyW")) {
-      movementDirection[1] -= 1;
-    }
-    if (this.game!.io.keyIsDown("KeyA")) {
-      movementDirection[0] -= 1;
-    }
-    if (this.game!.io.keyIsDown("KeyD")) {
-      movementDirection[0] += 1;
-    }
-
-    // so we don't move faster on diagonals
-    movementDirection.magnitude = clamp(movementDirection.magnitude, 0, 1);
-
-    return movementDirection;
-  }
-
-  onKeyDown(key: KeyCode) {
-    switch (key) {
-      case "Space": {
-        if (this.onBoat) {
-          this.jump();
-        } else {
-          this.shoot();
-        }
-      }
-    }
-  }
-
-  onButtonDown(button: ControllerButton) {
-    switch (button) {
-      case ControllerButton.A:
-        this.jump();
-    }
-  }
-
   jump() {
     if (this.onBoat) {
       this.onBoat = false;
-      this.body.applyImpulse(V(-3, -4));
+      this.body.applyImpulse(V(1.6, -2));
     }
   }
 
@@ -183,6 +139,8 @@ export class Diver extends BaseEntity implements Entity {
   }
 
   shoot() {
-    this.harpoonGun.shoot(V(this.body.velocity));
+    if (!this.onBoat) {
+      this.harpoonGun.shoot(this.aimDirection);
+    }
   }
 }
