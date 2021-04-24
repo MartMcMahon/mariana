@@ -14,7 +14,7 @@ export class OceanAmbience extends SoundInstance {
     const audio = game.audio;
     const chain = super.makeChain(game);
     this.filter = audio.createBiquadFilter();
-    this.filter.Q.value = 2.0;
+    this.filter.Q.value = 8.0;
 
     chain.connect(this.filter);
 
@@ -24,8 +24,10 @@ export class OceanAmbience extends SoundInstance {
   onTick() {
     const diver = this.game!.entities.getById("diver") as Diver;
     if (!diver.isSurfaced()) {
+      this.gain = 0.4;
       this.filter.frequency.value = 250;
     } else {
+      this.gain = 0.15;
       this.filter.frequency.value = 100000;
     }
   }
