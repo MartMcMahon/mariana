@@ -1,22 +1,37 @@
 import { Body, Circle } from "p2";
-import { Sprite } from "pixi.js";
+import { AnimatedSprite, Sprite, Texture } from "pixi.js";
 import img_jellyfish from "../../../resources/images/jellyfish.png";
+import img_jellyfish1 from "../../../resources/images/jellyfish_1.png";
+import img_jellyfish2 from "../../../resources/images/jellyfish_2.png";
 import BaseEntity from "../../core/entity/BaseEntity";
-import Entity from "../../core/entity/Entity";
+import Entity, { GameSprite } from "../../core/entity/Entity";
+import { rUniform } from "../../core/util/Random";
 import { V2d } from "../../core/Vector";
 import { Diver } from "../Diver";
 
 export class Jellyfish extends BaseEntity implements Entity {
-  constructor(position: V2d) {
+  sprite: AnimatedSprite & GameSprite;
+
+  constructor(position: V2d, radius: number = rUniform(0.3, 0.9)) {
     super();
 
-    const sprite = (this.sprite = Sprite.from(img_jellyfish));
-    sprite.position.set(position[0], position[1]);
-    sprite.scale.set(0.6 / sprite.texture.width);
-
     this.body = new Body({ mass: 0, collisionResponse: false });
-    this.body.addShape(new Circle({ radius: 0.3 }));
+    this.body.addShape(new Circle({ radius }));
     this.body.position = position;
+
+    this.sprite = new AnimatedSprite(
+      [Texture.from(img_jellyfish1), Texture.from(img_jellyfish2)],
+      false
+    );
+    this.sprite.width = radius * 2;
+    this.sprite.height = radius * 2;
+    this.sprite.anchor.set(0.5);
+    this.sprite.loop = true;
+    this.sprite.position.set(...position);
+  }
+
+  onRender(dt: number) {
+    this.sprite.update(dt);
   }
 
   onBeginContact(other: Entity) {

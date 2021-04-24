@@ -11,8 +11,9 @@ const WAVES_CUTOFF_HIGH = 250;
 const WAVES_CUTOFF_LOW = 100;
 const WAVES_CUTOFF_SURFACE = 22050;
 const SPOOKY_START_DEPTH = 20;
-const SPOOKY_RAMP_DISTANCE = 10;
+const SPOOKY_RAMP_DISTANCE = 30;
 
+// This is the manager for all the long-running sounds
 export class OceanAmbience extends BaseEntity implements Entity {
   persistenceLevel = 1;
   waveSounds: WaveSounds;
@@ -47,7 +48,7 @@ export class OceanAmbience extends BaseEntity implements Entity {
       this.waveSounds.filter.frequency.setTargetAtTime(
         WAVES_CUTOFF_SURFACE,
         t,
-        speed
+        speed * 20 // cuz exponential ramp is going the wrong way
       );
       this.waveSounds.gainNode.gain.setTargetAtTime(0.07, t, speed);
     }
