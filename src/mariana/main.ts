@@ -51,5 +51,5 @@ export async function main() {
     element.requestFullscreen();
     element.removeEventListener("click", makeFullScreen);
   };
-  element.addEventListener("click", makeFullScreen);
+  // element.addEventListener("click", makeFullScreen);
 }
