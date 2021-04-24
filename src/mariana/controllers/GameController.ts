@@ -13,6 +13,7 @@ import { Obstacle } from "../Obstacle";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
 import { WaterOverlay } from "../effects/WaterOverlay";
 import CameraController from "./CameraController";
+import { OceanAmbience } from "../audio/OceanAmbience";
 
 enum GamePhase {
   // The menu before we've started
@@ -46,12 +47,13 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new Background());
       this.game!.addEntity(new Boat());
       this.game!.addEntity(new WaterOverlay());
+      this.game!.addEntity(new OceanAmbience());
     },
 
     diveStart: () => {
       console.log("dive start");
       this.gamePhase = GamePhase.Diving;
-      const diver = this.game!.addEntity(new Diver());
+      const diver = this.game!.addEntity(new Diver(V(0, -5)));
       this.game?.addEntity(new CameraController(this.game.camera, diver));
 
       this.game!.addEntity(new Obstacle(8, 10, 3, 3));

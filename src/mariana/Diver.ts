@@ -68,6 +68,10 @@ export class Diver extends BaseEntity implements Entity {
     return this.body.position[1];
   }
 
+  isSurfaced() {
+    return this.getDepth() <= 0;
+  }
+
   onRender() {
     this.sprite.x = this.body.position[0];
     this.sprite.y = this.body.position[1];
