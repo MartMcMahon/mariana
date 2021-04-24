@@ -15,6 +15,7 @@ import { WaterOverlay } from "../effects/WaterOverlay";
 import CameraController from "./CameraController";
 import { OceanAmbience } from "../audio/OceanAmbience";
 import { PufferFish } from "../enemies/PufferFish";
+import { UpgradeManager } from "../upgrade/UpgradeManager";
 
 enum GamePhase {
   // The menu before we've started
@@ -49,6 +50,7 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new Boat());
       this.game!.addEntity(new WaterOverlay());
       this.game!.addEntity(new OceanAmbience());
+      this.game!.addEntity(new UpgradeManager());
     },
 
     diveStart: () => {

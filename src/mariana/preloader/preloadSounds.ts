@@ -1,6 +1,14 @@
 import snd_dead from "../../../resources/audio/dead.flac";
 import snd_oceanTexture from "../../../resources/audio/ocean_texture.wav";
 import snd_oww from "../../../resources/audio/oww.flac";
+import snd_smallweapon1 from "../../../resources/audio/smallweapon1.flac";
+import snd_smallweapon2 from "../../../resources/audio/smallweapon2.flac";
+import snd_smallweapon3 from "../../../resources/audio/smallweapon3.flac";
+import snd_smallweapon4 from "../../../resources/audio/smallweapon4.flac";
+import snd_spear1 from "../../../resources/audio/spear1.flac";
+import snd_spear2 from "../../../resources/audio/spear2.flac";
+import snd_spear3 from "../../../resources/audio/spear3.flac";
+import snd_spear4 from "../../../resources/audio/spear4.flac";
 import snd_spookySinking from "../../../resources/audio/spooky_sinking.flac";
 
 export function getSoundsToPreload(): string[] {
@@ -10,6 +18,16 @@ export function getSoundsToPreload(): string[] {
     snd_dead,
     snd_oceanTexture,
     snd_spookySinking,
+
+    snd_smallweapon1,
+    snd_smallweapon2,
+    snd_smallweapon3,
+    snd_smallweapon4,
+
+    snd_spear1,
+    snd_spear2,
+    snd_spear3,
+    snd_spear4,
   ]);
 
   // Just in case this sneaks in there somehow, make sure we don't load it

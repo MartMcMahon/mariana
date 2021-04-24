@@ -14,7 +14,7 @@ import { clamp } from "../core/util/MathUtil";
 import { rBool } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
 import { Bubble } from "./effects/Bubble";
-import { Harpoon } from "./Harpoon";
+import { HarpoonGun } from "./weapons/HarpoonGun";
 
 const DIVER_RADIUS = 1.0; // Size in meters
 const DIVER_SPEED = 25.0; // Newtons?
@@ -45,8 +45,12 @@ export class Diver extends BaseEntity implements Entity {
     right: Sprite.from(img_diverRight),
   };
 
+  harpoonGun: HarpoonGun;
+
   constructor(position: V2d = V(0, 0)) {
     super();
+
+    this.harpoonGun = this.addChild(new HarpoonGun(this));
 
     this.body = new Body({ mass: 1, position: position.clone() });
     const shape = new Circle({ radius: DIVER_RADIUS });
@@ -103,12 +107,11 @@ export class Diver extends BaseEntity implements Entity {
           this.body.applyForce(movementDirection.imul(DIVER_SPEED));
         }
 
-        const friction = V(this.body.velocity).imul(-DIVER_FRICTION);
+        this.body.applyDamping(0.1);
         this.body.applyForce([
           0,
           (this.body.mass * SURFACE_GRAVITY) / DIVER_BUOYANCY,
         ]);
-        this.body.applyForce(friction);
       } else {
         this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY]);
       }
@@ -180,8 +183,6 @@ export class Diver extends BaseEntity implements Entity {
   }
 
   shoot() {
-    this.game!.addEntity(
-      new Harpoon(this.getPosition(), V(this.body.velocity).imul(4))
-    );
+    this.harpoonGun.shoot(V(this.body.velocity));
   }
 }
