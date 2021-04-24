@@ -101,7 +101,7 @@ All assets should live somewhere in the `resources` folder
 ### What file types are supported?
 
 Images should be `.png`.
-Audio should probably be `.mp3` or `.ogg` or `.wav` I think.
+I think `.flac` is the best, but we can also use `.mp3`, `.ogg`, and `.wav`.
 Fonts should be whatever the web supports, I think `.otf` and `.ttf` are good.
 
 ### Generating type definitions for assets

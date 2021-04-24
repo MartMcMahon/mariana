@@ -1,10 +1,13 @@
 import { Body, Circle } from "p2";
 import { Sprite } from "pixi.js";
+import snd_dead from "../../resources/audio/dead.flac";
+import snd_oww from "../../resources/audio/oww.flac";
 import img_diver from "../../resources/images/diver.png";
 import { Bubble } from "../Bubble";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
-import { ControllerAxis, ControllerButton } from "../core/io/Gamepad";
+import { ControllerAxis } from "../core/io/Gamepad";
+import { SoundInstance } from "../core/sound/SoundInstance";
 import { clamp } from "../core/util/MathUtil";
 import { rBool } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
@@ -17,9 +20,11 @@ const SURFACE_GRAVITY = 9.8; // meters / second
 export class Diver extends BaseEntity implements Entity {
   sprite: Sprite;
   body: Body;
-
   // So we can easily grab the diver from other entities
   id = "diver";
+
+  // Amount of health we have
+  hp = 100;
 
   constructor(position: V2d = V(0, 0)) {
     super();
@@ -81,5 +86,15 @@ export class Diver extends BaseEntity implements Entity {
     movementDirection.magnitude = clamp(movementDirection.magnitude, 0, 1);
 
     return movementDirection;
+  }
+
+  damage(amount: number) {
+    this.game?.addEntity(new SoundInstance(snd_oww));
+    this.hp -= amount;
+
+    if (this.hp <= 0) {
+      this.game?.addEntity(new SoundInstance(snd_dead));
+      this.game?.dispatch({ type: "diveEnd" });
+    }
   }
 }

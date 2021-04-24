@@ -1,8 +1,12 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
+import { rUniform } from "../../core/util/Random";
+import { V } from "../../core/Vector";
 import { Background } from "../Background";
 import { Boat } from "../Boat";
+import { OCEAN_DEPTH } from "../constants";
 import { Diver } from "../Diver";
+import { Jellyfish } from "../enemies/Jellyfish";
 import { DepthGauge } from "../hud/DepthGauge";
 import { Obstacle } from "../Obstacle";
 import { WaterOverlay } from "../WaterOverlay";
@@ -46,6 +50,12 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new WaterOverlay());
       this.game!.addEntity(new DepthGauge());
       this.game!.addEntity(new Boat());
+
+      for (let i = 0; i < 10; i++) {
+        this.game?.addEntity(
+          new Jellyfish(V(rUniform(-30, 30), rUniform(10, 30)))
+        );
+      }
     },
 
     diveEnd: async () => {
@@ -62,14 +72,26 @@ export class GameController extends BaseEntity implements Entity {
 
       this.game!.dispatch({ type: "diveStart" });
     },
+
+    victory: async () => {
+      console.log("You win!");
+
+      // TODO: More victory stuff
+      await this.wait(2.0);
+
+      // Remove all entities with a persistence level of 0 (the default)
+      this.game?.clearScene(0);
+
+      this.game!.dispatch({ type: "diveStart" });
+    },
   };
 
   onTick() {
     if (this.gamePhase === GamePhase.Diving) {
       const diver = this.game!.entities.getById("diver") as Diver;
       const depth = diver.body.position[1];
-      if (depth > 100) {
-        this.game?.dispatch({ type: "diveEnd" });
+      if (depth > OCEAN_DEPTH) {
+        this.game?.dispatch({ type: "victory" });
       }
     }
   }
