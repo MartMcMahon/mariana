@@ -17,14 +17,8 @@ export class Diver extends BaseEntity implements Entity {
     const shape = new Circle({ radius: DIVER_RADIUS });
     this.body.addShape(shape);
 
-    // this.sprite = new Graphics();
-    // this.sprite.beginFill(0xffff00);
-    // this.sprite.drawCircle(0, 0, DIVER_RADIUS);
-    // this.sprite.endFill();
-
     this.sprite = Sprite.from(img_diver);
     this.sprite.scale.set(DIVER_RADIUS / this.sprite.texture.width);
-
   }
 
   onRender() {

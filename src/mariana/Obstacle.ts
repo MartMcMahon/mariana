@@ -7,8 +7,8 @@ import Game from "../core/Game";
 export class Obstacle extends BaseEntity implements Entity {
   sprite: Graphics;
   body: Body;
-  
-  constructor( x:number, y:number, width: number, height: number ) {
+
+  constructor(x: number, y: number, width: number, height: number) {
     super();
 
     this.body = new Body({ mass: 10, position: [x, y] });
@@ -17,14 +17,13 @@ export class Obstacle extends BaseEntity implements Entity {
 
     this.sprite = new Graphics();
     this.sprite.beginFill(0xff0000);
-    this.sprite.drawRect(-width/2, -height/2, width, height);
+    this.sprite.drawRect(-width / 2, -height / 2, width, height);
     this.sprite.endFill();
   }
 
-onRender() {
+  onRender() {
     this.sprite.rotation = this.body.angle;
     this.sprite.x = this.body.position[0];
     this.sprite.y = this.body.position[1];
   }
- 
 }
