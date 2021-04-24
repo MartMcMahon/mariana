@@ -1,0 +1,38 @@
+{
+  "name": "highrise",
+  "version": "0.0.1",
+  "description": "A zombie shooter",
+  "main": "index.ts",
+  "repository": "github:hann2/highrise",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "deploy": "vercel",
+    "deploy-prod": "vercel --prod",
+    "tsc": "tsc --noEmit",
+    "tsc-watch": "tsc --noEmit --watch",
+    "generate-asset-types": "./generate-asset-types.js -d ./resources; ./generate-asset-types.js -d ./src",
+    "prettier": "prettier --write src"
+  },
+  "author": "Philip Hann, Simon Baumgardt-Wellander",
+  "license": "MIT",
+  "dependencies": {
+    "@types/css-font-loading-module": "0.0.4",
+    "@types/p2": "^0.7.36",
+    "fontfaceobserver": "^2.1.0",
+    "p2": "^0.7.1",
+    "pixi.js": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.10",
+    "camelcase": "^6.2.0",
+    "eslint": "^7.14.0",
+    "glslify-bundle": "^5.1.1",
+    "glslify-deps": "^1.3.2",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.2",
+    "vercel": "^21.0.1",
+    "yargs": "^16.1.1"
+  }
+}
