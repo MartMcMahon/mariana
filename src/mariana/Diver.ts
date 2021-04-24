@@ -16,8 +16,7 @@ import img_diverRight from "../../resources/images/diver_right.png";
 
 const DIVER_RADIUS = 1.0; // Size in meters
 const DIVER_SPEED = 25.0; // Newtons?
-const DIVER_FRICTION = 5.0; // not really sure of the unit
-const DIVER_BUOYANCY = 1.5; //
+const DIVER_FRICTION = 6.0; // not really sure of the unit
 const SURFACE_GRAVITY = 9.8; // meters / second
 
 interface Sprites {
@@ -35,7 +34,6 @@ export class Diver extends BaseEntity implements Entity {
   // Amount of health we have
   hp = 100;
 
-  // TODO change to GamePhase
   onBoat = true;
 
   subSprites: Sprites = {

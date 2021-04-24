@@ -25,7 +25,7 @@ export class SoundInstance extends BaseEntity implements Entity {
 
   private sourceNode!: AudioBufferSourceNode;
   private panNode!: StereoPannerNode;
-  private gainNode!: GainNode;
+  public gainNode!: GainNode;
   private _speed: number = 1.0;
 
   private elapsed: number = 0;
