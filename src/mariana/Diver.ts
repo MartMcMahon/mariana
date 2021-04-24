@@ -1,10 +1,12 @@
 import { Body, Circle } from "p2";
 import { Sprite } from "pixi.js";
 import img_diver from "../../resources/images/diver.png";
+import { Bubble } from "../Bubble";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
 import { ControllerAxis, ControllerButton } from "../core/io/Gamepad";
 import { clamp } from "../core/util/MathUtil";
+import { rBool } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
 
 const DIVER_RADIUS = 1.0; // Size in meters
@@ -43,25 +45,10 @@ export class Diver extends BaseEntity implements Entity {
 
   onTick(dt: number) {
     if (this.getDepth() >= 0) {
-      const movementDirection = V(
-        this.game!.io.getAxis(ControllerAxis.LEFT_X),
-        this.game!.io.getAxis(ControllerAxis.LEFT_Y)
-      );
-      if (this.game!.io.keyIsDown("KeyS")) {
-        movementDirection[1] += 1;
+      if (rBool(dt)) {
+        this.game!.addEntity(new Bubble(this.getPosition().iadd([0, -0.7])));
       }
-      if (this.game!.io.keyIsDown("KeyW")) {
-        movementDirection[1] -= 1;
-      }
-      if (this.game!.io.keyIsDown("KeyA")) {
-        movementDirection[0] -= 1;
-      }
-      if (this.game!.io.keyIsDown("KeyD")) {
-        movementDirection[0] += 1;
-      }
-
-      movementDirection.magnitude = clamp(movementDirection.magnitude, 0, 1);
-
+      const movementDirection = this.getPlayerMoveInput();
       this.body.applyForce(movementDirection.imul(DIVER_SPEED));
 
       const friction = V(this.body.velocity).imul(-DIVER_FRICTION);
@@ -69,5 +56,30 @@ export class Diver extends BaseEntity implements Entity {
     } else {
       this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY]);
     }
+  }
+
+  // Returns the direction that the player wants the diver to move
+  getPlayerMoveInput(): V2d {
+    const movementDirection = V(
+      this.game!.io.getAxis(ControllerAxis.LEFT_X),
+      this.game!.io.getAxis(ControllerAxis.LEFT_Y)
+    );
+    if (this.game!.io.keyIsDown("KeyS")) {
+      movementDirection[1] += 1;
+    }
+    if (this.game!.io.keyIsDown("KeyW")) {
+      movementDirection[1] -= 1;
+    }
+    if (this.game!.io.keyIsDown("KeyA")) {
+      movementDirection[0] -= 1;
+    }
+    if (this.game!.io.keyIsDown("KeyD")) {
+      movementDirection[0] += 1;
+    }
+
+    // so we don't move faster on diagonals
+    movementDirection.magnitude = clamp(movementDirection.magnitude, 0, 1);
+
+    return movementDirection;
   }
 }
