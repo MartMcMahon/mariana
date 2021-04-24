@@ -2,6 +2,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { Diver } from "../Diver";
 import { Obstacle } from "../Obstacle";
+import CameraController from "./CameraController";
 
 enum GamePhase {
   // The menu before we've started
@@ -32,8 +33,10 @@ export class GameController extends BaseEntity implements Entity {
     },
 
     diveStart: () => {
+      console.log("dive start");
       this.gamePhase = GamePhase.Diving;
-      this.game!.addEntity(new Diver());
+      const diver = this.game!.addEntity(new Diver());
+      this.game?.addEntity(new CameraController(this.game.camera, diver));
       this.game!.addEntity(new Obstacle(8, 0, 10, 10));
     },
 
@@ -55,8 +58,10 @@ export class GameController extends BaseEntity implements Entity {
   onTick() {
     if (this.gamePhase === GamePhase.Diving) {
       const diver = this.game!.entities.getById("diver") as Diver;
-
-      console.log(`depth: ${diver.body.position[1]}`);
+      const depth = diver.body.position[1];
+      if (depth > 100) {
+        this.game?.dispatch({ type: "diveEnd" });
+      }
     }
   }
 }
