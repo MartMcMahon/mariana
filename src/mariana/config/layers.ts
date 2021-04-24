@@ -1,8 +1,11 @@
 import Game from "../../core/Game";
+import { GameRenderer2d } from "../../core/graphics/GameRenderer2d";
 import { LayerInfo } from "../../core/graphics/LayerInfo";
 
 // Layers for rendering stuff in front of other stuff
 export enum Layer {
+  // The real background layer
+  BACKGROUND = "background",
   // Stuff that renders behind the normal stuff
   WORLD_BACK = "world_back",
   // The main layer where most stuff is
@@ -27,6 +30,8 @@ export function initLayers(game: Game) {
   for (const layerName of PARALAX_FREE_LAYERS) {
     game.renderer.layerInfos.get(layerName)!.paralax = 0;
   }
+
+  game.renderer.layerInfos.get(Layer.BACKGROUND)!.paralax = 0.5;
 
   game.renderer.defaultLayer = Layer.WORLD;
 }

@@ -1,7 +1,11 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
+import { Background } from "../Background";
+import { Boat } from "../Boat";
 import { Diver } from "../Diver";
+import { DepthGauge } from "../hud/DepthGauge";
 import { Obstacle } from "../Obstacle";
+import { WaterOverlay } from "../WaterOverlay";
 import CameraController from "./CameraController";
 
 enum GamePhase {
@@ -37,7 +41,11 @@ export class GameController extends BaseEntity implements Entity {
       this.gamePhase = GamePhase.Diving;
       const diver = this.game!.addEntity(new Diver());
       this.game?.addEntity(new CameraController(this.game.camera, diver));
-      this.game!.addEntity(new Obstacle(8, 0, 10, 10));
+      this.game!.addEntity(new Obstacle(8, 10, 10, 10));
+      this.game!.addEntity(new Background());
+      this.game!.addEntity(new WaterOverlay());
+      this.game!.addEntity(new DepthGauge());
+      this.game!.addEntity(new Boat());
     },
 
     diveEnd: async () => {
@@ -46,7 +54,8 @@ export class GameController extends BaseEntity implements Entity {
 
       console.log("dive over");
 
-      await this.wait(1.0);
+      // TODO: drag body up on rope
+      await this.wait(2.0);
 
       // Remove all entities with a persistence level of 0 (the default)
       this.game?.clearScene(0);

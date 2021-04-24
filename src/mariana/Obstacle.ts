@@ -16,7 +16,7 @@ export class Obstacle extends BaseEntity implements Entity {
     this.body.addShape(shape);
 
     this.sprite = new Graphics();
-    this.sprite.beginFill(0xff0000);
+    this.sprite.beginFill(0x666666);
     this.sprite.drawRect(-width / 2, -height / 2, width, height);
     this.sprite.endFill();
   }
