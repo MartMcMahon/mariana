@@ -10,7 +10,9 @@ First run `npm install`, then:
 
 - Use `npm run start` to start the development server at [http://localhost:1234].
 - Use `npm run build` to output a production build to `dist/`.
-- Use `npm run tsc` to run the type checker.
+- Use `npm run tsc` to run the type checker once.
+- Use `npm run tsc-watch` to run the type checker continuously
+- Use `npm run prettier` to autoformat all source files
 
 ## What's in all the folders?
 
@@ -42,6 +44,7 @@ You can access the game object from an entity through `this.entity`.
 ### Entities
 
 Basically anything in the game that has state.
+Inside an entity you can access the game through `this.entity`.
 Defined by extending `BaseEntity` and implementing `Entity`.
 
 Define a `sprite` on an entity if you want the entity to have a graphical component.
@@ -60,7 +63,8 @@ This is a good way for implementing control flow.
 
 ### Vectors
 
-In general, the engine uses an array of 2 numbers to represent a vector.
+In general, to represent vectors the engine uses the `V2d` type, which is an extension of `[number, number]`.
+It has an easy constructor called `V()` that takes an array, a pair of numbers, or an instance of `V2d`.
 
 ## Working With Assets
 
@@ -81,8 +85,26 @@ Fonts should be whatever the web supports, I think `.otf` and `.ttf` are good.
 
 ### Generating type definitions for assets
 
-TODO...
+When you add or remove or rename assets, you should run `npm run generate-asset-types` to update the typescript definitions.
 
-# How to use assets in code
+### How to use assets in code
 
-TODO...
+Importing the file of the asset returns the url that you can give to the browser to load that asset.
+Before you can actually use an asset, you need to make sure you _preload_ the asset.
+This is done by adding going to `preloadImages.ts` or `preloadSounds.ts` or `preloadFonts.ts`, importing the asset, and adding it to the list of urls to load.
+
+```
+// sets the sprite for this entity
+this.sprite = Sprite.from(img_myImage);
+
+// play a sound
+this.game.addEntity(new SoundInstance(snd_mySound), options));
+
+// play a sound at a position
+this.game.addEntity(new PositionalSound(snd_mySound), V(10, 20), options));
+```
+
+## Code Style
+
+We use `prettier` with all default settings for formatting.
+I recommend setting up your editor to use it and to format on save of a file so that we never end up with misformatted files.

@@ -1,5 +1,5 @@
 import { Body, Circle } from "p2";
-import { Graphics, Sprite } from "pixi.js";
+import { Sprite } from "pixi.js";
 import img_diver from "../../resources/images/diver.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
@@ -11,6 +11,9 @@ const DIVER_RADIUS = 1.0; // Size in meters
 export class Diver extends BaseEntity implements Entity {
   sprite: Sprite;
   body: Body;
+
+  // So we can easily grab the diver from other entities
+  id = "diver";
 
   constructor() {
     super();
@@ -30,16 +33,28 @@ export class Diver extends BaseEntity implements Entity {
   }
 
   onTick() {
-    if (this.game!.io.keyIsDown("KeyS") || this.game!.io.getButton(ControllerButton.D_DOWN)) { 
+    if (
+      this.game!.io.keyIsDown("KeyS") ||
+      this.game!.io.getButton(ControllerButton.D_DOWN)
+    ) {
       this.body.applyForce([0, 10]);
     }
-    if (this.game!.io.keyIsDown("KeyW") || this.game!.io.getButton(ControllerButton.D_UP)) {
+    if (
+      this.game!.io.keyIsDown("KeyW") ||
+      this.game!.io.getButton(ControllerButton.D_UP)
+    ) {
       this.body.applyForce([0, -10]);
     }
-    if (this.game!.io.keyIsDown("KeyA") || this.game!.io.getButton(ControllerButton.D_LEFT)) {
+    if (
+      this.game!.io.keyIsDown("KeyA") ||
+      this.game!.io.getButton(ControllerButton.D_LEFT)
+    ) {
       this.body.applyForce([-10, 0]);
     }
-    if (this.game!.io.keyIsDown("KeyD") || this.game!.io.getButton(ControllerButton.D_RIGHT)) {
+    if (
+      this.game!.io.keyIsDown("KeyD") ||
+      this.game!.io.getButton(ControllerButton.D_RIGHT)
+    ) {
       this.body.applyForce([10, 0]);
     }
   }
