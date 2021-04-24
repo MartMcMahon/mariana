@@ -18,6 +18,7 @@ import { KeyCode } from "../core/io/Keys";
 const DIVER_RADIUS = 1.0; // Size in meters
 const DIVER_SPEED = 25.0; // Newtons?
 const DIVER_FRICTION = 6.0; // not really sure of the unit
+const DIVER_BUOYANCY = 1.5;
 const SURFACE_GRAVITY = 9.8; // meters / second
 
 interface Sprites {
@@ -92,7 +93,7 @@ export class Diver extends BaseEntity implements Entity {
 
   onTick(dt: number) {
     if (!this.onBoat) {
-      if (this.getDepth() >= 0) {
+      if (!this.isSurfaced()) {
         if (rBool(dt)) {
           this.game!.addEntity(new Bubble(this.getPosition().iadd([0, -0.7])));
         }
@@ -101,11 +102,12 @@ export class Diver extends BaseEntity implements Entity {
           this.body.applyForce(movementDirection.imul(DIVER_SPEED));
         }
 
-        const friction = V(this.body.velocity).imul(-DIVER_FRICTION);
-        this.body.applyForce(friction);
-      } else {
-        this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY]);
-      }
+          const friction = V(this.body.velocity).imul(-DIVER_FRICTION);
+          this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY / DIVER_BUOYANCY]);
+          this.body.applyForce(friction);
+        } else {
+            this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY]);
+        }
     }
   }
 
