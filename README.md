@@ -46,4 +46,8 @@ Fonts should be whatever the web supports, I think `.otf` and `.ttf` are good.
 
 ### Generating type definitions for assets
 
-- How to use assets in code
+TODO...
+
+# How to use assets in code
+
+TODO...
