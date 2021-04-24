@@ -27,6 +27,41 @@ First run `npm install`, then:
 The physics engine is [p2](https://github.com/schteppe/p2.js)
 The graphics engine is [pixi](https://github.com/pixijs/pixi.js)
 
+## Concepts from the library to understand
+
+### The Game Object
+
+There's always one main game object that's job is to keep the game loop going, keep track of entities, and call event handlers.
+
+You can access the game object from an entity through `this.entity`.
+
+`game.io` gives you access to input state like which keys are down and where the mouse is.
+
+`game.entities` gives you access to an Entity list which has a few
+
+### Entities
+
+Basically anything in the game that has state.
+Defined by extending `BaseEntity` and implementing `Entity`.
+
+Define a `sprite` on an entity if you want the entity to have a graphical component.
+
+Define a `body` on an entity if you want it to interact with the physics world.
+
+Define an `onTick` method to do something every physics step.
+
+Define an `onRender` method to do something right before each frame is rendered.
+
+### Events
+
+You can fire custom events by calling `game.dispatch({ type: yourEventTypeHere, ... })`.
+You can listen to custom events in any entity you want by adding `handlers = { yourEventTypeHere: () => { /* do something */}}`.
+This is a good way for implementing control flow.
+
+### Vectors
+
+In general, the engine uses an array of 2 numbers to represent a vector.
+
 ## Working With Assets
 
 ### Where should I put assets?

@@ -8,7 +8,7 @@ import EntityList from "./EntityList";
 import { GameRenderer2d } from "./graphics/GameRenderer2d";
 import { IOManager } from "./io/IO";
 import CustomWorld from "./physics/CustomWorld";
-import { clamp, lerp } from "./util/MathUtil";
+import { lerp } from "./util/MathUtil";
 
 interface GameOptions {
   audio?: AudioContext;

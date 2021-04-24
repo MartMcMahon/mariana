@@ -2,7 +2,6 @@ import { Body, Circle } from "p2";
 import { Graphics } from "pixi.js";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
-import Game from "../core/Game";
 
 const DIVER_RADIUS = 1.0; // Size in meters
 
