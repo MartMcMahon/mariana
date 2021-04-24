@@ -6,6 +6,7 @@ import FPSMeter from "../core/util/FPSMeter";
 import { initLayers, Layer } from "./config/layers";
 import { initContactMaterials } from "./config/PhysicsMaterials";
 import { GameController } from "./controllers/GameController";
+import { GraphicsQualityController } from "./controllers/GraphicsQualityController";
 import Preloader from "./preloader/Preloader";
 
 declare global {
@@ -42,6 +43,7 @@ export async function main() {
   game.addEntity(new PositionalSoundListener());
   game.addEntity(new GameController());
   game.addEntity(new FPSMeter(Layer.MENU));
+  game.addEntity(new GraphicsQualityController());
 
   game.dispatch({ type: "gameStart" });
 
