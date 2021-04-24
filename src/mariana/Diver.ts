@@ -3,17 +3,18 @@ import { Sprite } from "pixi.js";
 import snd_dead from "../../resources/audio/dead.flac";
 import snd_oww from "../../resources/audio/oww.flac";
 import img_diver from "../../resources/images/diver.png";
-import { Bubble } from "./effects/Bubble";
+import img_diverLeft from "../../resources/images/diver_left.png";
+import img_diverRight from "../../resources/images/diver_right.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
 import { ControllerAxis, ControllerButton } from "../core/io/Gamepad";
+import { KeyCode } from "../core/io/Keys";
 import { SoundInstance } from "../core/sound/SoundInstance";
 import { clamp } from "../core/util/MathUtil";
 import { rBool } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
-import img_diverLeft from "../../resources/images/diver_left.png";
-import img_diverRight from "../../resources/images/diver_right.png";
-import { KeyCode } from "../core/io/Keys";
+import { Bubble } from "./effects/Bubble";
+import { Harpoon } from "./Harpoon";
 
 const DIVER_RADIUS = 1.0; // Size in meters
 const DIVER_SPEED = 25.0; // Newtons?
@@ -143,7 +144,11 @@ export class Diver extends BaseEntity implements Entity {
   onKeyDown(key: KeyCode) {
     switch (key) {
       case "Space": {
-        this.jump();
+        if (this.onBoat) {
+          this.jump();
+        } else {
+          this.shoot();
+        }
       }
     }
   }
@@ -172,5 +177,11 @@ export class Diver extends BaseEntity implements Entity {
       );
       this.game?.dispatch({ type: "diveEnd" });
     }
+  }
+
+  shoot() {
+    this.game!.addEntity(
+      new Harpoon(this.getPosition(), V(this.body.velocity).imul(4))
+    );
   }
 }
