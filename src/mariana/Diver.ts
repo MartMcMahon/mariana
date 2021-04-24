@@ -18,7 +18,8 @@ export class Diver extends BaseEntity implements Entity {
     this.body.addShape(shape);
 
     this.sprite = Sprite.from(img_diver);
-    this.sprite.scale.set(DIVER_RADIUS / this.sprite.texture.width);
+    this.sprite.scale.set((DIVER_RADIUS * 2) / this.sprite.texture.width);
+    this.sprite.anchor.set(0.5);
   }
 
   onRender() {
