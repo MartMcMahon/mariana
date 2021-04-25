@@ -5,21 +5,45 @@ import {V, V2d} from "../../core/Vector";
 import fs from 'fs';
 import {BaseTexture, Rectangle, Sprite, Texture} from "pixi.js";
 import {Body, Box, Circle} from "p2";
+import * as data from "../../../resources/regions/regions.json";
 
+const REGION_WIDTH = 36.5;
 const REGION_SIZE = 16;
 const TILE_SIZE = 64;
 const TILE_SET_WIDTH = 3;
 
 export class Region extends BaseEntity implements Entity {
 
-
     static tileset: Texture;
 
-    sprites: Sprite[] = [];
+    static genRegions() {
 
-    constructor(position: V2d = V(0, 0)) {
+        let regions = [];
+
+        let pos = V(-REGION_WIDTH * 2,0);
+        let rdata;
+
+        for (let i = 0; i < 4; i++) {
+
+            if (i == 0) {
+                rdata = data.start;
+            }
+
+            regions.push(new Region(pos, rdata));
+
+            pos.x += REGION_WIDTH;
+        }
+
+        return regions;
+    }
+
+    sprites: Sprite[] = [];
+    data: any;
+
+    constructor(position: V2d = V(0, 0), data: any) {
         super();
 
+        this.data = data;
         this.bodies = [];
 
         if (Region.tileset == null) {
@@ -29,7 +53,7 @@ export class Region extends BaseEntity implements Entity {
         }
 
         let fs = require('fs');
-        const file = fs.readFileSync("resources/regions/test_map.csv", 'utf8');
+        const file = fs.readFileSync("resources/regions/test.csv", 'utf8');
 
         let x = 0;
         let y = 0;

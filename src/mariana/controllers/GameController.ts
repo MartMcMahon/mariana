@@ -2,7 +2,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
 import { rUniform } from "../../core/util/Random";
-import { V } from "../../core/Vector";
+import {V, V2d} from "../../core/Vector";
 import { OceanAmbience } from "../audio/OceanAmbience";
 import { Background } from "../Background";
 import { Boat } from "../Boat";
@@ -58,8 +58,6 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new OceanAmbience());
       this.game!.addEntity(new UpgradeManager());
 
-      this.game!.addEntity(new Region());
-
       this.game!.addEntity(new ProgressInfoController());
     },
 
@@ -71,6 +69,8 @@ export class GameController extends BaseEntity implements Entity {
       this.game?.addEntity(new DiverController(diver));
 
       this.game!.addEntity(new DepthGauge());
+
+      this.game!.addEntities(Region.genRegions());
 
       for (let i = 0; i < 50; i++) {
         this.game?.addEntity(

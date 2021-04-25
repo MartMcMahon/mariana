@@ -1,0 +1,18 @@
+{
+  "start": {
+    "csv": "test.csv",
+    "left": "c3-o13",
+    "right": "c3-o13",
+    "top": "o16",
+    "bottom": "c16"
+  },
+  "regions": [
+    {
+      "csv": "test.csv",
+      "left": "c3-o13",
+      "right": "c3-o13",
+      "top": "o16",
+      "bottom": "c16"
+    }
+  ]
+}
