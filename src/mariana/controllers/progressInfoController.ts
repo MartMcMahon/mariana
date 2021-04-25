@@ -8,8 +8,8 @@ export class ProgressInfoController extends BaseEntity implements Entity {
 
   constructor() {
     super();
+    this.data = { upgrades: {} };
     this.getFromLocalStorage();
-    console.log(this.data.upgrades);
   }
 
   getFromLocalStorage() {
