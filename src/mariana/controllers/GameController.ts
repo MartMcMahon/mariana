@@ -18,7 +18,8 @@ import { PufferFish } from "../enemies/PufferFish";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { DiverController } from "../DiverController";
 import { Shark } from "../enemies/Shark";
-import {Region} from "../region/Region";
+import { Region } from "../region/Region";
+import { ProgressInfoController } from "./progressInfoController";
 
 enum GamePhase {
   // The menu before we've started
@@ -56,6 +57,8 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new UpgradeManager());
 
       this.game!.addEntity(new Region());
+
+      this.game!.addEntity(new ProgressInfoController());
     },
 
     diveStart: () => {
