@@ -3,25 +3,25 @@ import Entity from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
 import { rUniform } from "../../core/util/Random";
 import { V } from "../../core/Vector";
+import { OceanAmbience } from "../audio/OceanAmbience";
 import { Background } from "../Background";
 import { Boat } from "../Boat";
 import { OCEAN_DEPTH } from "../constants";
 import { Diver } from "../Diver";
-import { Jellyfish } from "../enemies/Jellyfish";
-import { DepthGauge } from "../hud/DepthGauge";
-import { Obstacle } from "../Obstacle";
-import { UpgradeShop } from "../upgrade/UpgradeShop";
-import { WaterOverlay } from "../effects/WaterOverlay";
-import CameraController from "./CameraController";
-import { OceanAmbience } from "../audio/OceanAmbience";
-import { PufferFish } from "../enemies/PufferFish";
-import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { DiverController } from "../DiverController";
-import { Shark } from "../enemies/Shark";
-import { Region } from "../region/Region";
-import { UpgradePickup } from "../UpgradePickup";
-import { StingRay } from "../enemies/StingRay";
+import { WaterOverlay } from "../effects/WaterOverlay";
 import { AnglerFish } from "../enemies/AnglerFish";
+import { Jellyfish } from "../enemies/Jellyfish";
+import { PufferFish } from "../enemies/PufferFish";
+import { Shark } from "../enemies/Shark";
+import { StingRay } from "../enemies/StingRay";
+import { DepthGauge } from "../hud/DepthGauge";
+import { Region } from "../region/Region";
+import { UpgradeManager } from "../upgrade/UpgradeManager";
+import { UpgradeShop } from "../upgrade/UpgradeShop";
+import { UpgradePickup } from "../UpgradePickup";
+import CameraController from "./CameraController";
+import { ProgressInfoController } from "./progressInfoController";
 
 enum GamePhase {
   // The menu before we've started
