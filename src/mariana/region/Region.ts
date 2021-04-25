@@ -2,13 +2,12 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import img_tile from "../../../resources/images/tiles/stone_tiles2.png";
 import {V, V2d} from "../../core/Vector";
-import fs from 'fs';
 import {BaseTexture, Rectangle, Sprite, Texture} from "pixi.js";
-import {Body, Box, Circle} from "p2";
+import {Body, Box } from "p2";
 import * as data from "../../../resources/regions/regions.json";
 import {rInteger} from "../../core/util/Random";
 
-const REGION_WIDTH = 36.5;
+const REGION_WIDTH = 36.82;
 const REGION_SIZE = 16;
 const TILE_SIZE = 64;
 const TILE_SET_WIDTH = 3;
@@ -31,7 +30,12 @@ export class Region extends BaseEntity implements Entity {
         let pos = V(-REGION_WIDTH * 2,0);
         let rdata: any;
 
-        for (let y = 0; y < 4; y++) {
+        let regionsData: any[][] = [];
+
+        for (let y = 0; y < 3; y++) {
+
+            regionsData.push([]);
+
             for (let x = 0; x < 4; x++) {
                 if (x == 0 && y == 0) {
                     rdata = data.start;
@@ -46,8 +50,7 @@ export class Region extends BaseEntity implements Entity {
 
                 }
 
-                console.log(x)
-                console.log(y)
+                regionsData[y].push(rdata);
 
                 regions.push(new Region(V(pos.x + x * REGION_WIDTH, y * REGION_WIDTH), rdata));
             }
@@ -70,8 +73,6 @@ export class Region extends BaseEntity implements Entity {
 
             Region.tileset.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
         }
-
-        console.log(data);
 
         let file: String =  Region.csvMap.get(data.csv) as String;
 
