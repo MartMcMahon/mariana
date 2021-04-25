@@ -16,7 +16,8 @@ import { ShuffleRing } from "../utils/ShuffleRing";
 import { Tether } from "./Tether";
 
 const SIZE = 2.0; // Length in meters
-const SHOOT_SPEED = 50; // meters / second
+const SHOOT_SPEED = 65; // meters / second
+const DAMPING = 0.085;
 
 const SOUND_RING = new ShuffleRing([
   snd_smallweapon1,
@@ -79,7 +80,7 @@ class Harpoon extends BaseEntity implements Entity {
     this.body.addShape(new Box({ width: SIZE, height: 0.2 }));
     this.body.velocity = velocity;
     this.body.angle = velocity.angle;
-    this.body.angularDamping = 0.35;
+    this.body.angularDamping = 0.12;
   }
 
   onAdd() {
@@ -93,7 +94,7 @@ class Harpoon extends BaseEntity implements Entity {
   onTick() {
     // gravity
     this.body.applyForce([0, 9.8 * this.body.mass]);
-    this.body.applyDamping(0.15);
+    this.body.applyDamping(DAMPING);
   }
 
   onRender() {

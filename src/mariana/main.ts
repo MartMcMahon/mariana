@@ -19,7 +19,7 @@ export async function main() {
   await new Promise((resolve) => window.addEventListener("load", resolve));
 
   const game = new Game({
-    tickIterations: 1,
+    tickIterations: 4,
     world: new CustomWorld({
       gravity: [0, 0],
     }),

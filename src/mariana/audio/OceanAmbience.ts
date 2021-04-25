@@ -79,7 +79,7 @@ class WaveSounds extends SoundInstance {
     this.filter = audio.createBiquadFilter();
     this.filter.type = "lowpass";
     this.filter.frequency.setValueAtTime(22050, audio.currentTime);
-    this.filter.Q.value = 8.0;
+    this.filter.Q.value = 1.0;
 
     chain.connect(this.filter);
 

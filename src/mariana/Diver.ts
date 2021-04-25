@@ -17,8 +17,9 @@ import { Bubble } from "./effects/Bubble";
 import { HarpoonGun } from "./weapons/HarpoonGun";
 
 const DIVER_RADIUS = 1.0; // Size in meters
-const DIVER_SPEED = 25.0; // Newtons?
-const DIVER_BUOYANCY = 1.5;
+const DIVER_SPEED = 35.0; // Newtons?
+const DIVER_DAMPING = 0.1; // Water friction
+const DIVER_BUOYANCY = 1.5; //
 const SURFACE_GRAVITY = 9.8; // meters / second
 
 interface Sprites {
@@ -108,7 +109,7 @@ export class Diver extends BaseEntity implements Entity {
           this.body.applyForce(this.moveDirection.mul(DIVER_SPEED));
         }
 
-        this.body.applyDamping(0.1);
+        this.body.applyDamping(DIVER_DAMPING);
         this.body.applyForce([
           0,
           (this.body.mass * SURFACE_GRAVITY) / DIVER_BUOYANCY,

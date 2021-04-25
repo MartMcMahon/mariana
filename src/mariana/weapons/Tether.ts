@@ -1,16 +1,15 @@
-import { Body, DistanceConstraint, LinearSpringOptions, Particle } from "p2";
+import { Body, DistanceConstraint, vec2 } from "p2";
 import { Graphics } from "pixi.js";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
-import RopeSpring from "../../core/physics/RopeSpring";
 import { V } from "../../core/Vector";
 import { Diver } from "../Diver";
 
-const TETHER_LENGTH = 12.0; // meters
-const RETRACT_SPEED = 9.0; // meters / second
+const TETHER_LENGTH = 10.0; // meters
 const NUM_SEGMENTS = 25; // segments in the rope
+const RETRACT_TIME = 1; // seconds
 
-const SPRING_LENGTH = TETHER_LENGTH / (NUM_SEGMENTS + 1);
+const SEGMENT_LENGTH = TETHER_LENGTH / (NUM_SEGMENTS + 1);
 
 export class Tether extends BaseEntity implements Entity {
   sprite: Graphics;
@@ -26,7 +25,7 @@ export class Tether extends BaseEntity implements Entity {
 
     for (let i = 0; i < NUM_SEGMENTS; i++) {
       const body = new Body({
-        mass: 0.001,
+        mass: 0.002,
         position: diver.getPosition(),
         collisionResponse: false,
         fixedRotation: true,
@@ -47,13 +46,14 @@ export class Tether extends BaseEntity implements Entity {
 
     this.constraints.push(
       new DistanceConstraint(harpoon.body!, this.bodies[NUM_SEGMENTS - 1], {
-        localAnchorA: V(-0.5, 0),
+        localAnchorA: V(-0.45, 0),
       })
     );
 
     for (const constraint of this.constraints) {
       constraint.lowerLimitEnabled = false;
-      constraint.distance = SPRING_LENGTH;
+      constraint.upperLimitEnabled = true;
+      constraint.upperLimit = SEGMENT_LENGTH;
       constraint.setStiffness(10 ** 9);
       constraint.setRelaxation(2);
     }
@@ -61,12 +61,35 @@ export class Tether extends BaseEntity implements Entity {
 
   async retract() {
     this.retracting = true;
-    await this.wait(1, (dt, t) => {
-      // TODO: Wind them up one at a time
-      for (const constraint of this.constraints) {
-        constraint.distance = SPRING_LENGTH * (1 - t) ** 2;
-      }
-    });
+
+    const waitTime = RETRACT_TIME / NUM_SEGMENTS;
+    for (let i = 0; i < this.constraints.length; i++) {
+      await this.wait(waitTime, (dt, t) => {
+        this.constraints[i].upperLimit = SEGMENT_LENGTH * (1.0 - t);
+      });
+
+      // await this.wait(waitTime);
+
+      // // now collapse two constraints into this one
+      // this.constraints[0].bodyB = this.constraints[1].bodyB;
+      // this.constraints[0].distance = vec2.distance(
+      //   this.constraints[0].bodyA.position,
+      //   this.constraints[0].bodyB.position
+      // );
+      // this.constraints[0].update();
+      // this.game!.world.removeConstraint(this.constraints[1]);
+      // this.constraints.splice(1, 1);
+      // console.log(`collapsed, ${this.constraints.length} remaining`);
+
+      // const bodyToRemove = this.bodies?.splice(0, 1)[0]!;
+      // this.game!.world.removeBody(bodyToRemove);
+    }
+
+    await this.waitUntil(
+      () =>
+        this.harpoon.localToWorld(V(-0.45, 0)).isub(this.diver.getPosition())
+          .magnitude < 0.3
+    );
   }
 
   onTick() {
