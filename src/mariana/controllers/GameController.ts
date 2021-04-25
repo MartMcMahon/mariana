@@ -20,6 +20,8 @@ import { DiverController } from "../DiverController";
 import { Shark } from "../enemies/Shark";
 import { Region } from "../region/Region";
 import { UpgradePickup } from "../UpgradePickup";
+import { StingRay } from "../enemies/StingRay";
+import { AnglerFish } from "../enemies/AnglerFish";
 
 enum GamePhase {
   // The menu before we've started
@@ -82,6 +84,18 @@ export class GameController extends BaseEntity implements Entity {
 
       for (let i = 0; i < 10; i++) {
         this.game?.addEntity(new Shark(V(rUniform(-30, 30), rUniform(21, 90))));
+      }
+
+      for (let i = 0; i < 5; i++) {
+        this.game?.addEntity(
+          new StingRay(V(rUniform(-30, 30), rUniform(10, 50)))
+        );
+      }
+
+      for (let i = 0; i < 5; i++) {
+        this.game?.addEntity(
+          new AnglerFish(V(rUniform(-30, 30), rUniform(70, 100)))
+        );
       }
 
       for (let i = 0; i < 10; i++) {
