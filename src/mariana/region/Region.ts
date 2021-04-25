@@ -1,15 +1,14 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import img_tile from "../../../resources/images/tiles/stone_tiles2.png";
-import {V, V2d} from "../../core/Vector";
-import fs from 'fs';
-import {BaseTexture, Rectangle, Sprite, Texture} from "pixi.js";
-import {Body, Box, Circle} from "p2";
+import { V, V2d } from "../../core/Vector";
+import { BaseTexture, Rectangle, Sprite, Texture } from "pixi.js";
+import { Body, Box } from "p2";
 import * as data from "../../../resources/regions/regions.json";
-import {rInteger} from "../../core/util/Random";
+import { rInteger } from "../../core/util/Random";
 import { CollisionGroups } from "../config/CollisionGroups";
 
-const REGION_WIDTH = 36.5;
+const REGION_WIDTH = 36.82;
 const REGION_SIZE = 16;
 const TILE_SIZE = 64;
 const TILE_SET_WIDTH = 3;
@@ -17,106 +16,130 @@ const TILE_SET_WIDTH = 3;
 const TILE_WORLD_SIZE = 2.25; // Size of a tile in meters. determined experimentally for now
 
 export class Region extends BaseEntity implements Entity {
+  static tileset: Texture;
 
-    static tileset: Texture;
+  static csvMap = new Map([
+    [
+      "test.csv",
+      require("fs").readFileSync("resources/regions/test.csv", "utf8"),
+    ],
+    [
+      "tes2.csv",
+      require("fs").readFileSync("resources/regions/tes2.csv", "utf8"),
+    ],
+    [
+      "test3.csv",
+      require("fs").readFileSync("resources/regions/test3.csv", "utf8"),
+    ],
+    [
+      "test4.csv",
+      require("fs").readFileSync("resources/regions/test4.csv", "utf8"),
+    ],
+  ]);
 
-    static csvMap = new Map([
-        [ "test.csv", require('fs').readFileSync("resources/regions/test.csv", 'utf8') ],
-        [ "tes2.csv", require('fs').readFileSync("resources/regions/tes2.csv", 'utf8') ],
-        [ "test3.csv", require('fs').readFileSync("resources/regions/test3.csv", 'utf8') ]
-    ]);
+  static genRegions() {
+    let regions = [];
 
-    static genRegions() {
+    let pos = V(-REGION_WIDTH * 2, 0);
+    let rdata: any;
 
-        let regions = [];
+    let regionsData: any[][] = [];
 
-        let pos = V(-REGION_WIDTH * 2,0);
-        let rdata: any;
+    for (let y = 0; y < 3; y++) {
+      regionsData.push([]);
 
-        for (let i = 0; i < 4; i++) {
+      for (let x = 0; x < 4; x++) {
+        if (x == 0 && y == 0) {
+          rdata = data.start;
+        } else if (y == 0) {
+          let filteredRegions = data.regions.filter(function (r: any) {
+            return r.left == rdata.right;
+          });
 
-            if (i == 0) {
-                rdata = data.start;
-            } else {
-                let filteredRegions = data.regions.filter(function (r) {
-                    return r.left == rdata.right;
-                })
-
-                rdata = filteredRegions[rInteger(0, filteredRegions.length];
-            }
-
-
-            regions.push(new Region(pos, rdata));
-
-            pos.x += REGION_WIDTH;
+          rdata = filteredRegions[rInteger(0, filteredRegions.length)];
+        } else {
+          rdata = data.regions[3];
         }
 
-        return regions;
+        regionsData[y].push(rdata);
+
+        regions.push(
+          new Region(V(pos.x + x * REGION_WIDTH, y * REGION_WIDTH), rdata)
+        );
+      }
     }
 
-    sprites: Sprite[] = [];
-    data: any;
+    return regions;
+  }
 
-    constructor(position: V2d = V(0, 0), data: any) {
-        super();
+  sprites: Sprite[] = [];
+  data: any;
 
-        this.data = data;
-        this.bodies = [];
+  constructor(position: V2d = V(0, 0), data: any) {
+    super();
 
-        if (Region.tileset == null) {
-            Region.tileset = Texture.from(img_tile);
+    this.data = data;
+    this.bodies = [];
 
-            Region.tileset.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+    if (Region.tileset == null) {
+      Region.tileset = Texture.from(img_tile);
+
+      Region.tileset.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+    }
+
+    let file: String = Region.csvMap.get(data.csv) as String;
+
+    let x = 0;
+    let y = 0;
+
+    file.split("\n").forEach((line: string) => {
+      line.split(",").forEach((tileString: string) => {
+        let i = parseInt(tileString);
+
+        if (isNaN(i) || i == -1) {
+          x++;
+          return;
         }
 
-        let file: String =  Region.csvMap.get(data.csv) as String;
+        let texture = new Texture(
+          (Region.tileset as any) as BaseTexture,
+          new Rectangle(
+            (i % TILE_SET_WIDTH) * (TILE_SIZE + 1) + 0.25,
+            Math.floor(i / TILE_SET_WIDTH) * (TILE_SIZE + 1) + 0.25,
+            TILE_SIZE - 0.25,
+            TILE_SIZE - 0.25
+          )
+        );
 
-        let x = 0;
-        let y = 0;
+        texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-        file.split("\n").forEach((line:string) => {
-            line.split(",").forEach((tileString:string) => {
+        let sprite = Sprite.from(texture);
 
-                let i = parseInt(tileString);
+        sprite.scale.set(0.0365);
 
-                if (isNaN(i) || i == -1) {
-                    x++;
-                    return;
-                }
+        sprite.x = position.x + x * 2.3;
+        sprite.y = position.y + y * 2.3;
 
-                let texture = new Texture(
-                    (Region.tileset as any) as BaseTexture,
-                    new Rectangle(
-                        (i % TILE_SET_WIDTH) * (TILE_SIZE + 1) + .25,
-                        (Math.floor(i / TILE_SET_WIDTH)) * (TILE_SIZE + 1) + .25,
-                        TILE_SIZE - .25, TILE_SIZE - .25)
-                )
+        sprite.visible = true;
+        sprite.anchor.set(0.5);
 
-                texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+        this.sprites.push(sprite);
 
-                let sprite = Sprite.from(texture);
-
-                sprite.scale.set(0.0365);
-
-                sprite.x = position.x + x * 2.3;
-                sprite.y = position.y + y * 2.3;
-
-                sprite.visible = true;
-                sprite.anchor.set(0.5);
-
-                this.sprites.push(sprite);
-
-                let body = new Body({ mass: 0, position: V(sprite.x, sprite.y) });
-                const shape = new Box({ width: TILE_WORLD_SIZE, height: TILE_WORLD_SIZE, collisionMask: CollisionGroups.All });
-                body.addShape(shape);
-
-                this.bodies!.push(body);
-
-                x++;
-            });
-
-            x = 0;
-            y++;
+        let body = new Body({ mass: 0, position: V(sprite.x, sprite.y) });
+        const shape = new Box({
+          width: TILE_WORLD_SIZE,
+          height: TILE_WORLD_SIZE,
+          collisionMask: CollisionGroups.All,
         });
-    }
+        body.addShape(shape);
+
+        this.bodies!.push(body);
+
+        x++;
+      });
+
+      x = 0;
+      y++;
+    });
+  }
 }
