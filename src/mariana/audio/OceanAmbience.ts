@@ -79,7 +79,7 @@ export class OceanAmbience extends BaseEntity implements Entity {
     if (this.wasAboveWater != isAboveWater) {
       this.addChild(
         new SoundInstance(snd_splash, {
-          gain: clamp(Math.abs(diver.body.velocity[1] / 10), 0, 0.8),
+          gain: clamp(Math.abs((diver?.body.velocity[1] ?? 0) / 10), 0, 0.8),
           outnode: () => this.filter,
         })
       );
