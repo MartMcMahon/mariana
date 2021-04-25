@@ -9,25 +9,25 @@ import snd_spear1 from "../../../resources/audio/spear1.flac";
 import snd_spear2 from "../../../resources/audio/spear2.flac";
 import snd_spear3 from "../../../resources/audio/spear3.flac";
 import snd_spear4 from "../../../resources/audio/spear4.flac";
+import snd_splash from "../../../resources/audio/splash.flac";
 import snd_spookySinking from "../../../resources/audio/spooky_sinking.flac";
 
 export function getSoundsToPreload(): string[] {
   // use a set to make sure we don't include stuff multiple times
   const urls = new Set<string>([
-    snd_oww,
     snd_dead,
     snd_oceanTexture,
-    snd_spookySinking,
-
+    snd_oww,
     snd_smallweapon1,
     snd_smallweapon2,
     snd_smallweapon3,
     snd_smallweapon4,
-
     snd_spear1,
     snd_spear2,
     snd_spear3,
     snd_spear4,
+    snd_splash,
+    snd_spookySinking,
   ]);
 
   // Just in case this sneaks in there somehow, make sure we don't load it

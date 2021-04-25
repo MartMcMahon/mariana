@@ -13,6 +13,7 @@ export interface SoundOptions {
   reactToSlowMo?: boolean;
   persistenceLevel?: number;
   pauseable?: boolean;
+  outnode?: () => AudioNode;
 }
 
 /**
@@ -98,7 +99,12 @@ export class SoundInstance extends BaseEntity implements Entity {
   }
 
   onAdd(game: Game) {
-    this.makeChain(game).connect(game.masterGain);
+    const chain = this.makeChain(game);
+    if (this.options.outnode) {
+      chain.connect(this.options.outnode());
+    } else {
+      chain.connect(game.masterGain);
+    }
 
     this.sourceNode.onended = () => {
       if (!this.paused) {
