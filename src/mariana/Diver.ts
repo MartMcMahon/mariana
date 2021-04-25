@@ -8,10 +8,8 @@ import img_diverRight from "../../resources/images/diver_right.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
 import { SoundInstance } from "../core/sound/SoundInstance";
-import { rBool } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
 import { BreatheEffect } from "./effects/BreatheEffect";
-import { Bubble } from "./effects/Bubble";
 import { HarpoonGun } from "./weapons/HarpoonGun";
 
 const DIVER_RADIUS = 1.0; // Size in meters
@@ -53,7 +51,11 @@ export class Diver extends BaseEntity implements Entity {
 
     this.harpoonGun = this.addChild(new HarpoonGun(this));
 
-    this.body = new Body({ mass: 1, position: position.clone() });
+    this.body = new Body({
+      mass: 1,
+      position: position.clone(),
+      fixedRotation: true,
+    });
     const shape = new Circle({ radius: DIVER_RADIUS });
     this.body.addShape(shape);
 
