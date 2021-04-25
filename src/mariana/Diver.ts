@@ -150,4 +150,10 @@ export class Diver extends BaseEntity implements Entity {
       this.harpoonGun.shoot(this.aimDirection);
     }
   }
+
+  retract() {
+    if (!this.onBoat) {
+      this.harpoonGun.retract();
+    }
+  }
 }

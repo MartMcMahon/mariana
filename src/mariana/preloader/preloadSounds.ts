@@ -12,6 +12,8 @@ import snd_dead from "../../../resources/audio/dead.flac";
 import snd_ding from "../../../resources/audio/ding.flac";
 import snd_oceanTexture from "../../../resources/audio/ocean_texture.wav";
 import snd_oww from "../../../resources/audio/oww.flac";
+import snd_reel from "../../../resources/audio/reel.flac";
+import snd_reelInHarpoon from "../../../resources/audio/reel_in_harpoon.flac";
 import snd_sharkMiss from "../../../resources/audio/shark-miss.flac";
 import snd_sharkbite from "../../../resources/audio/sharkbite.flac";
 import snd_smallweapon1 from "../../../resources/audio/smallweapon1.flac";
@@ -54,6 +56,8 @@ export function getSoundsToPreload(): string[] {
     snd_spear4,
     snd_splash,
     snd_spookySinking,
+    snd_reel,
+    snd_reelInHarpoon,
   ]);
 
   // Just in case this sneaks in there somehow, make sure we don't load it

@@ -54,12 +54,23 @@ export class DiverController extends BaseEntity implements Entity {
     this.diver.shoot();
   }
 
+  onMouseUp() {
+    this.diver.retract();
+  }
+
   onButtonDown(button: ControllerButton) {
     switch (button) {
       case ControllerButton.A:
         this.diver.jump();
       case ControllerButton.RT:
         this.diver.shoot();
+    }
+  }
+
+  onButtonUp(button: ControllerButton) {
+    switch (button) {
+      case ControllerButton.RT:
+        this.diver.retract();
     }
   }
 }

@@ -6,7 +6,7 @@ import { rNormal } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { Layer } from "../config/layers";
 
-const MAX_SPEED = 8.0; // meters per second
+const FRICTION = 1.5;
 
 export class Bubble extends BaseEntity implements Entity {
   constructor(
@@ -19,6 +19,7 @@ export class Bubble extends BaseEntity implements Entity {
     const sprite = (this.sprite = Sprite.from(img_bubble));
     sprite.position.set(position[0], position[1]);
     sprite.scale.set(size / sprite.texture.width);
+    sprite.alpha = 0.7;
 
     this.sprite.layerName = Layer.WORLD_FRONT;
   }
@@ -26,10 +27,8 @@ export class Bubble extends BaseEntity implements Entity {
   onTick(dt: number) {
     const sprite = this.sprite! as Sprite;
     this.velocity[1] += dt * -8;
-    const maxSpeed = MAX_SPEED * this.size ** 0.8;
-    if (this.velocity.magnitude > maxSpeed) {
-      this.velocity.magnitude = maxSpeed;
-    }
+
+    this.velocity.imul(Math.exp(-dt * FRICTION));
 
     this.size *= Math.exp(dt * 0.01);
 

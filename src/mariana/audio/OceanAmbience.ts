@@ -12,9 +12,11 @@ const CUTOFF_HIGH = 250;
 const CUTOFF_LOW = 100;
 const CUTOFF_SURFACE = 22050;
 
+const SURFACE_MUSIC_VOLUME = 0.3;
 const SURFACE_END_DEPTH = 15;
 const SURFACE_RAMP = 50;
 
+const SPOOKY_MUSIC_VOLUME = 0.4;
 const SPOOKY_START_DEPTH = 20;
 const SPOOKY_RAMP = 30;
 
@@ -102,12 +104,12 @@ export class OceanAmbience extends BaseEntity implements Entity {
 
     this.spookySinking.gain = lerp(
       0,
-      0.5,
+      SPOOKY_MUSIC_VOLUME,
       clamp((depth - SPOOKY_START_DEPTH) / SPOOKY_RAMP)
     );
 
     this.surfaceMusic.gain = lerp(
-      0.5,
+      SURFACE_MUSIC_VOLUME,
       0.0,
       clamp((depth - SURFACE_END_DEPTH) / SURFACE_RAMP)
     );
