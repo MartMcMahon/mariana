@@ -59,6 +59,8 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new UpgradeManager());
 
       this.game!.addEntity(new Region());
+
+      this.game!.addEntity(new ProgressInfoController());
     },
 
     diveStart: () => {
