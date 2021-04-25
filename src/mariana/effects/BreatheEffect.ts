@@ -29,11 +29,11 @@ export class BreatheEffect extends BaseEntity implements Entity {
     this.breatheOut();
   }
 
-  async breatheOut() {
+  async breatheOut(pace = 1.0) {
     if (!this.diver.isSurfaced()) {
       this.addChild(new SoundInstance(snd_breatheOut1));
-      await this.wait(0.8, () => {
-        if (rBool(0.7)) {
+      await this.wait(0.8 / pace, () => {
+        if (rBool(0.7 * pace)) {
           this.game!.addEntity(
             new Bubble(
               this.diver
@@ -46,7 +46,18 @@ export class BreatheEffect extends BaseEntity implements Entity {
         }
       });
     }
-    await this.wait(this.cadence - this.exhaleDuration);
+    await this.wait(this.cadence / pace - this.exhaleDuration);
     this.breatheIn();
   }
+
+  handlers = {
+    diverHurt: () => {
+      this.clearTimers();
+
+      this.breatheOut(1.7);
+    },
+  };
 }
+
+// SIMON!
+// TODO: breathe out on damage
