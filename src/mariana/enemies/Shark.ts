@@ -1,5 +1,5 @@
-import { Body, Capsule, Circle } from "p2";
-import { AnimatedSprite, Graphics, Sprite, Texture } from "pixi.js";
+import { Body, Capsule, vec2 } from "p2";
+import { AnimatedSprite, ObservablePoint } from "pixi.js";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import BaseEntity from "../../core/entity/BaseEntity";
 import { V, V2d } from "../../core/Vector";
@@ -38,16 +38,12 @@ export class Shark extends BaseEntity implements Entity {
     this.sprite.loop = true;
     this.sprite.position.set(...position);
 
-    if (this.movingRight) {
-      this.sprite.scale.x *= -1;
-    }
-
   }
 
   async onAdd() {
     await this.wait(Math.random() * PATROL_TIME);
-    this.turnAround();
-    this.mode = PATROLING;
+    // this.turnAround();
+    this.mode = CHASING;
   }
 
   async turnAround() {
@@ -63,14 +59,17 @@ export class Shark extends BaseEntity implements Entity {
   }
 
   onTick(dt: number) {
-    const direction = this.movingRight ? 1 : -1;
-    this.body.applyForce([direction * SPEED, 0]);
-    this.body.applyForce(V(this.body.velocity).imul(-FRICTION));
-  }
+    // check mode change
+    const diverPos = this.game?.entities.getById("diver")?.body?.position || V(0,0);
+    let dist = vec2.distance(this.body.position, diverPos);
 
-  onBeginContact(other: Entity) {
-    if (other instanceof Diver) {
-      other.damage(20);
+    let direction = V(0, 0);
+    if (dist < 20) {
+      direction = this.getPosition().sub(diverPos).normalize().imul(-SPEED)
+    } else {
+      direction = V(0,0)
     }
+    this.body.applyForce(direction);
+    this.body.applyForce(V(this.body.velocity).imul(-FRICTION));
   }
 }

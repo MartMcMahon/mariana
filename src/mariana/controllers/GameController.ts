@@ -77,7 +77,7 @@ export class GameController extends BaseEntity implements Entity {
       }
 
       for (let i = 0; i < 10; i++) {
-        this.game?.addEntity(new Shark(V(rUniform(-30, 30), rUniform(10, 90))));
+        this.game?.addEntity(new Shark(V(rUniform(-30, 30), rUniform(21, 90))));
       }
     },
 
