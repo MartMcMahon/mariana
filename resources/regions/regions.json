@@ -27,6 +27,13 @@
       "right": "c3-o13",
       "top": "o16",
       "bottom": "c4-o4-c7"
+    },
+    {
+      "csv": "test4.csv",
+      "left": "c7-o2-c7",
+      "right": "c6-o6-c4",
+      "top": "c4-o4-c7",
+      "bottom": "c6-o2-c8"
     }
   ]
 }

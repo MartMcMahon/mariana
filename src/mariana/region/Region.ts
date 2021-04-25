@@ -20,7 +20,8 @@ export class Region extends BaseEntity implements Entity {
     static csvMap = new Map([
         [ "test.csv", require('fs').readFileSync("resources/regions/test.csv", 'utf8') ],
         [ "tes2.csv", require('fs').readFileSync("resources/regions/tes2.csv", 'utf8') ],
-        [ "test3.csv", require('fs').readFileSync("resources/regions/test3.csv", 'utf8') ]
+        [ "test3.csv", require('fs').readFileSync("resources/regions/test3.csv", 'utf8') ],
+        [ "test4.csv", require('fs').readFileSync("resources/regions/test4.csv", 'utf8') ]
     ]);
 
     static genRegions() {
@@ -30,22 +31,26 @@ export class Region extends BaseEntity implements Entity {
         let pos = V(-REGION_WIDTH * 2,0);
         let rdata: any;
 
-        for (let i = 0; i < 4; i++) {
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
+                if (x == 0 && y == 0) {
+                    rdata = data.start;
+                } else if (y == 0) {
+                    let filteredRegions = data.regions.filter(function (r: any) {
+                        return r.left == rdata.right;
+                    })
 
-            if (i == 0) {
-                rdata = data.start;
-            } else {
-                let filteredRegions = data.regions.filter(function (r) {
-                    return r.left == rdata.right;
-                })
+                    rdata = filteredRegions[rInteger(0, filteredRegions.length)];
+                } else {
+                    rdata = data.regions[3];
 
-                rdata = filteredRegions[rInteger(0, filteredRegions.length];
+                }
+
+                console.log(x)
+                console.log(y)
+
+                regions.push(new Region(V(pos.x + x * REGION_WIDTH, y * REGION_WIDTH), rdata));
             }
-
-
-            regions.push(new Region(pos, rdata));
-
-            pos.x += REGION_WIDTH;
         }
 
         return regions;
@@ -65,6 +70,8 @@ export class Region extends BaseEntity implements Entity {
 
             Region.tileset.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
         }
+
+        console.log(data);
 
         let file: String =  Region.csvMap.get(data.csv) as String;
 
@@ -107,7 +114,7 @@ export class Region extends BaseEntity implements Entity {
                 const shape = new Box({ width: 1.15, height: 1.15 });
                 body.addShape(shape);
 
-                this.bodies.push(body);
+                this.bodies?.push(body);
 
                 x++;
             });
