@@ -25,10 +25,10 @@ export default abstract class BaseEntity implements Entity {
 
   // Convert local coordinates to world coordinates.
   // Requires a body
-  localToWorld(worldPoint: [number, number]): V2d {
+  localToWorld(localPoint: [number, number]): V2d {
     if (this.body) {
       const result: V2d = V(0, 0);
-      this.body.toWorldFrame(result, worldPoint);
+      this.body.toWorldFrame(result, localPoint);
       return result;
     }
     return V(0, 0);

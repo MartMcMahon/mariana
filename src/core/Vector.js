@@ -134,7 +134,7 @@ export class V2d extends Array {
   /** (In Place) Return a normalized version of this vector */
   inormalize(length = 1) {
     if (!(this[0] === 0 && this[1] === 0)) {
-      this.magnitude = 1;
+      this.magnitude = length;
     }
     return this;
   }
