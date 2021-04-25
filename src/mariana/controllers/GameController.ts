@@ -17,6 +17,7 @@ import { OceanAmbience } from "../audio/OceanAmbience";
 import { PufferFish } from "../enemies/PufferFish";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { DiverController } from "../DiverController";
+import { Shark } from "../enemies/Shark";
 
 enum GamePhase {
   // The menu before we've started
@@ -73,6 +74,10 @@ export class GameController extends BaseEntity implements Entity {
         this.game?.addEntity(
           new PufferFish(V(rUniform(-30, 30), rUniform(10, 90)))
         );
+      }
+
+      for (let i = 0; i < 10; i++) {
+        this.game?.addEntity(new Shark(V(rUniform(-30, 30), rUniform(10, 90))));
       }
     },
 
