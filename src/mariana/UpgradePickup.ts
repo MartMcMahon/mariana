@@ -11,6 +11,7 @@ import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
 import { SoundInstance } from "../core/sound/SoundInstance";
 import { V, V2d } from "../core/Vector";
+import { CollisionGroups } from "./config/CollisionGroups";
 import { Diver } from "./Diver";
 
 const MAGNET_RADIUS = 4;
@@ -34,14 +35,12 @@ export class UpgradePickup extends BaseEntity implements Entity {
       img_pickup7,
     ]);
 
-    this.body = new Body({ mass: 0.01, fixedRotation: true, position });
-    this.body.addShape(new Particle());
-
+    this.sprite.anchor.set(0.5);
     this.sprite.width = this.sprite.height = 0.5 + Math.sqrt(value) * 0.1;
-
     this.sprite.animationSpeed = 8;
 
-    console.log("pickup added");
+    this.body = new Body({ mass: 0.01, fixedRotation: true, position });
+    this.body.addShape(new Particle({ collisionMask: CollisionGroups.All }));
   }
 
   onTick() {

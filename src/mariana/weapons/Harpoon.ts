@@ -1,14 +1,12 @@
-import { Body, Box } from "p2";
+import { Body, Box, ContactEquation, Shape } from "p2";
 import { Sprite } from "pixi.js";
 import img_harpoon from "../../../resources/images/harpoon.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
-import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V2d } from "../../core/Vector";
-import { Jellyfish } from "../enemies/Jellyfish";
-import { PufferFish } from "../enemies/PufferFish";
+import { CollisionGroups } from "../config/CollisionGroups";
 import { isHarpoonable } from "./Harpoonable";
-import { SIZE, SOUND_RING, DAMPING } from "./HarpoonGun";
+import { DAMPING, SIZE } from "./HarpoonGun";
 
 export class Harpoon extends BaseEntity implements Entity {
   body: Body;
@@ -25,10 +23,16 @@ export class Harpoon extends BaseEntity implements Entity {
 
     this.body = new Body({
       mass: 0.03,
-      collisionResponse: false,
       position,
     });
-    this.body.addShape(new Box({ width: SIZE, height: 0.2 }));
+    this.body.addShape(
+      new Box({
+        width: SIZE,
+        height: 0.2,
+        collisionGroup: CollisionGroups.World,
+        collisionMask: CollisionGroups.World,
+      })
+    );
     this.body.velocity = velocity;
     this.body.angle = velocity.angle;
     this.body.angularDamping = 0.12;
@@ -45,7 +49,13 @@ export class Harpoon extends BaseEntity implements Entity {
     this.sprite.rotation = this.body.angle - Math.PI / 4;
   }
 
-  onBeginContact(other: Entity) {
+  onBeginContact(
+    other: Entity,
+    shapeA: Shape,
+    shapeB: Shape,
+    equations: ContactEquation[]
+  ) {
+    // harpoon other stuff
     if (isHarpoonable(other)) {
       other.onHarpooned(this);
       console.log("harpooning");

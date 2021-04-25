@@ -7,11 +7,14 @@ import {BaseTexture, Rectangle, Sprite, Texture} from "pixi.js";
 import {Body, Box, Circle} from "p2";
 import * as data from "../../../resources/regions/regions.json";
 import {rInteger} from "../../core/util/Random";
+import { CollisionGroups } from "../config/CollisionGroups";
 
 const REGION_WIDTH = 36.5;
 const REGION_SIZE = 16;
 const TILE_SIZE = 64;
 const TILE_SET_WIDTH = 3;
+
+const TILE_WORLD_SIZE = 2.25; // Size of a tile in meters. determined experimentally for now
 
 export class Region extends BaseEntity implements Entity {
 
@@ -104,10 +107,10 @@ export class Region extends BaseEntity implements Entity {
                 this.sprites.push(sprite);
 
                 let body = new Body({ mass: 0, position: V(sprite.x, sprite.y) });
-                const shape = new Box({ width: 1.25, height: 1.25 });
+                const shape = new Box({ width: TILE_WORLD_SIZE, height: TILE_WORLD_SIZE, collisionMask: CollisionGroups.All });
                 body.addShape(shape);
 
-                this.bodies.push(body);
+                this.bodies!.push(body);
 
                 x++;
             });

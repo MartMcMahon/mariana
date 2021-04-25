@@ -11,6 +11,7 @@ import Entity, { GameSprite } from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { rBool } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
+import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../Diver";
 
 const PATROL_SPEED = 3.5; // speed when patrolling
@@ -53,7 +54,13 @@ export class Shark extends BaseEntity implements Entity {
       collisionResponse: false,
       angle: 0,
     });
-    this.body.addShape(new Capsule({ length: WIDTH, radius: HEIGHT }));
+    this.body.addShape(
+      new Capsule({
+        length: WIDTH,
+        radius: HEIGHT,
+        collisionMask: CollisionGroups.All,
+      })
+    );
     this.body.position = position;
 
     this.sprite = new Sprite(this.patrolTexture);

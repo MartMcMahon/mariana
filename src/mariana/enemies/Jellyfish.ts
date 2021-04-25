@@ -8,6 +8,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { rInteger, rUniform } from "../../core/util/Random";
 import { V2d } from "../../core/Vector";
+import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../Diver";
 import { UpgradePickup } from "../UpgradePickup";
 import { Harpoon } from "../weapons/Harpoon";
@@ -19,7 +20,11 @@ export class Jellyfish extends BaseEntity implements Entity, Harpoonable {
   constructor(position: V2d, radius: number = rUniform(0.4, 0.9)) {
     super();
 
-    this.body = new Body({ mass: 0, collisionResponse: false });
+    this.body = new Body({
+      mass: 0,
+      collisionResponse: false,
+      collisionMask: CollisionGroups.All,
+    });
     this.body.addShape(new Circle({ radius }));
     this.body.position = position;
 

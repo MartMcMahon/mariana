@@ -1,4 +1,4 @@
-import { Body, DistanceConstraint, vec2 } from "p2";
+import { Body, DistanceConstraint, Particle, vec2 } from "p2";
 import { Graphics } from "pixi.js";
 import snd_reel from "../../../resources/audio/reel.flac";
 import snd_reelInHarpoon from "../../../resources/audio/reel_in_harpoon.flac";
@@ -6,6 +6,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V } from "../../core/Vector";
+import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../Diver";
 
 const TETHER_LENGTH = 10.0; // meters
@@ -30,10 +31,15 @@ export class Tether extends BaseEntity implements Entity {
       const body = new Body({
         mass: 0.002,
         position: diver.getPosition(),
-        collisionResponse: false,
+        collisionResponse: true,
         fixedRotation: true,
       });
-      // body.addShape(new Particle());
+      body.addShape(
+        new Particle({
+          collisionGroup: CollisionGroups.Harpoon,
+          collisionMask: CollisionGroups.World,
+        })
+      );
       this.bodies.push(body);
     }
 

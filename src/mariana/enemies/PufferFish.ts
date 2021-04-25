@@ -9,6 +9,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { rBool, rInteger, rUniform } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
+import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../Diver";
 import { UpgradePickup } from "../UpgradePickup";
 import { Harpoon } from "../weapons/Harpoon";
@@ -28,7 +29,9 @@ export class PufferFish extends BaseEntity implements Entity, Harpoonable {
     super();
 
     this.body = new Body({ mass: 1, collisionResponse: false });
-    this.body.addShape(new Circle({ radius }));
+    this.body.addShape(
+      new Circle({ radius, collisionMask: CollisionGroups.All })
+    );
     this.body.position = position;
 
     this.sprite = AnimatedSprite.fromImages([

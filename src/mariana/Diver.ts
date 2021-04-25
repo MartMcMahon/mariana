@@ -9,10 +9,10 @@ import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
 import { SoundInstance } from "../core/sound/SoundInstance";
 import { V, V2d } from "../core/Vector";
+import { CollisionGroups } from "./config/CollisionGroups";
 import { BreatheEffect } from "./effects/BreatheEffect";
 import { HarpoonGun } from "./weapons/HarpoonGun";
 
-const DIVER_RADIUS = 1.0; // Size in meters
 const DIVER_HEIGHT = 2.0; // in meters
 const DIVER_WIDTH = 0.5; // in meters
 const DIVER_SPEED = 35.0; // Newtons?
@@ -61,13 +61,15 @@ export class Diver extends BaseEntity implements Entity {
     const shape = new Capsule({
       radius: DIVER_WIDTH / 2,
       length: DIVER_HEIGHT - DIVER_WIDTH,
+      collisionGroup: CollisionGroups.Diver,
+      collisionMask: CollisionGroups.All,
     });
     this.body.addShape(shape, [0, 0], Math.PI / 2);
 
     this.sprite = new Sprite();
     this.sprite.anchor.set(0.5);
     for (const subSprite of Object.values(this.subSprites) as Sprite[]) {
-      subSprite.scale.set((2 * DIVER_RADIUS) / subSprite.texture.width);
+      subSprite.scale.set(DIVER_HEIGHT / subSprite.texture.height);
       subSprite.anchor.set(0.5);
       this.sprite.addChild(subSprite);
     }

@@ -6,6 +6,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { rBool, rInteger } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
+import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../Diver";
 import { UpgradePickup } from "../UpgradePickup";
 import { Harpoon } from "../weapons/Harpoon";
@@ -27,7 +28,13 @@ export class StingRay extends BaseEntity implements Entity, Harpoonable {
     super();
 
     this.body = new Body({ mass: 1, collisionResponse: false });
-    this.body.addShape(new Box({ width: WIDTH, height: HEIGHT }));
+    this.body.addShape(
+      new Box({
+        width: WIDTH,
+        height: HEIGHT,
+        collisionMask: CollisionGroups.All,
+      })
+    );
     this.body.position = position;
 
     this.sprite = AnimatedSprite.fromImages([img_stingRay1, img_stingRay2]);
