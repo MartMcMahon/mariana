@@ -8,6 +8,13 @@ import img_harpoon from "../../../resources/images/harpoon.png";
 import img_jellyfish from "../../../resources/images/jellyfish.png";
 import img_jellyfish1 from "../../../resources/images/jellyfish_1.png";
 import img_jellyfish2 from "../../../resources/images/jellyfish_2.png";
+import img_pickup1 from "../../../resources/images/pickup-1.png";
+import img_pickup2 from "../../../resources/images/pickup-2.png";
+import img_pickup4 from "../../../resources/images/pickup-4.png";
+import img_pickup5 from "../../../resources/images/pickup-5.png";
+import img_pickup6 from "../../../resources/images/pickup-6.png";
+import img_pickup7 from "../../../resources/images/pickup-7.png";
+import img_pickup8 from "../../../resources/images/pickup-8.png";
 import img_puffer0 from "../../../resources/images/puffer0.png";
 import img_puffer1 from "../../../resources/images/puffer1.png";
 import img_puffer2 from "../../../resources/images/puffer2.png";
@@ -33,6 +40,14 @@ export function getImagesToPreload(): Set<string> {
     img_puffer2,
     img_puffer3,
     img_puffer4,
+
+    img_pickup1,
+    img_pickup2,
+    img_pickup4,
+    img_pickup5,
+    img_pickup6,
+    img_pickup7,
+    img_pickup8,
   ]);
 
   // Just in case this sneaks in there somehow, make sure we don't load it

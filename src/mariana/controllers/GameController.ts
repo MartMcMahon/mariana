@@ -19,7 +19,9 @@ import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { DiverController } from "../DiverController";
 import { Shark } from "../enemies/Shark";
 import { Region } from "../region/Region";
+import { UpgradePickup } from "../UpgradePickup";
 import { ProgressInfoController } from "./progressInfoController";
+
 
 enum GamePhase {
   // The menu before we've started
@@ -84,6 +86,12 @@ export class GameController extends BaseEntity implements Entity {
 
       for (let i = 0; i < 10; i++) {
         this.game?.addEntity(new Shark(V(rUniform(-30, 30), rUniform(21, 90))));
+      }
+
+      for (let i = 0; i < 10; i++) {
+        this.game?.addEntity(
+          new UpgradePickup(V(rUniform(-30, 30), rUniform(1, 10)))
+        );
       }
     },
 
