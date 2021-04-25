@@ -1,5 +1,5 @@
 import { Body, Box } from "p2";
-import { Graphics, Sprite } from "pixi.js";
+import { Sprite } from "pixi.js";
 import snd_smallweapon1 from "../../../resources/audio/smallweapon1.flac";
 import snd_smallweapon2 from "../../../resources/audio/smallweapon2.flac";
 import snd_smallweapon3 from "../../../resources/audio/smallweapon3.flac";
@@ -7,17 +7,15 @@ import snd_smallweapon4 from "../../../resources/audio/smallweapon4.flac";
 import img_harpoon from "../../../resources/images/harpoon.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
-import RopeSpring from "../../core/physics/RopeSpring";
 import { SoundInstance } from "../../core/sound/SoundInstance";
-import { V, V2d } from "../../core/Vector";
+import { V2d } from "../../core/Vector";
 import { Diver } from "../Diver";
 import { Jellyfish } from "../enemies/Jellyfish";
 import { PufferFish } from "../enemies/PufferFish";
 import { ShuffleRing } from "../utils/ShuffleRing";
+import { Tether } from "./Tether";
 
 const SIZE = 2.0; // Length in meters
-const TETHER_LENGTH = 12.0; // meters
-const RETRACT_SPEED = 9.0; // meters / second
 const SHOOT_SPEED = 50; // meters / second
 
 const SOUND_RING = new ShuffleRing([
@@ -81,7 +79,7 @@ class Harpoon extends BaseEntity implements Entity {
     this.body.addShape(new Box({ width: SIZE, height: 0.2 }));
     this.body.velocity = velocity;
     this.body.angle = velocity.angle;
-    this.body.angularDamping = 0.5;
+    this.body.angularDamping = 0.35;
   }
 
   onAdd() {
@@ -93,8 +91,6 @@ class Harpoon extends BaseEntity implements Entity {
   }
 
   onTick() {
-    // this.body.angle = V(this.body.velocity).angle;
-
     // gravity
     this.body.applyForce([0, 9.8 * this.body.mass]);
     this.body.applyDamping(0.15);
@@ -109,41 +105,5 @@ class Harpoon extends BaseEntity implements Entity {
     if (other instanceof Jellyfish || other instanceof PufferFish) {
       other.destroy();
     }
-  }
-}
-
-class Tether extends BaseEntity implements Entity {
-  ropeSpring: RopeSpring;
-  sprite: Graphics;
-  retracting = false;
-
-  constructor(public diver: Diver, public harpoon: Harpoon) {
-    super();
-
-    this.ropeSpring = new RopeSpring(diver.body, harpoon.body, {
-      restLength: TETHER_LENGTH,
-      damping: 6,
-      stiffness: 30,
-    });
-    this.springs = [this.ropeSpring];
-
-    this.sprite = new Graphics();
-  }
-
-  async retract() {
-    this.retracting = true;
-    await this.waitUntil(
-      () => this.ropeSpring.restLength <= 0.1,
-      (dt) => (this.ropeSpring.restLength -= dt * RETRACT_SPEED)
-    );
-  }
-
-  onRender() {
-    this.sprite.clear();
-    this.sprite.lineStyle(0.04, 0x000000, 0.95);
-    const [diverX, diverY] = this.diver.getPosition();
-    const [harpoonX, harpoonY] = this.harpoon.localToWorld(V(-0.45, 0));
-    this.sprite.moveTo(diverX, diverY);
-    this.sprite.lineTo(harpoonX, harpoonY);
   }
 }
