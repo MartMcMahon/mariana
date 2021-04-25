@@ -1,4 +1,4 @@
-import { vec2 } from "p2";
+import snd_aboveWaterMusic from "../../../resources/audio/above_water_music.flac";
 import snd_oceanTexture from "../../../resources/audio/ocean_texture.wav";
 import snd_splash from "../../../resources/audio/splash.flac";
 import snd_spookySinking from "../../../resources/audio/spooky_sinking.flac";
@@ -11,14 +11,20 @@ import { Diver } from "../Diver";
 const CUTOFF_HIGH = 250;
 const CUTOFF_LOW = 100;
 const CUTOFF_SURFACE = 22050;
+
+const SURFACE_END_DEPTH = 15;
+const SURFACE_RAMP = 50;
+
 const SPOOKY_START_DEPTH = 20;
-const SPOOKY_RAMP_DISTANCE = 30;
+const SPOOKY_RAMP = 30;
 
 // This is the manager for all the long-running sounds
 export class OceanAmbience extends BaseEntity implements Entity {
   persistenceLevel = 1;
+
   waveSounds: SoundInstance;
   spookySinking: SoundInstance;
+  surfaceMusic: SoundInstance;
 
   wasAboveWater = true;
   filter!: BiquadFilterNode;
@@ -32,17 +38,24 @@ export class OceanAmbience extends BaseEntity implements Entity {
         continuous: true,
         gain: 0,
         outnode: () => this.filter,
-        // randomStart: true,
       })
     );
+
     this.spookySinking = this.addChild(
       new SoundInstance(snd_spookySinking, {
+        pauseable: false,
+        continuous: true,
+        gain: 0,
+      })
+    );
+
+    this.surfaceMusic = this.addChild(
+      new SoundInstance(snd_aboveWaterMusic, {
         pauseable: false,
         continuous: true,
         gain: 0.3,
       })
     );
-    this.spookySinking.gain = 0;
   }
 
   onAdd() {
@@ -90,7 +103,13 @@ export class OceanAmbience extends BaseEntity implements Entity {
     this.spookySinking.gain = lerp(
       0,
       0.5,
-      clamp((depth - SPOOKY_START_DEPTH) / SPOOKY_RAMP_DISTANCE)
+      clamp((depth - SPOOKY_START_DEPTH) / SPOOKY_RAMP)
+    );
+
+    this.surfaceMusic.gain = lerp(
+      0.5,
+      0.0,
+      clamp((depth - SURFACE_END_DEPTH) / SURFACE_RAMP)
     );
 
     this.wasAboveWater = isAboveWater;
