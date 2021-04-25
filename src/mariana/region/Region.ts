@@ -104,7 +104,7 @@ export class Region extends BaseEntity implements Entity {
                 this.sprites.push(sprite);
 
                 let body = new Body({ mass: 0, position: V(sprite.x, sprite.y) });
-                const shape = new Box({ width: 1.15, height: 1.15 });
+                const shape = new Box({ width: 1.25, height: 1.25 });
                 body.addShape(shape);
 
                 this.bodies.push(body);

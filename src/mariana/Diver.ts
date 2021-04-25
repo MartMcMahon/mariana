@@ -1,4 +1,4 @@
-import { Body, Circle } from "p2";
+import { Body, Capsule, Circle } from "p2";
 import { Sprite } from "pixi.js";
 import snd_dead from "../../resources/audio/dead.flac";
 import snd_oww from "../../resources/audio/oww.flac";
@@ -13,6 +13,8 @@ import { BreatheEffect } from "./effects/BreatheEffect";
 import { HarpoonGun } from "./weapons/HarpoonGun";
 
 const DIVER_RADIUS = 1.0; // Size in meters
+const DIVER_HEIGHT = 2.0; // in meters
+const DIVER_WIDTH = 0.5; // in meters
 const DIVER_SPEED = 35.0; // Newtons?
 const DIVER_DAMPING = 0.1; // Water friction
 const DIVER_BUOYANCY = 1.5; //
@@ -56,8 +58,11 @@ export class Diver extends BaseEntity implements Entity {
       position: position.clone(),
       fixedRotation: true,
     });
-    const shape = new Circle({ radius: DIVER_RADIUS });
-    this.body.addShape(shape);
+    const shape = new Capsule({
+      radius: DIVER_WIDTH / 2,
+      length: DIVER_HEIGHT - DIVER_WIDTH,
+    });
+    this.body.addShape(shape, [0, 0], Math.PI / 2);
 
     this.sprite = new Sprite();
     this.sprite.anchor.set(0.5);
