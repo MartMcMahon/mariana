@@ -19,8 +19,9 @@ export class Shark extends BaseEntity implements Entity {
   body: Body;
   radius: number;
 
-  movingRight = rBool();
   mode = PATROLING;
+  startingScale: ObservablePoint;
+  tags = ["shark"]
 
   constructor(position: V2d, radius: number = rUniform(1.0, 1.5)) {
     super();
@@ -37,6 +38,9 @@ export class Shark extends BaseEntity implements Entity {
     this.sprite.anchor.set(0.5);
     this.sprite.loop = true;
     this.sprite.position.set(...position);
+
+    this.startingScale = this.sprite.scale;
+    console.log(this.startingScale)
   }
 
   async onAdd() {
@@ -45,43 +49,29 @@ export class Shark extends BaseEntity implements Entity {
     this.mode = CHASING;
   }
 
-  // unused
-  // async turnAround() {
-  //   this.sprite.scale.x *= -1;
-  //   this.movingRight = !this.movingRight;
-
-    // await this.wait(PATROL_TIME);
-    // this.turnAround();
-  // }
-
-  flip() {
-    this.sprite.scale.x *= -1;
-  }
-
   onRender(dt: number) {
     this.sprite.position.set(...this.body!.position);
   }
 
   onTick(dt: number) {
     // check mode change
-    const diverPos = this.game?.entities.getById("diver")?.body?.position || V(0,0);
+    const diverPos =
+      this.game?.entities.getById("diver")!.body?.position || V(0, 0);
     let dist = vec2.distance(this.body.position, diverPos);
 
     let direction = V(0, 0);
     if (dist < 20) {
-      direction = this.getPosition().sub(diverPos).normalize().imul(-SPEED)
+      direction = this.getPosition().sub(diverPos).normalize().imul(-SPEED);
     } else {
-      direction = V(0,0)
+      direction = V(0, 0);
     }
 
-    // this doesn't do what's intended
-    // if (direction[0] > 0) {
-    //   this.sprite.scale.x = -1;
-    //   this.movingRight = true;
-    // } else if (direction[0] < 0) {
-    //   this.sprite.scale.x = 1;
-    //   this.movingRight = false;
-    // }
+
+    if (this.getPosition()[0] < diverPos[0]) {
+      this.sprite.scale.x = -this.startingScale.x;
+    } else{
+      this.sprite.scale.x = this.startingScale.x;
+    }
 
     this.body.applyForce(direction);
     this.body.applyForce(V(this.body.velocity).imul(-FRICTION));
