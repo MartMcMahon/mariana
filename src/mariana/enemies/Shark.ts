@@ -134,7 +134,6 @@ export class Shark extends BaseEntity implements Entity {
 
   // Mode where we're biting
   async bite(diver: Diver) {
-    console.log("bite");
     this.clearTimers("followDiver");
     this.clearTimers("patrol");
 

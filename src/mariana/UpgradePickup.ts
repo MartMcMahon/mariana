@@ -65,7 +65,6 @@ export class UpgradePickup extends BaseEntity implements Entity {
 
   onBeginContact(other: Entity) {
     if (other instanceof Diver) {
-      console.log("pickup collected");
       this.game?.addEntity(new SoundInstance(snd_bellPositive1, { gain: 0.1 }));
       this.game?.dispatch({ type: "pickupCollected", value: this.value });
       this.destroy();

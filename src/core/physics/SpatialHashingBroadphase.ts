@@ -15,9 +15,16 @@ export default class SpatialHashingBroadphase extends SAPBroadphase {
 
   bodiesAdded: boolean = false;
 
+  debugData = {
+    numCollisions: 0,
+  };
+
   constructor(
+    // width/height of cell in meters
     private cellSize: number = DEFAULT_CELL_SIZE,
+    // number of cells wide
     private width: number = 24,
+    // number of cells tall
     private height: number = 24
   ) {
     super(CUSTOM_BROADPHASE_TYPE);
@@ -145,6 +152,8 @@ export default class SpatialHashingBroadphase extends SAPBroadphase {
     for (const kBody of this.kinematicBodies) {
       this.removeBodyFromHash(kBody);
     }
+
+    this.debugData.numCollisions = result.length;
 
     return result;
   }

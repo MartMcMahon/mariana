@@ -58,7 +58,6 @@ export class Harpoon extends BaseEntity implements Entity {
     // harpoon other stuff
     if (isHarpoonable(other)) {
       other.onHarpooned(this);
-      console.log("harpooning");
     }
   }
 }

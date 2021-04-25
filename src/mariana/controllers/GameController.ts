@@ -2,7 +2,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
 import { rUniform } from "../../core/util/Random";
-import {V, V2d} from "../../core/Vector";
+import { V } from "../../core/Vector";
 import { OceanAmbience } from "../audio/OceanAmbience";
 import { Background } from "../Background";
 import { Boat } from "../Boat";
@@ -19,7 +19,6 @@ import { DepthGauge } from "../hud/DepthGauge";
 import { Region } from "../region/Region";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
-import { UpgradePickup } from "../UpgradePickup";
 import CameraController from "./CameraController";
 import { ProgressInfoController } from "./progressInfoController";
 
@@ -97,12 +96,6 @@ export class GameController extends BaseEntity implements Entity {
       for (let i = 0; i < 5; i++) {
         this.game?.addEntity(
           new AnglerFish(V(rUniform(-30, 30), rUniform(70, 100)))
-        );
-      }
-
-      for (let i = 0; i < 10; i++) {
-        this.game?.addEntity(
-          new UpgradePickup(V(rUniform(-30, 30), rUniform(1, 10)))
         );
       }
     },
