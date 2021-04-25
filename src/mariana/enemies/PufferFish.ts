@@ -7,15 +7,18 @@ import img_puffer3 from "../../../resources/images/puffer3.png";
 import img_puffer4 from "../../../resources/images/puffer4.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
-import { rBool, rUniform } from "../../core/util/Random";
+import { rBool, rInteger, rUniform } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { Diver } from "../Diver";
+import { UpgradePickup } from "../UpgradePickup";
+import { Harpoon } from "../weapons/Harpoon";
+import { Harpoonable } from "../weapons/Harpoonable";
 
 const SPEED = 5;
 const FRICTION = 2.0;
 const PATROL_TIME = 5.0; // seconds travelled in each direction
 
-export class PufferFish extends BaseEntity implements Entity {
+export class PufferFish extends BaseEntity implements Entity, Harpoonable {
   sprite: AnimatedSprite & GameSprite;
   body: Body;
 
@@ -77,5 +80,10 @@ export class PufferFish extends BaseEntity implements Entity {
     if (other instanceof Diver) {
       other.damage(20);
     }
+  }
+
+  onHarpooned(harpoon: Harpoon) {
+    this.game!.addEntity(new UpgradePickup(this.getPosition(), rInteger(2, 4)));
+    this.destroy();
   }
 }
