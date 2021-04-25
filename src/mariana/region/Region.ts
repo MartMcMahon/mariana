@@ -6,6 +6,7 @@ import fs from 'fs';
 import {BaseTexture, Rectangle, Sprite, Texture} from "pixi.js";
 import {Body, Box, Circle} from "p2";
 import * as data from "../../../resources/regions/regions.json";
+import {rInteger} from "../../core/util/Random";
 
 const REGION_WIDTH = 36.5;
 const REGION_SIZE = 16;
@@ -16,18 +17,31 @@ export class Region extends BaseEntity implements Entity {
 
     static tileset: Texture;
 
+    static csvMap = new Map([
+        [ "test.csv", require('fs').readFileSync("resources/regions/test.csv", 'utf8') ],
+        [ "tes2.csv", require('fs').readFileSync("resources/regions/tes2.csv", 'utf8') ],
+        [ "test3.csv", require('fs').readFileSync("resources/regions/test3.csv", 'utf8') ]
+    ]);
+
     static genRegions() {
 
         let regions = [];
 
         let pos = V(-REGION_WIDTH * 2,0);
-        let rdata;
+        let rdata: any;
 
         for (let i = 0; i < 4; i++) {
 
             if (i == 0) {
                 rdata = data.start;
+            } else {
+                let filteredRegions = data.regions.filter(function (r) {
+                    return r.left == rdata.right;
+                })
+
+                rdata = filteredRegions[rInteger(0, filteredRegions.length];
             }
+
 
             regions.push(new Region(pos, rdata));
 
@@ -52,11 +66,11 @@ export class Region extends BaseEntity implements Entity {
             Region.tileset.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
         }
 
-        let fs = require('fs');
-        const file = fs.readFileSync("resources/regions/test.csv", 'utf8');
+        let file: String =  Region.csvMap.get(data.csv) as String;
 
         let x = 0;
         let y = 0;
+
         file.split("\n").forEach((line:string) => {
             line.split(",").forEach((tileString:string) => {
 

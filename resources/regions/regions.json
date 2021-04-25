@@ -13,6 +13,20 @@
       "right": "c3-o13",
       "top": "o16",
       "bottom": "c16"
+    },
+    {
+      "csv": "tes2.csv",
+      "left": "c3-o13",
+      "right": "c3-o13",
+      "top": "o16",
+      "bottom": "c9-o2-c5"
+    },
+    {
+      "csv": "test3.csv",
+      "left": "c3-o13",
+      "right": "c3-o13",
+      "top": "o16",
+      "bottom": "c4-o4-c7"
     }
   ]
 }
