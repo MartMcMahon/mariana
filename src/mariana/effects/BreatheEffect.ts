@@ -23,7 +23,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
 
   async breatheIn() {
     if (!this.diver.isSurfaced()) {
-      this.addChild(new SoundInstance(snd_breatheIn1));
+      this.addChild(new SoundInstance(snd_breatheIn1, { gain: 0.1 }));
       await this.wait(this.cadence);
     }
     this.breatheOut();
@@ -31,7 +31,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
 
   async breatheOut(pace = 1.0) {
     if (!this.diver.isSurfaced()) {
-      this.addChild(new SoundInstance(snd_breatheOut1));
+      this.addChild(new SoundInstance(snd_breatheOut1, { gain: 0.1 }));
       await this.wait(0.8 / pace, () => {
         if (rBool(0.7 * pace)) {
           this.game!.addEntity(
@@ -39,7 +39,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
               this.diver
                 .getPosition()
                 .iadd([rUniform(-0.5, 0.5), rUniform(-0.5, -0.9)]),
-              V(rNormal(), rNormal()),
+              V(this.diver.body.velocity).iadd([rNormal(), rNormal()]),
               rUniform(0.1, 0.5)
             )
           );

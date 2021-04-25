@@ -5,8 +5,11 @@ import snd_smallweapon4 from "../../../resources/audio/smallweapon4.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
-import { V2d } from "../../core/Vector";
+import { polarToVec } from "../../core/util/MathUtil";
+import { rUniform, rNormal } from "../../core/util/Random";
+import { V, V2d } from "../../core/Vector";
 import { Diver } from "../Diver";
+import { Bubble } from "../effects/Bubble";
 import { ShuffleRing } from "../utils/ShuffleRing";
 import { Harpoon } from "./Harpoon";
 import { Tether } from "./Tether";
@@ -30,7 +33,7 @@ export class HarpoonGun extends BaseEntity implements Entity {
     super();
   }
 
-  shoot(direction: V2d) {
+  async shoot(direction: V2d) {
     if (!this.harpoon) {
       const velocity = direction.inormalize().imul(SHOOT_SPEED);
       this.harpoon = this.addChild(
@@ -43,8 +46,19 @@ export class HarpoonGun extends BaseEntity implements Entity {
       );
       this.diver.body.applyImpulse(velocity.mul(-this.harpoon.body.mass));
       this.tether = this.addChild(new Tether(this.diver, this.harpoon));
-    } else {
-      this.retract();
+
+      for (let i = 0; i < 20; i++) {
+        const angle = direction.angle;
+        this.game!.addEntity(
+          new Bubble(
+            this.diver
+              .getPosition()
+              .iadd([rUniform(-0.1, 0.1), rUniform(-0.1, -0.1)]),
+            polarToVec(rUniform(angle - 0.25, angle + 0.25), rUniform(4, 8)),
+            rUniform(0.1, 0.3)
+          )
+        );
+      }
     }
   }
 
