@@ -7,12 +7,10 @@ import img_diverLeft from "../../resources/images/diver_left.png";
 import img_diverRight from "../../resources/images/diver_right.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
-import { ControllerAxis, ControllerButton } from "../core/io/Gamepad";
-import { KeyCode } from "../core/io/Keys";
 import { SoundInstance } from "../core/sound/SoundInstance";
-import { clamp } from "../core/util/MathUtil";
 import { rBool } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
+import { BreatheEffect } from "./effects/BreatheEffect";
 import { Bubble } from "./effects/Bubble";
 import { HarpoonGun } from "./weapons/HarpoonGun";
 
@@ -68,6 +66,8 @@ export class Diver extends BaseEntity implements Entity {
     }
 
     this.setSprite("forward");
+
+    this.addChild(new BreatheEffect(this));
   }
 
   setSprite(visibleSprite: keyof Sprites) {
@@ -102,9 +102,6 @@ export class Diver extends BaseEntity implements Entity {
   onTick(dt: number) {
     if (!this.onBoat) {
       if (!this.isSurfaced()) {
-        if (rBool(dt)) {
-          this.game!.addEntity(new Bubble(this.getPosition().iadd([0, -0.7])));
-        }
         if (this.hp > 0) {
           this.body.applyForce(this.moveDirection.mul(DIVER_SPEED));
         }
@@ -130,6 +127,8 @@ export class Diver extends BaseEntity implements Entity {
   damage(amount: number) {
     this.game?.addEntity(new SoundInstance(snd_oww));
     this.hp -= amount;
+
+    this.game?.dispatch({ type: "diverHeart", amount });
 
     if (this.hp <= 0) {
       this.game?.addEntity(
