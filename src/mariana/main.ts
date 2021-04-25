@@ -7,6 +7,7 @@ import { initLayers, Layer } from "./config/layers";
 import { initContactMaterials } from "./config/PhysicsMaterials";
 import { GameController } from "./controllers/GameController";
 import { GraphicsQualityController } from "./controllers/GraphicsQualityController";
+import VolumeController from "./controllers/VolumeController";
 import Preloader from "./preloader/Preloader";
 
 declare global {
@@ -44,6 +45,7 @@ export async function main() {
   game.addEntity(new GameController());
   game.addEntity(new FPSMeter(Layer.MENU));
   game.addEntity(new GraphicsQualityController());
+  game.addEntity(new VolumeController());
 
   game.dispatch({ type: "gameStart" });
 
