@@ -32,7 +32,7 @@ export class HarpoonGun extends BaseEntity implements Entity {
 
   shoot(direction: V2d) {
     if (!this.harpoon) {
-      const velocity = direction.normalize().imul(SHOOT_SPEED);
+      const velocity = direction.inormalize().imul(SHOOT_SPEED);
       this.harpoon = this.addChild(
         new Harpoon(this.diver.getPosition(), velocity)
       );

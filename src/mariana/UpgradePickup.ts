@@ -1,5 +1,6 @@
 import { Body, Particle } from "p2";
 import { AnimatedSprite } from "pixi.js";
+import snd_bellPositive1 from "../../resources/audio/bell_positive_1.flac";
 import img_pickup1 from "../../resources/images/pickup-1.png";
 import img_pickup2 from "../../resources/images/pickup-2.png";
 import img_pickup4 from "../../resources/images/pickup-4.png";
@@ -8,13 +9,14 @@ import img_pickup6 from "../../resources/images/pickup-6.png";
 import img_pickup7 from "../../resources/images/pickup-7.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
-import { V2d } from "../core/Vector";
+import { SoundInstance } from "../core/sound/SoundInstance";
+import { V, V2d } from "../core/Vector";
 import { Diver } from "./Diver";
 
-const MAGNET_DISTANCE = 3.5;
-const MAGNET_FORCE = 200;
+const MAGNET_RADIUS = 4;
+const MAGNET_FORCE = 5;
 const GRAVITY = 3; // meters / sec^2
-const LINEAR_DAMPING = 0.08; // meters / sec^2
+const FRICTION = 2; // meters / sec^2
 
 export class UpgradePickup extends BaseEntity implements Entity {
   sprite: AnimatedSprite;
@@ -32,7 +34,7 @@ export class UpgradePickup extends BaseEntity implements Entity {
       img_pickup7,
     ]);
 
-    this.body = new Body({ mass: 0.2, fixedRotation: true, position });
+    this.body = new Body({ mass: 0.01, fixedRotation: true, position });
     this.body.addShape(new Particle());
 
     this.sprite.width = this.sprite.height = 0.5 + Math.sqrt(value) * 0.1;
@@ -44,7 +46,9 @@ export class UpgradePickup extends BaseEntity implements Entity {
 
   onTick() {
     this.body.applyForce([0, GRAVITY * this.body!.mass]);
-    this.body.applyDamping(LINEAR_DAMPING);
+    this.body.applyForce(
+      V(this.body.velocity).imul(-FRICTION * this.body.mass)
+    );
 
     const diver = this.game?.entities.getById("diver") as Diver;
 
@@ -52,10 +56,10 @@ export class UpgradePickup extends BaseEntity implements Entity {
       const offset = diver.getPosition().isub(this.getPosition());
       const distance = offset.magnitude;
 
-      if (distance < MAGNET_DISTANCE) {
-        const percent = (MAGNET_DISTANCE - distance) / MAGNET_DISTANCE;
+      if (distance < MAGNET_RADIUS) {
+        const percent = ((MAGNET_RADIUS - distance) / MAGNET_RADIUS) ** 2;
         const force = percent * MAGNET_FORCE;
-        this.body.applyForce(offset.normalize(force));
+        this.body.applyForce(offset.inormalize().imul(force));
       }
     }
   }
@@ -63,6 +67,7 @@ export class UpgradePickup extends BaseEntity implements Entity {
   onBeginContact(other: Entity) {
     if (other instanceof Diver) {
       console.log("pickup collected");
+      this.game?.addEntity(new SoundInstance(snd_bellPositive1, { gain: 0.2 }));
       this.game?.dispatch({ type: "pickupCollected", value: this.value });
       this.destroy();
     }
