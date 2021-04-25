@@ -37,7 +37,6 @@ export class Shark extends BaseEntity implements Entity {
     this.sprite.anchor.set(0.5);
     this.sprite.loop = true;
     this.sprite.position.set(...position);
-
   }
 
   async onAdd() {
@@ -46,12 +45,17 @@ export class Shark extends BaseEntity implements Entity {
     this.mode = CHASING;
   }
 
-  async turnAround() {
-    this.sprite.scale.x *= -1;
-    this.movingRight = !this.movingRight;
+  // unused
+  // async turnAround() {
+  //   this.sprite.scale.x *= -1;
+  //   this.movingRight = !this.movingRight;
 
-    await this.wait(PATROL_TIME);
-    this.turnAround();
+    // await this.wait(PATROL_TIME);
+    // this.turnAround();
+  // }
+
+  flip() {
+    this.sprite.scale.x *= -1;
   }
 
   onRender(dt: number) {
@@ -69,6 +73,16 @@ export class Shark extends BaseEntity implements Entity {
     } else {
       direction = V(0,0)
     }
+
+    // this doesn't do what's intended
+    // if (direction[0] > 0) {
+    //   this.sprite.scale.x = -1;
+    //   this.movingRight = true;
+    // } else if (direction[0] < 0) {
+    //   this.sprite.scale.x = 1;
+    //   this.movingRight = false;
+    // }
+
     this.body.applyForce(direction);
     this.body.applyForce(V(this.body.velocity).imul(-FRICTION));
   }
