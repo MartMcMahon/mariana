@@ -39,6 +39,8 @@ export class Shark extends BaseFish {
 
   tags = ["shark"];
 
+  hp = 30;
+
   patrolTexture = Texture.from(img_sharkPatrol);
   aggroTexture = Texture.from(img_sharkAggro);
   biteTexture = Texture.from(img_sharkBite);

@@ -1,8 +1,10 @@
 import { Body, Particle } from "p2";
 import { AnimatedSprite } from "pixi.js";
 import snd_bellPositive1 from "../../resources/audio/bell_positive_1.flac";
+import snd_bellPositive2 from "../../resources/audio/bell_positive_2.flac";
 import img_pickup1 from "../../resources/images/pickup-1.png";
 import img_pickup2 from "../../resources/images/pickup-2.png";
+import img_pickup3 from "../../resources/images/pickup-3.png";
 import img_pickup4 from "../../resources/images/pickup-4.png";
 import img_pickup5 from "../../resources/images/pickup-5.png";
 import img_pickup6 from "../../resources/images/pickup-6.png";
@@ -29,6 +31,7 @@ export class UpgradePickup extends BaseEntity implements Entity {
     this.sprite = AnimatedSprite.fromImages([
       img_pickup1,
       img_pickup2,
+      img_pickup3,
       img_pickup4,
       img_pickup5,
       img_pickup6,
@@ -69,9 +72,8 @@ export class UpgradePickup extends BaseEntity implements Entity {
 
   onBeginContact(other: Entity) {
     if (other instanceof Diver) {
-      this.game?.addEntity(
-        new SoundInstance(snd_bellPositive1, { gain: 0.05 })
-      );
+      const sound = this.value > 5 ? snd_bellPositive2 : snd_bellPositive1;
+      this.game?.addEntity(new SoundInstance(sound, { gain: 0.05 }));
       this.game?.dispatch({ type: "pickupCollected", value: this.value });
       this.destroy();
     }

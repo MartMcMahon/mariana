@@ -110,7 +110,7 @@ export class Diver extends BaseEntity implements Entity {
   }
 
   isSurfaced() {
-    return this.getDepth() <= 0;
+    return this.getDepth() <= 0.4;
   }
 
   onRender() {

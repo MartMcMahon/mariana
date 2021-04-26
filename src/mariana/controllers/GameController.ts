@@ -11,6 +11,7 @@ import { DiverController } from "../DiverController";
 import { WaterOverlay } from "../effects/WaterOverlay";
 import { DamagedOverlay } from "../hud/DamagedOverlay";
 import { DepthGauge } from "../hud/DepthGauge";
+import { DiveWatch } from "../hud/DiveWatch";
 import { OxygenGauge } from "../hud/OxygenGauge";
 import { genRegions } from "../region/genRegions";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
@@ -63,8 +64,7 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new DamagedOverlay(() => diver));
       this.game?.addEntity(new CameraController(this.game.camera, diver));
       this.game?.addEntity(new DiverController(diver));
-      this.game!.addEntity(new DepthGauge());
-      this.game!.addEntity(new OxygenGauge());
+      this.game!.addEntity(new DiveWatch(diver));
 
       this.game!.addEntities(genRegions());
     },

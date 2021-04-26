@@ -72,16 +72,15 @@ export class OceanAmbience extends BaseEntity implements Entity {
   onTick() {
     const diver = this.game!.entities.getById("diver") as Diver;
     const depth = diver?.getDepth() ?? 0;
+    const isAboveWater = diver?.isSurfaced() || true;
 
     const t = this.game!.audio.currentTime;
     const speed = 0.12;
 
-    const isAboveWater = depth < 0.4;
-
     if (this.wasAboveWater != isAboveWater) {
       this.addChild(
         new SoundInstance(snd_splash, {
-          gain: clamp(Math.abs((diver?.body.velocity[1] ?? 0) / 10), 0, 0.8),
+          gain: clamp(Math.abs((diver?.body.velocity[1] ?? 0) / 10), 0, 0.7),
           outnode: () => this.filter,
         })
       );
