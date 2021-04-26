@@ -154,7 +154,9 @@ export class Diver extends BaseEntity implements Entity {
   }
 
   damage(amount: number) {
-    this.game?.addEntity(new SoundInstance(HURT_SOUNDS.getNext()));
+    this.game?.addEntity(
+      new SoundInstance(HURT_SOUNDS.getNext(), { gain: 0.5 })
+    );
     this.hp -= amount;
 
     this.game?.dispatch({ type: "diverHurt", amount });
