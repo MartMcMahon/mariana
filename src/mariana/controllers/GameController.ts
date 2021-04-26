@@ -35,17 +35,16 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new OceanAmbience());
       this.game!.addEntity(new UpgradeManager());
       this.game!.addEntity(new ProgressInfoController());
+      this.game?.addEntity(new CameraController(this.game.camera));
 
       this.game!.addEntities(genRegions());
     },
 
     diveStart: () => {
       console.log("dive start");
-      const boat = this.game!.entities.getById("boat") as Boat;
       const diver = this.game!.addEntity(new Diver());
 
       this.game!.addEntity(new DamagedOverlay(() => diver));
-      this.game?.addEntity(new CameraController(this.game.camera, diver));
       this.game?.addEntity(new DiverController(diver));
       this.game!.addEntity(new DiveWatch(diver));
     },

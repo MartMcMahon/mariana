@@ -1,10 +1,13 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { Camera2d } from "../../core/graphics/Camera2d";
+import { V } from "../../core/Vector";
 import { Boat } from "../Boat";
 import { Diver } from "../diver/Diver";
 
 export default class CameraController extends BaseEntity implements Entity {
+  persistenceLevel = 1;
+
   constructor(private camera: Camera2d) {
     super();
   }
