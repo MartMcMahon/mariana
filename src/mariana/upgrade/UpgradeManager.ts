@@ -3,8 +3,8 @@ import Entity from "../../core/entity/Entity";
 import Game from "../../core/Game";
 
 export interface UpgradeOptions {
-  poon: number;
-  flashlight?: number;
+  speed: number;
+  oxygen: number;
 }
 
 export class UpgradeManager extends BaseEntity implements Entity {
@@ -16,14 +16,8 @@ export class UpgradeManager extends BaseEntity implements Entity {
 
   constructor() {
     super();
-    this.data = { poon: 0, flashlight: 0 };
+    this.data = { speed: 0, oxygen: 0 };
   }
-
-  handlers = {
-    diveEnd: () => {
-      this.pointsAvailable += 100;
-    },
-  };
 
   onAdd() {
     this.getFromLocalStorage();
@@ -32,8 +26,8 @@ export class UpgradeManager extends BaseEntity implements Entity {
   getFromLocalStorage() {
     const store = window.localStorage;
     this.data = {
-      poon: store.getItem("poon") || 0,
-      flashlight: store.getItem("flashlight") || 0,
+      speed: parseInt(store.getItem("speed")) || 0,
+      oxygen: parseInt(store.getItem("oxygen")) || 0,
     };
     return this.data;
   }
@@ -43,6 +37,15 @@ export class UpgradeManager extends BaseEntity implements Entity {
       window.localStorage.setItem(item, val);
     }
   }
+
+  handlers = {
+    diveEnd: () => {
+      this.pointsAvailable += 100;
+    },
+    depositSouls: (payload) => {
+      this.pointsAvailable += payload.amount;
+    },
+  };
 }
 
 export function getUpgradeManager(game: Game): UpgradeManager {
