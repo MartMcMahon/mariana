@@ -17,18 +17,18 @@ export function genRegions(
 ) {
   let regions = [];
 
-  let pos = V((-REGION_WIDTH * numColumns) / 2, 0);
+  let topLeft = V((-REGION_WIDTH * numColumns) / 2, 0);
   let rdata: any;
 
   let regionsData: any[][] = [];
 
-  for (let y = 0; y < numRows; y++) {
+  for (let depthLevel = 0; depthLevel < numRows; depthLevel++) {
     regionsData.push([]);
 
-    for (let x = 0; x < numColumns; x++) {
-      if (x == 0 && y == 0) {
+    for (let column = 0; column < numColumns; column++) {
+      if (column == 0 && depthLevel == 0) {
         rdata = data.start;
-      } else if (y == 0) {
+      } else if (depthLevel == 0) {
         let filteredRegions = data.regions.filter(
           (r: any) => r.left == rdata.right
         );
@@ -38,11 +38,15 @@ export function genRegions(
         rdata = data.regions[3];
       }
 
-      regionsData[y].push(rdata);
+      regionsData[depthLevel].push(rdata);
 
       const cellData = getRegionCSV(rdata.csv);
       regions.push(
-        new Region(V(pos.x + x * REGION_WIDTH, y * REGION_HEIGHT), cellData)
+        new Region(
+          V(topLeft.x + column * REGION_WIDTH, depthLevel * REGION_HEIGHT),
+          cellData,
+          depthLevel
+        )
       );
     }
   }

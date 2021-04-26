@@ -39,7 +39,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
               this.diver
                 .getPosition()
                 .iadd([rUniform(-0.5, 0.5), rUniform(-0.5, -0.9)]),
-              V(this.diver.body.velocity).iadd([rNormal(), rNormal()]),
+              V(this.diver.body.velocity).iadd([rNormal(0, 3), rNormal(0, 3)]),
               rUniform(0.1, 0.5)
             )
           );

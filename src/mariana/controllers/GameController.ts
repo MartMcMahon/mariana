@@ -66,38 +66,9 @@ export class GameController extends BaseEntity implements Entity {
       const diver = this.game!.addEntity(new Diver(V(9.7, -1.8)));
       this.game?.addEntity(new CameraController(this.game.camera, diver));
       this.game?.addEntity(new DiverController(diver));
-
       this.game!.addEntity(new DepthGauge());
 
       this.game!.addEntities(genRegions());
-
-      for (let i = 0; i < 50; i++) {
-        this.game?.addEntity(
-          new Jellyfish(V(rUniform(-30, 30), rUniform(10, 90)))
-        );
-      }
-
-      for (let i = 0; i < 5; i++) {
-        this.game?.addEntity(
-          new PufferFish(V(rUniform(-30, 30), rUniform(10, 90)))
-        );
-      }
-
-      for (let i = 0; i < 3; i++) {
-        this.game?.addEntity(new Shark(V(rUniform(-30, 30), rUniform(21, 90))));
-      }
-
-      for (let i = 0; i < 2; i++) {
-        this.game?.addEntity(
-          new StingRay(V(rUniform(-30, 30), rUniform(10, 50)))
-        );
-      }
-
-      for (let i = 0; i < 2; i++) {
-        this.game?.addEntity(
-          new AnglerFish(V(rUniform(-30, 30), rUniform(70, 100)))
-        );
-      }
     },
 
     diveEnd: async () => {
