@@ -62,9 +62,11 @@ export class Region extends BaseEntity implements Entity {
     const spawnCells = [...this.emptyCells];
 
     // get the deepest
-    if (this.depthLevel === WORLD_SIZE_REGIONS[1]) {
+    if (this.depthLevel === WORLD_SIZE_REGIONS[1] - 1) {
       // TODO: This shouldn't be here
       spawnCells.sort((a, b) => a[1] - b[1]);
+      // this one is never good
+      spawnCells.pop();
       this.addChild(new Phone(spawnCells.pop()!));
     }
 
