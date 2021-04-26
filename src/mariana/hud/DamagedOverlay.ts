@@ -55,7 +55,7 @@ export class DamagedOverlay extends BaseEntity implements Entity {
   onRender() {
     const diver = this.getPlayer();
     if (diver && !diver.isDestroyed) {
-      this.updateBaseline(diver.hp / diver.maxHp);
+      this.updateBaseline(1.0 - diver.oxygenManager.suffocationPercent ** 0.5);
     } else {
       this.updateBaseline(0.0);
     }

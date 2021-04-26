@@ -31,6 +31,7 @@ export class Tether extends BaseEntity implements Entity {
       const body = new Body({
         mass: 0.002,
         position: diver.getPosition(),
+        velocity: [...diver.body.velocity],
         collisionResponse: true,
         fixedRotation: true,
       });

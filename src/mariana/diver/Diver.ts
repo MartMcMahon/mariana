@@ -52,10 +52,6 @@ export class Diver extends BaseEntity implements Entity {
   // So we can easily grab the diver from other entities
   id = "diver";
 
-  // Amount of health we have
-  maxHp = 100;
-  hp = this.maxHp;
-
   onBoat = true;
 
   subSprites: Sprites = {
@@ -143,10 +139,7 @@ export class Diver extends BaseEntity implements Entity {
       this.body.collisionResponse = false;
     } else {
       if (!this.isSurfaced()) {
-        if (this.hp > 0) {
-          this.body.applyForce(this.moveDirection.mul(DIVER_SPEED));
-        }
-
+        this.body.applyForce(this.moveDirection.mul(DIVER_SPEED));
         this.body.applyDamping(DIVER_DAMPING);
         this.body.applyForce([
           0,
@@ -170,16 +163,8 @@ export class Diver extends BaseEntity implements Entity {
     this.game?.addEntity(
       new SoundInstance(HURT_SOUNDS.getNext(), { gain: 0.5 })
     );
-    this.hp -= amount;
 
     this.game?.dispatch({ type: "diverHurt", amount });
-
-    if (this.hp <= 0) {
-      this.game?.addEntity(
-        new SoundInstance(snd_dialogHelmetPain7, { persistenceLevel: 1 })
-      );
-      this.game?.dispatch({ type: "diverDied" });
-    }
   }
 
   shoot() {

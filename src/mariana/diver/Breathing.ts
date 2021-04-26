@@ -25,6 +25,11 @@ export class BreatheEffect extends BaseEntity implements Entity {
   async breatheIn() {
     this.clearTimers();
     if (!this.diver.isSurfaced()) {
+      if (this.diver.oxygenManager.currentOxygen <= 0) {
+        // TODO: Suffocation sounds?
+        await this.waitUntil(() => this.diver.oxygenManager.currentOxygen > 1);
+      }
+
       this.game?.dispatch({ type: "breatheIn" });
       this.addChild(new SoundInstance(snd_breatheIn1, { gain: 0.1 }));
       await this.wait(this.cadence);
@@ -32,7 +37,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
     this.breatheOut();
   }
 
-  async breatheOut(pace = 1.0) {
+  async breatheOut(pace = 1.0, amount: number = 1.0) {
     this.clearTimers();
     if (!this.diver.isSurfaced()) {
       this.addChild(new SoundInstance(snd_breatheOut1, { gain: 0.1 }));
@@ -44,7 +49,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
                 .getPosition()
                 .iadd([rUniform(-0.5, 0.5), rUniform(-0.5, -0.9)]),
               V(this.diver.body.velocity).iadd([rNormal(0, 3), rNormal(0, 3)]),
-              rUniform(0.1, 0.5)
+              rUniform(0.1, 0.5) * amount * pace
             )
           );
         }
@@ -55,8 +60,8 @@ export class BreatheEffect extends BaseEntity implements Entity {
   }
 
   handlers = {
-    diverHurt: () => {
-      this.breatheOut(1.7);
+    diverHurt: ({ amount }: { amount: number }) => {
+      this.breatheOut(1.7, (amount / 20) ** 0.5 / 2);
     },
   };
 }

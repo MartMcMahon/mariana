@@ -38,7 +38,10 @@ export class HarpoonGun extends BaseEntity implements Entity {
       this.game?.dispatch({ type: "harpoonFired" });
       const velocity = direction.inormalize().imul(SHOOT_SPEED);
       this.harpoon = this.addChild(
-        new Harpoon(this.diver.getPosition(), velocity)
+        new Harpoon(
+          this.diver.getPosition(),
+          velocity.add(this.diver.body.velocity)
+        )
       );
       this.game?.addEntity(
         new SoundInstance(SOUND_RING.getNext(), {

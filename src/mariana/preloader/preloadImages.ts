@@ -11,7 +11,6 @@ import img_diver from "../../../resources/images/diver.png";
 import img_diverLeft from "../../../resources/images/diver_left.png";
 import img_diverRight from "../../../resources/images/diver_right.png";
 import img_harpoon from "../../../resources/images/harpoon.png";
-import img_jellyfish from "../../../resources/images/jellyfish.png";
 import img_jellyfish1 from "../../../resources/images/jellyfish_1.png";
 import img_jellyfish2 from "../../../resources/images/jellyfish_2.png";
 import img_pickup1 from "../../../resources/images/pickup-1.png";
@@ -26,6 +25,9 @@ import img_puffer1 from "../../../resources/images/puffer1.png";
 import img_puffer2 from "../../../resources/images/puffer2.png";
 import img_puffer3 from "../../../resources/images/puffer3.png";
 import img_puffer4 from "../../../resources/images/puffer4.png";
+import img_shark1 from "../../../resources/images/shark1.png";
+import img_shark2 from "../../../resources/images/shark2.png";
+import img_shark3 from "../../../resources/images/shark3.png";
 import img_stingRay1 from "../../../resources/images/sting_ray_1.png";
 import img_stingRay2 from "../../../resources/images/sting_ray_2.png";
 
@@ -62,6 +64,10 @@ export function getImagesToPreload(): Set<string> {
     img_puffer4,
     img_stingRay1,
     img_stingRay2,
+
+    img_shark1,
+    img_shark2,
+    img_shark3,
   ]);
 
   // Just in case this sneaks in there somehow, make sure we don't load it

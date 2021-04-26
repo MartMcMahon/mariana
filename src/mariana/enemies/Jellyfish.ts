@@ -12,7 +12,7 @@ import { BaseFish } from "./BaseFish";
 export class Jellyfish extends BaseFish {
   sprite: AnimatedSprite & GameSprite;
 
-  constructor(position: V2d, radius: number = rUniform(0.4, 0.9)) {
+  constructor(position: V2d, radius: number = rUniform(0.3, 0.7)) {
     super(position, {
       width: radius * 2,
       height: radius * 2,

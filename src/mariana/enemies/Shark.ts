@@ -3,6 +3,7 @@ import { Sprite, Texture } from "pixi.js";
 import snd_ding from "../../../resources/audio/ding.flac";
 import snd_sharkMiss from "../../../resources/audio/shark-miss.flac";
 import snd_sharkbite from "../../../resources/audio/sharkbite.flac";
+import img_shark1 from "../../../resources/images/shark1.png";
 import img_sharkAggro from "../../../resources/images/shark_aggro.png";
 import img_sharkBite from "../../../resources/images/shark_bite.png";
 import img_sharkPatrol from "../../../resources/images/shark_patrol.png";
@@ -14,9 +15,9 @@ import { Diver, getDiver } from "../diver/Diver";
 import { Harpoon } from "../weapons/Harpoon";
 import { BaseFish } from "./BaseFish";
 
-const PATROL_SPEED = 3.5; // speed when patrolling
-const AGGRO_SPEED = 4.5; // speed when aggroed
-const FRICTION = 2.0; // water friction
+const PATROL_SPEED = 8; // speed when patrolling
+const AGGRO_SPEED = 12; // speed when aggroed
+const FRICTION = 2.5; // water friction
 const PATROL_TIME = 5.0; // seconds between turning around when patrolling
 
 const WINDUP_TIME = 0.15; // seconds from when mouth is open to damage is done
@@ -28,8 +29,8 @@ const BITE_DAMAGE_RANGE = 0.5; // distance from mouth for bite to do damage
 const AGGRO_RANGE = 10; // meters
 const UNAGGRO_RANGE = 15; // meters
 
-const WIDTH = 3.0;
-const HEIGHT = 0.6;
+const WIDTH = 5.0;
+const HEIGHT = 2;
 
 const AGGRO_SOUND = snd_ding;
 
@@ -39,23 +40,23 @@ export class Shark extends BaseFish {
 
   tags = ["shark"];
 
-  patrolTexture = Texture.from(img_sharkPatrol);
-  aggroTexture = Texture.from(img_sharkAggro);
-  biteTexture = Texture.from(img_sharkBite);
+  patrolTexture = Texture.from(img_shark1);
+  aggroTexture = Texture.from(img_shark1);
+  biteTexture = Texture.from(img_shark1);
 
   constructor(position: V2d) {
     super(position, {
       width: WIDTH,
       height: HEIGHT,
       friction: FRICTION,
-      hp: 30,
+      hp: 50,
       dropValue: 30,
     });
 
     this.body = new Body({
       mass: 1,
       fixedRotation: true,
-      collisionResponse: false,
+      collisionResponse: true,
       angle: 0,
       position,
     });

@@ -1,15 +1,11 @@
-import { Body, Box } from "p2";
 import { AnimatedSprite } from "pixi.js";
 import img_stingRay1 from "../../../resources/images/sting_ray_1.png";
 import img_stingRay2 from "../../../resources/images/sting_ray_2.png";
-import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { rBool } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
-import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../diver/Diver";
 import { GroundTile } from "../region/GroundTile";
-import { Harpoonable } from "../weapons/Harpoonable";
 import { BaseFish } from "./BaseFish";
 
 const SPEED = 5;

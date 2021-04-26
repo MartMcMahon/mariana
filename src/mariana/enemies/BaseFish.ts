@@ -51,7 +51,7 @@ export abstract class BaseFish
     this.dropValue = dropValue;
     this.hp = hp;
 
-    this.body = new Body({ mass: 1 });
+    this.body = new Body({ mass: 1, fixedRotation: true });
     this.body.addShape(
       new Box({
         width,
@@ -93,7 +93,6 @@ export abstract class BaseFish
   onHarpooned(harpoon: Harpoon) {
     const damage = harpoon.getDamageAmount();
     if (damage > 0) {
-      this.game!.addEntities(makeSoulDrops(this.getPosition(), this.dropValue));
       const sound = choose(
         snd_fleshHit1,
         snd_fleshHit2,
@@ -127,6 +126,7 @@ export abstract class BaseFish
         rUniform(0.7, 1.1)
       )
     );
+    this.game!.addEntities(makeSoulDrops(this.getPosition(), this.dropValue));
     this.destroy();
   }
 }
