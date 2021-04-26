@@ -9,6 +9,7 @@ import { Boat } from "../Boat";
 import { Diver, getDiver } from "../diver/Diver";
 import { DiverController } from "../DiverController";
 import { Water } from "../effects/Water";
+import { isFish } from "../enemies/BaseFish";
 import { DamagedOverlay } from "../hud/DamagedOverlay";
 import { DiveWatch } from "../hud/DiveWatch";
 import { FishCounter } from "../hud/FishCounter";
@@ -17,6 +18,7 @@ import { Tileset } from "../region/Tileset";
 import { WorldBounds } from "../region/WorldBounds";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
+import { VictoryScreen } from "../VictoryScreen";
 import CameraController from "./CameraController";
 
 /**
@@ -67,19 +69,22 @@ export class GameController extends BaseEntity implements Entity {
 
     victory: async () => {
       // TODO: More victory stuff
+      const diver = getDiver(this.game);
 
-      console.log("You win!");
+      // hacky way to make sure we don't die...
+      diver?.oxygenManager.giveOxygen(10000);
+      for (const fish of this.game!.entities.getByFilter(isFish)) {
+        fish.destroy();
+      }
 
-      await this.wait(5.0);
-
-      // Start over completely
-      this.game?.clearScene(1);
-      this.game!.dispatch({ type: "gameStart" });
+      this.game!.addEntity(new VictoryScreen());
     },
   };
 
   onKeyDown(key: KeyCode) {
     switch (key) {
+      case "KeyV":
+        this.game?.dispatch({ type: "victory" });
     }
   }
 }

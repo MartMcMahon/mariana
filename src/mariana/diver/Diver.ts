@@ -6,7 +6,6 @@ import snd_dialogHelmetPain3 from "../../../resources/audio/dialog_helmet_pain3.
 import snd_dialogHelmetPain4 from "../../../resources/audio/dialog_helmet_pain4.flac";
 import snd_dialogHelmetPain5 from "../../../resources/audio/dialog_helmet_pain5.flac";
 import snd_dialogHelmetPain6 from "../../../resources/audio/dialog_helmet_pain6.flac";
-import snd_dialogHelmetPain7 from "../../../resources/audio/dialog_helmet_pain7.flac";
 import img_diver from "../../../resources/images/diver.png";
 import img_diverLeft from "../../../resources/images/diver_left.png";
 import img_diverRight from "../../../resources/images/diver_right.png";
@@ -17,15 +16,17 @@ import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V, V2d } from "../../core/Vector";
 import { Boat } from "../Boat";
 import { CollisionGroups } from "../config/CollisionGroups";
+import { getUpgradeManager } from "../upgrade/UpgradeManager";
 import { ShuffleRing } from "../utils/ShuffleRing";
 import { HarpoonGun } from "../weapons/HarpoonGun";
 import { BreatheEffect } from "./Breathing";
 import { Inventory } from "./Inventory";
 import { HARPOON_OXYGEN_COST, OxygenManager } from "./OxygenManager";
 
-const DIVER_HEIGHT = 2.0; // in meters
-const DIVER_WIDTH = 0.65; // in meters
-const DIVER_SPEED = 30.0; // Newtons?
+const HEIGHT = 2.0; // in meters
+const WIDTH = 0.65; // in meters
+const BASE_SPEED = 25.0; // Newtons?
+const UPGRADE_SPEED = 3.0; // Newtons?
 const DIVER_DAMPING = 0.1; // Water friction
 const SURFACE_GRAVITY = 9.8; // meters / second^2
 const SUBMERGED_GRAVITY = 5.0; // meters / second^2
@@ -82,8 +83,8 @@ export class Diver extends BaseEntity implements Entity {
       fixedRotation: true,
     });
     const shape = new Capsule({
-      radius: DIVER_WIDTH / 2,
-      length: DIVER_HEIGHT - DIVER_WIDTH,
+      radius: WIDTH / 2,
+      length: HEIGHT - WIDTH,
       collisionGroup: CollisionGroups.Diver,
       collisionMask: CollisionGroups.All,
     });
@@ -92,12 +93,17 @@ export class Diver extends BaseEntity implements Entity {
     this.sprite = new Sprite();
     this.sprite.anchor.set(0.5);
     for (const subSprite of Object.values(this.subSprites) as Sprite[]) {
-      subSprite.scale.set(DIVER_HEIGHT / subSprite.texture.height);
+      subSprite.scale.set(HEIGHT / subSprite.texture.height);
       subSprite.anchor.set(0.5);
       this.sprite.addChild(subSprite);
     }
 
     this.setSprite("forward");
+  }
+
+  getSpeed(): number {
+    const upgradeLevel = getUpgradeManager(this.game!)?.data.oxygen ?? 0;
+    return BASE_SPEED + upgradeLevel * UPGRADE_SPEED;
   }
 
   setSprite(visibleSprite: keyof Sprites) {
@@ -144,7 +150,7 @@ export class Diver extends BaseEntity implements Entity {
 
       if (!this.isSurfaced()) {
         if (!this.isDead) {
-          this.body.applyForce(this.moveDirection.mul(DIVER_SPEED));
+          this.body.applyForce(this.moveDirection.mul(this.getSpeed()));
         }
         this.body.applyDamping(DIVER_DAMPING);
       }

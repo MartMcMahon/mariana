@@ -30,6 +30,7 @@ export class OceanAmbience extends BaseEntity implements Entity {
 
   wasAboveWater = true;
   filter!: BiquadFilterNode;
+  gain!: GainNode;
 
   constructor() {
     super();
@@ -48,6 +49,7 @@ export class OceanAmbience extends BaseEntity implements Entity {
         pauseable: false,
         continuous: true,
         gain: 0,
+        outnode: () => this.gain,
       })
     );
 
@@ -56,6 +58,7 @@ export class OceanAmbience extends BaseEntity implements Entity {
         pauseable: false,
         continuous: true,
         gain: 0.3,
+        outnode: () => this.gain,
       })
     );
   }
@@ -66,8 +69,23 @@ export class OceanAmbience extends BaseEntity implements Entity {
     this.filter.frequency.setValueAtTime(22050, this.game!.audio.currentTime);
     this.filter.Q.value = 0.4;
 
-    this.filter.connect(this.game!.masterGain);
+    this.gain = this.game!.audio.createGain();
+
+    this.filter.connect(this.gain);
+    this.gain.connect(this.game!.masterGain);
   }
+
+  handlers = {
+    victory: () => {
+      const t = this.game!.audio.currentTime;
+      this.gain.gain.setTargetAtTime(0, t, 1);
+    },
+
+    diveStart: () => {
+      const t = this.game!.audio.currentTime;
+      this.gain.gain.setTargetAtTime(1, t, 1);
+    },
+  };
 
   onTick() {
     const diver = getDiver(this.game);

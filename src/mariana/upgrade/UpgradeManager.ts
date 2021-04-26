@@ -11,7 +11,6 @@ export class UpgradeManager extends BaseEntity implements Entity {
   persistenceLevel = 1;
   id = "upgradeManager";
   data: UpgradeOptions;
-  cost: UpgradeOptions;
 
   pointsAvailable: number = 0;
 
