@@ -9,12 +9,31 @@ import snd_breatheIn2 from "../../../resources/audio/breathe_in_2.flac";
 import snd_breatheOut1 from "../../../resources/audio/breathe_out_1.flac";
 import snd_breatheOut2 from "../../../resources/audio/breathe_out_2.flac";
 import snd_dead from "../../../resources/audio/dead.flac";
+import snd_dialogHelmetHeadedOut from "../../../resources/audio/dialog_helmet_headed_out.flac";
+import snd_dialogHelmetImHungry from "../../../resources/audio/dialog_helmet_im_hungry.flac";
+import snd_dialogHelmetMmhmm from "../../../resources/audio/dialog_helmet_mmhmm.flac";
+import snd_dialogHelmetPain1 from "../../../resources/audio/dialog_helmet_pain1.flac";
+import snd_dialogHelmetPain2 from "../../../resources/audio/dialog_helmet_pain2.flac";
+import snd_dialogHelmetPain3 from "../../../resources/audio/dialog_helmet_pain3.flac";
+import snd_dialogHelmetPain4 from "../../../resources/audio/dialog_helmet_pain4.flac";
+import snd_dialogHelmetPain5 from "../../../resources/audio/dialog_helmet_pain5.flac";
+import snd_dialogHelmetPain6 from "../../../resources/audio/dialog_helmet_pain6.flac";
+import snd_dialogHelmetPain7 from "../../../resources/audio/dialog_helmet_pain7.flac";
+import snd_dialogRadioHeadedOut from "../../../resources/audio/dialog_radio_headed_out.flac";
+import snd_dialogRadioImHungry from "../../../resources/audio/dialog_radio_im_hungry.flac";
+import snd_dialogRadioMmhmm from "../../../resources/audio/dialog_radio_mmhmm.flac";
+import snd_dialogRadioPain1 from "../../../resources/audio/dialog_radio_pain1.flac";
+import snd_dialogRadioPain2 from "../../../resources/audio/dialog_radio_pain2.flac";
+import snd_dialogRadioPain3 from "../../../resources/audio/dialog_radio_pain3.flac";
+import snd_dialogRadioPain4 from "../../../resources/audio/dialog_radio_pain4.flac";
+import snd_dialogRadioPain5 from "../../../resources/audio/dialog_radio_pain5.flac";
+import snd_dialogRadioPain6 from "../../../resources/audio/dialog_radio_pain6.flac";
+import snd_dialogRadioPain7 from "../../../resources/audio/dialog_radio_pain7.flac";
 import snd_ding from "../../../resources/audio/ding.flac";
 import snd_fleshHit1 from "../../../resources/audio/flesh-hit-1.flac";
 import snd_fleshHit2 from "../../../resources/audio/flesh-hit-2.flac";
 import snd_fleshHit3 from "../../../resources/audio/flesh-hit-3.flac";
 import snd_fleshHit4 from "../../../resources/audio/flesh-hit-4.flac";
-import snd_harpoonHitGround1 from "../../../resources/audio/harpoon_hit_ground_1.flac";
 import snd_metalHittingRock from "../../../resources/audio/metal_hitting_rock.flac";
 import snd_oceanTexture from "../../../resources/audio/ocean_texture.flac";
 import snd_oww from "../../../resources/audio/oww.flac";
@@ -47,6 +66,26 @@ export function getSoundsToPreload(): string[] {
     snd_breatheOut1,
     snd_breatheOut2,
     snd_dead,
+    snd_dialogHelmetHeadedOut,
+    snd_dialogHelmetImHungry,
+    snd_dialogHelmetMmhmm,
+    snd_dialogHelmetPain1,
+    snd_dialogHelmetPain2,
+    snd_dialogHelmetPain3,
+    snd_dialogHelmetPain4,
+    snd_dialogHelmetPain5,
+    snd_dialogHelmetPain6,
+    snd_dialogHelmetPain7,
+    snd_dialogRadioHeadedOut,
+    snd_dialogRadioImHungry,
+    snd_dialogRadioMmhmm,
+    snd_dialogRadioPain1,
+    snd_dialogRadioPain2,
+    snd_dialogRadioPain3,
+    snd_dialogRadioPain4,
+    snd_dialogRadioPain5,
+    snd_dialogRadioPain6,
+    snd_dialogRadioPain7,
     snd_ding,
     snd_fleshHit1,
     snd_fleshHit2,
