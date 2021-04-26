@@ -75,7 +75,7 @@ export class FishSoul extends BaseEntity implements Entity {
     if (other instanceof Diver) {
       const sound = this.value > 5 ? snd_bellPositive2 : snd_bellPositive1;
       this.game?.addEntity(new SoundInstance(sound, { gain: 0.05 }));
-      this.game?.dispatch({ type: "pickupCollected", value: this.value });
+      this.game?.dispatch({ type: "fishSoulCollected", value: this.value });
       this.destroy();
     }
   }
@@ -87,7 +87,10 @@ export class FishSoul extends BaseEntity implements Entity {
 }
 
 // Make a cluster of drops
-export function makeSoulDrops(position: V2d, valueRemaining: number = 1) {
+export function makeSoulDrops(
+  position: V2d,
+  valueRemaining: number = 1
+): FishSoul[] {
   const pickups: FishSoul[] = [];
   while (valueRemaining > 1) {
     const value = rInteger(1, valueRemaining);

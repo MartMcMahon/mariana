@@ -39,14 +39,18 @@ export class Shark extends BaseFish {
 
   tags = ["shark"];
 
-  hp = 30;
-
   patrolTexture = Texture.from(img_sharkPatrol);
   aggroTexture = Texture.from(img_sharkAggro);
   biteTexture = Texture.from(img_sharkBite);
 
   constructor(position: V2d) {
-    super(position, WIDTH, HEIGHT);
+    super(position, {
+      width: WIDTH,
+      height: HEIGHT,
+      friction: FRICTION,
+      hp: 30,
+      dropValue: 30,
+    });
 
     this.body = new Body({
       mass: 1,

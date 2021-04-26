@@ -13,6 +13,7 @@ const BOAT_X = 0;
 const BOAT_WIDTH = 8; // meters
 
 const SHOP_RANGE = 7;
+const DROPOFF_RANGE = 9;
 const SHOP_DEPTH = 2;
 const TOOLTIP_SPEED = 5;
 
@@ -64,6 +65,17 @@ export class Boat extends BaseEntity implements Entity {
     return !diver.onBoat && yDistance < SHOP_DEPTH && xDistance < SHOP_RANGE;
   }
 
+  diverWithinDropoffRange() {
+    const diver = this.game!.entities.getById("diver") as Diver | undefined;
+    if (!diver) {
+      return false;
+    }
+
+    const distance = diver.getPosition().isub(this.getDropoffPosition())
+      .magnitude;
+    return !diver.onBoat && distance < DROPOFF_RANGE;
+  }
+
   openShopIfDiverPresent() {
     if (this.diverIsPresent()) {
       this.game?.dispatch({ type: "openShop" });
@@ -84,6 +96,10 @@ export class Boat extends BaseEntity implements Entity {
 
   getLaunchPosition() {
     return V(this.sprite.x + 2.8, this.sprite.y - 1.5);
+  }
+
+  getDropoffPosition() {
+    return V(this.sprite.x, this.sprite.y - 1);
   }
 
   onRender(dt: number) {

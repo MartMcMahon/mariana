@@ -17,6 +17,6 @@ export class WaterOverlay extends BaseEntity implements Entity {
 
     water.alpha = 0.3;
 
-    this.sprite.layerName = Layer.WORLD_FRONT;
+    this.sprite.layerName = Layer.WATER_OVERLAY;
   }
 }

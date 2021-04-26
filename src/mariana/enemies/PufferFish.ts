@@ -22,7 +22,14 @@ export class PufferFish extends BaseFish {
   movingRight = rBool();
 
   constructor(position: V2d, radius: number = rUniform(1.0, 1.5)) {
-    super(position, 2 * radius, 1.5 * radius);
+    super(position, {
+      width: 2 * radius,
+      height: 1.5 * radius,
+      speed: SPEED,
+      friction: FRICTION,
+      hp: 20,
+      dropValue: 20,
+    });
 
     this.sprite = AnimatedSprite.fromImages([
       img_puffer0,

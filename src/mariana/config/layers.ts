@@ -10,8 +10,10 @@ export enum Layer {
   WORLD_BACK = "world_back",
   // The main layer where most stuff is
   WORLD = "world",
-  // Stuff that renders in front of other stuff
+  // Stuff that renders in front of other stuff, but still in the water
   WORLD_FRONT = "world_front",
+  // The water
+  WATER_OVERLAY = "water_overlay",
   // Stuff not in the world, so it doesn't move when the camera moves
   HUD = "hud",
   // Stuff above even the HUD
