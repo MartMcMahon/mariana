@@ -7,10 +7,10 @@ import { KeyCode } from "../../core/io/Keys";
 import { V } from "../../core/Vector";
 import { Layer } from "../config/layers";
 import {
-  getProgressInfoController,
-  ProgressInfoController,
+  getUpgradeManager,
+  UpgradeManager,
   UpgradeOptions,
-} from "../controllers/progressInfoController";
+} from "./UpgradeManager";
 
 // const getFromLocalStorage = () => {
 //   const store = window.localStorage;
@@ -52,7 +52,7 @@ export class UpgradeShop extends BaseEntity implements Entity {
     // 'poon
     this.poonItem = AnimatedSprite.fromImages([img_harpoon]);
     this.poonItem.position = V(-this.poonItem.width / 2, -this.menuHeight);
-    this.poonItem.anchor.set(.5)
+    this.poonItem.anchor.set(0.5);
     this.poonItem.scale.set(3, 3);
     this.poonItem.interactive = true;
     this.poonItem.click = () => {
@@ -63,7 +63,7 @@ export class UpgradeShop extends BaseEntity implements Entity {
     let poonItemBg = new Graphics()
       .beginFill(0, 0)
       .lineStyle(1, 0x000)
-      .drawRect(-11, -11, 22,22)
+      .drawRect(-11, -11, 22, 22);
     this.poonItem.addChild(poonItemBg);
 
     // enter to dive
@@ -77,12 +77,15 @@ export class UpgradeShop extends BaseEntity implements Entity {
   }
 
   onAdd() {
-    let controller = getProgressInfoController(this.game!);
+    let controller = getUpgradeManager(this.game!);
     this.saved_upgrades = controller.getFromLocalStorage();
     console.log("saved_upgrades", this.saved_upgrades);
 
     this.poonItemText = AnimatedSprite.fromImages([img_buy]);
-    this.poonItemText.position = V(-this.poonItem.width / 2 + 32, -this.menuHeight + 96);
+    this.poonItemText.position = V(
+      -this.poonItem.width / 2 + 32,
+      -this.menuHeight + 96
+    );
     this.poonItemText.anchor.set(0.5);
     this.poonItemText.scale.set(0.5, 0.5);
     this.poonItemText.interactive = true;
