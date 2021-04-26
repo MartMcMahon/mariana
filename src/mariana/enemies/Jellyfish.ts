@@ -1,24 +1,19 @@
 import { Body, Circle } from "p2";
-import { AnimatedSprite, Sprite, Texture } from "pixi.js";
-import { runInContext } from "vm";
-import img_jellyfish from "../../../resources/images/jellyfish.png";
+import { AnimatedSprite } from "pixi.js";
 import img_jellyfish1 from "../../../resources/images/jellyfish_1.png";
 import img_jellyfish2 from "../../../resources/images/jellyfish_2.png";
-import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
-import { rInteger, rUniform } from "../../core/util/Random";
+import { rUniform } from "../../core/util/Random";
 import { V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../Diver";
-import { UpgradePickup } from "../UpgradePickup";
-import { Harpoon } from "../weapons/Harpoon";
-import { Harpoonable } from "../weapons/Harpoonable";
+import { BaseFish } from "./BaseFish";
 
-export class Jellyfish extends BaseEntity implements Entity, Harpoonable {
+export class Jellyfish extends BaseFish {
   sprite: AnimatedSprite & GameSprite;
 
   constructor(position: V2d, radius: number = rUniform(0.4, 0.9)) {
-    super();
+    super(position, radius * 2, radius * 2);
 
     this.body = new Body({
       mass: 0,
@@ -49,10 +44,5 @@ export class Jellyfish extends BaseEntity implements Entity, Harpoonable {
     if (other instanceof Diver) {
       other.damage(20);
     }
-  }
-
-  onHarpooned(harpoon: Harpoon) {
-    this.game!.addEntity(new UpgradePickup(this.getPosition(), rInteger(1, 3)));
-    this.destroy();
   }
 }

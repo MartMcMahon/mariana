@@ -1,16 +1,20 @@
-import { Body, Box, ContactEquation, Shape } from "p2";
+import { Body, Box, ContactEquation, Shape, vec2 } from "p2";
 import { Sprite } from "pixi.js";
 import img_harpoon from "../../../resources/images/harpoon.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
-import { V2d } from "../../core/Vector";
+import { V, V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { isHarpoonable } from "./Harpoonable";
 import { DAMPING, SIZE } from "./HarpoonGun";
 
+const MIN_SPEED_FOR_DAMAGE = 5; // meters/second
+
 export class Harpoon extends BaseEntity implements Entity {
   body: Body;
   sprite: Sprite & GameSprite;
+
+  minSpeed = Infinity;
 
   constructor(public position: V2d, public velocity: V2d) {
     super();
@@ -38,10 +42,17 @@ export class Harpoon extends BaseEntity implements Entity {
     this.body.angularDamping = 0.12;
   }
 
+  getVelocity(): V2d {
+    return V(this.body.velocity);
+  }
+
   onTick() {
-    // gravity
     this.body.applyForce([0, 9.8 * this.body.mass]);
-    this.body.applyDamping(DAMPING);
+    if (this.body.position[1] > 0) {
+      this.body.applyDamping(DAMPING);
+    }
+
+    this.minSpeed = Math.min(this.minSpeed, vec2.length(this.body.velocity));
   }
 
   onRender() {
@@ -58,6 +69,14 @@ export class Harpoon extends BaseEntity implements Entity {
     // harpoon other stuff
     if (isHarpoonable(other)) {
       other.onHarpooned(this);
+    }
+  }
+
+  getDamageAmount(): number {
+    if (this.minSpeed < MIN_SPEED_FOR_DAMAGE) {
+      return 0;
+    } else {
+      return 20;
     }
   }
 }

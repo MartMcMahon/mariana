@@ -19,6 +19,7 @@ export class Bubble extends BaseEntity implements Entity {
     const sprite = (this.sprite = Sprite.from(img_bubble));
     sprite.position.set(position[0], position[1]);
     sprite.scale.set(size / sprite.texture.width);
+    sprite.anchor.set(0.5);
     sprite.alpha = 0.7;
 
     this.sprite.layerName = Layer.WORLD_FRONT;

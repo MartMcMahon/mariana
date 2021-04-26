@@ -17,7 +17,8 @@ export function genRegions(
 ) {
   let regions = [];
 
-  let topLeft = V((-REGION_WIDTH * numColumns) / 2, 0);
+  // start down a ways so we don't have fish spawning right at the surface
+  let topLeft = V((-REGION_WIDTH * numColumns) / 2, 5);
   let rdata: any;
 
   let regionsData: any[][] = [];
@@ -41,13 +42,9 @@ export function genRegions(
       regionsData[depthLevel].push(rdata);
 
       const cellData = getRegionCSV(rdata.csv);
-      regions.push(
-        new Region(
-          V(topLeft.x + column * REGION_WIDTH, depthLevel * REGION_HEIGHT),
-          cellData,
-          depthLevel
-        )
-      );
+      const regionX = topLeft.x + column * REGION_WIDTH;
+      const regionY = topLeft.y + depthLevel * REGION_HEIGHT;
+      regions.push(new Region(V(regionX, regionY), cellData, depthLevel));
     }
   }
 

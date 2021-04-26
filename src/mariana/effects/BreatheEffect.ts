@@ -22,6 +22,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
   }
 
   async breatheIn() {
+    this.clearTimers();
     if (!this.diver.isSurfaced()) {
       this.addChild(new SoundInstance(snd_breatheIn1, { gain: 0.1 }));
       await this.wait(this.cadence);
@@ -30,6 +31,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
   }
 
   async breatheOut(pace = 1.0) {
+    this.clearTimers();
     if (!this.diver.isSurfaced()) {
       this.addChild(new SoundInstance(snd_breatheOut1, { gain: 0.1 }));
       await this.wait(0.8 / pace, () => {
@@ -52,8 +54,6 @@ export class BreatheEffect extends BaseEntity implements Entity {
 
   handlers = {
     diverHurt: () => {
-      this.clearTimers();
-
       this.breatheOut(1.7);
     },
   };

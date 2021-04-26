@@ -15,8 +15,8 @@ import { Harpoon } from "./Harpoon";
 import { Tether } from "./Tether";
 
 export const SIZE = 2.0; // Length in meters
-const SHOOT_SPEED = 65; // meters / second
-export const DAMPING = 0.085;
+const SHOOT_SPEED = 60; // meters / second
+export const DAMPING = 0.07;
 
 export const SOUND_RING = new ShuffleRing([
   snd_smallweapon1,

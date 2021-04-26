@@ -1,5 +1,5 @@
 import snd_aboveWaterMusic from "../../../resources/audio/above_water_music.flac";
-import snd_oceanTexture from "../../../resources/audio/ocean_texture.wav";
+import snd_oceanTexture from "../../../resources/audio/ocean_texture.flac";
 import snd_splash from "../../../resources/audio/splash.flac";
 import snd_spookySinking from "../../../resources/audio/spooky_sinking.flac";
 import BaseEntity from "../../core/entity/BaseEntity";

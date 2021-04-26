@@ -6,13 +6,13 @@ import snd_sharkbite from "../../../resources/audio/sharkbite.flac";
 import img_sharkAggro from "../../../resources/images/shark_aggro.png";
 import img_sharkBite from "../../../resources/images/shark_bite.png";
 import img_sharkPatrol from "../../../resources/images/shark_patrol.png";
-import BaseEntity from "../../core/entity/BaseEntity";
-import Entity, { GameSprite } from "../../core/entity/Entity";
+import { GameSprite } from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
-import { rBool } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../Diver";
+import { Harpoon } from "../weapons/Harpoon";
+import { BaseFish } from "./BaseFish";
 
 const PATROL_SPEED = 3.5; // speed when patrolling
 const AGGRO_SPEED = 4.5; // speed when aggroed
@@ -33,7 +33,7 @@ const HEIGHT = 0.6;
 
 const AGGRO_SOUND = snd_ding;
 
-export class Shark extends BaseEntity implements Entity {
+export class Shark extends BaseFish {
   sprite: Sprite & GameSprite;
   body: Body;
 
@@ -43,16 +43,15 @@ export class Shark extends BaseEntity implements Entity {
   aggroTexture = Texture.from(img_sharkAggro);
   biteTexture = Texture.from(img_sharkBite);
 
-  facingRight: boolean = rBool();
-
   constructor(position: V2d) {
-    super();
+    super(position, WIDTH, HEIGHT);
 
     this.body = new Body({
       mass: 1,
       fixedRotation: true,
       collisionResponse: false,
       angle: 0,
+      position,
     });
     this.body.addShape(
       new Capsule({
@@ -61,7 +60,6 @@ export class Shark extends BaseEntity implements Entity {
         collisionMask: CollisionGroups.All,
       })
     );
-    this.body.position = position;
 
     this.sprite = new Sprite(this.patrolTexture);
     this.sprite.scale.set(WIDTH / this.sprite.texture.width);
@@ -78,6 +76,7 @@ export class Shark extends BaseEntity implements Entity {
     this.clearTimers("followDiver");
     this.clearTimers("patrol");
 
+    this.speed = PATROL_SPEED;
     this.sprite.texture = this.patrolTexture;
 
     await this.wait(
@@ -102,6 +101,7 @@ export class Shark extends BaseEntity implements Entity {
     this.clearTimers("followDiver");
     this.clearTimers("patrol");
 
+    this.speed = AGGRO_SPEED;
     this.sprite.texture = this.aggroTexture;
 
     await this.wait(
@@ -179,12 +179,6 @@ export class Shark extends BaseEntity implements Entity {
     }
   }
 
-  swim(direction: V2d, speed = PATROL_SPEED) {
-    this.sprite.scale.set(WIDTH / this.sprite.texture.width);
-    this.facingRight = direction[0] > 0;
-    this.body.applyForce(direction.mul(speed));
-  }
-
   onTick(dt: number) {
     this.body.applyForce(V(this.body.velocity).imul(-FRICTION));
 
@@ -194,14 +188,8 @@ export class Shark extends BaseEntity implements Entity {
     }
   }
 
-  onRender(dt: number) {
-    this.sprite.position.set(...this.body!.position);
-
-    const scale = WIDTH / this.sprite.texture.width;
-    if (this.facingRight) {
-      this.sprite.scale.set(-scale, scale);
-    } else {
-      this.sprite.scale.set(scale, scale);
-    }
+  onHarpooned(harpoon: Harpoon) {
+    super.onHarpooned(harpoon);
+    this.followDiver();
   }
 }

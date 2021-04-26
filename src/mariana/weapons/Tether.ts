@@ -9,7 +9,7 @@ import { V } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../Diver";
 
-const TETHER_LENGTH = 10.0; // meters
+const TETHER_LENGTH = 13.0; // meters
 const NUM_SEGMENTS = 25; // segments in the rope
 const RETRACT_TIME = 1; // seconds
 

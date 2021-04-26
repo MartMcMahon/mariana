@@ -1,11 +1,11 @@
 import { Body, Box, vec2 } from "p2";
 import { Sprite } from "pixi.js";
-import snd_harpoonHitGround1 from "../../../resources/audio/harpoon_hit_ground_1.flac";
+import snd_metalHittingRock from "../../../resources/audio/metal_hitting_rock.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { clamp } from "../../core/util/MathUtil";
-import { V, V2d } from "../../core/Vector";
+import { V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { Harpoon } from "../weapons/Harpoon";
 import { Harpoonable } from "../weapons/Harpoonable";
@@ -37,7 +37,7 @@ export class GroundTile extends BaseEntity implements Entity, Harpoonable {
   }
 
   onHarpooned(harpoon: Harpoon) {
-    const gain = clamp(vec2.length(harpoon.body.velocity) / 10) / 5;
-    this.game!.addEntity(new SoundInstance(snd_harpoonHitGround1, { gain }));
+    const gain = clamp(vec2.length(harpoon.body.velocity) / 12) / 10;
+    this.game!.addEntity(new SoundInstance(snd_metalHittingRock, { gain }));
   }
 }

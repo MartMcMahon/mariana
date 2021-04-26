@@ -1,5 +1,8 @@
 import img_angler1 from "../../../resources/images/angler_1.png";
 import img_background from "../../../resources/images/background.png";
+import img_blood1 from "../../../resources/images/blood-1.png";
+import img_blood2 from "../../../resources/images/blood-2.png";
+import img_blood3 from "../../../resources/images/blood-3.png";
 import img_boat from "../../../resources/images/boat.png";
 import img_bubble from "../../../resources/images/bubble.png";
 import img_diver from "../../../resources/images/diver.png";
@@ -30,6 +33,9 @@ export function getImagesToPreload(): Set<string> {
   const urls = new Set([
     img_angler1,
     img_background,
+    img_blood1,
+    img_blood2,
+    img_blood3,
     img_boat,
     img_bubble,
     img_diver,

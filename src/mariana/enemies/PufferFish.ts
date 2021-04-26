@@ -1,38 +1,28 @@
-import { Body, Circle } from "p2";
+import { Body } from "p2";
 import { AnimatedSprite } from "pixi.js";
 import img_puffer0 from "../../../resources/images/puffer0.png";
 import img_puffer1 from "../../../resources/images/puffer1.png";
 import img_puffer2 from "../../../resources/images/puffer2.png";
 import img_puffer3 from "../../../resources/images/puffer3.png";
 import img_puffer4 from "../../../resources/images/puffer4.png";
-import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
-import { rBool, rInteger, rUniform } from "../../core/util/Random";
+import { rBool, rUniform } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
-import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../Diver";
-import { UpgradePickup } from "../UpgradePickup";
-import { Harpoon } from "../weapons/Harpoon";
-import { Harpoonable } from "../weapons/Harpoonable";
+import { GroundTile } from "../region/GroundTile";
+import { BaseFish } from "./BaseFish";
 
 const SPEED = 5;
 const FRICTION = 2.0;
 const PATROL_TIME = 5.0; // seconds travelled in each direction
 
-export class PufferFish extends BaseEntity implements Entity, Harpoonable {
+export class PufferFish extends BaseFish {
   sprite: AnimatedSprite & GameSprite;
-  body: Body;
 
   movingRight = rBool();
 
   constructor(position: V2d, radius: number = rUniform(1.0, 1.5)) {
-    super();
-
-    this.body = new Body({ mass: 1, collisionResponse: false });
-    this.body.addShape(
-      new Circle({ radius, collisionMask: CollisionGroups.All })
-    );
-    this.body.position = position;
+    super(position, 2 * radius, 1.5 * radius);
 
     this.sprite = AnimatedSprite.fromImages([
       img_puffer0,
@@ -68,25 +58,17 @@ export class PufferFish extends BaseEntity implements Entity, Harpoonable {
     this.turnAround();
   }
 
-  onRender(dt: number) {
-    this.sprite.position.set(...this.body!.position);
-  }
-
   onTick(dt: number) {
+    super.onTick(dt);
     const direction = this.movingRight ? 1 : -1;
-    this.body.applyForce([direction * SPEED, 0]);
-
-    this.body.applyForce(V(this.body.velocity).imul(-FRICTION));
+    this.swim(V(direction, 0));
   }
 
   onBeginContact(other: Entity) {
     if (other instanceof Diver) {
       other.damage(20);
+    } else if (other instanceof GroundTile) {
+      this.turnAround();
     }
-  }
-
-  onHarpooned(harpoon: Harpoon) {
-    this.game!.addEntity(new UpgradePickup(this.getPosition(), rInteger(2, 4)));
-    this.destroy();
   }
 }
