@@ -81,17 +81,8 @@ export class GraphicsQualityController extends BaseEntity implements Entity {
     graphicsQualityChanged: ({ quality }: { quality: GraphicsQuality }) => {
       const game = this.game;
       if (game) {
-        switch (quality) {
-          case GraphicsQuality.Low:
-            game.renderer.setResolution(MAX_RESOLUTION / 4);
-            break;
-          case GraphicsQuality.Medium:
-            game.renderer.setResolution(MAX_RESOLUTION / 2);
-            break;
-          case GraphicsQuality.High:
-            game.renderer.setResolution(MAX_RESOLUTION);
-            break;
-        }
+        const resolution = getResolutionForGraphicsQuality(quality);
+        game.renderer.setResolution(resolution);
       }
     },
   };
@@ -102,4 +93,17 @@ export function getCurrentGraphicsQuality(game: Game): GraphicsQuality {
     "graphicsQualityController"
   ) as GraphicsQualityController;
   return controller.currentQuality;
+}
+
+export function getResolutionForGraphicsQuality(
+  quality: GraphicsQuality
+): number {
+  switch (quality) {
+    case GraphicsQuality.Low:
+      return MAX_RESOLUTION / 4;
+    case GraphicsQuality.Medium:
+      return MAX_RESOLUTION / 2;
+    case GraphicsQuality.High:
+      return MAX_RESOLUTION;
+  }
 }

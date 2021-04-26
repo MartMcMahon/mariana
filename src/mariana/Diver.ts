@@ -33,7 +33,8 @@ export class Diver extends BaseEntity implements Entity {
   id = "diver";
 
   // Amount of health we have
-  hp = 100;
+  maxHp = 100;
+  hp = this.maxHp;
 
   onBoat = true;
 
@@ -137,7 +138,7 @@ export class Diver extends BaseEntity implements Entity {
     this.game?.addEntity(new SoundInstance(snd_oww));
     this.hp -= amount;
 
-    this.game?.dispatch({ type: "diverHurt" });
+    this.game?.dispatch({ type: "diverHurt", amount });
 
     if (this.hp <= 0) {
       this.game?.addEntity(

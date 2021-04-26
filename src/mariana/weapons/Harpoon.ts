@@ -33,7 +33,7 @@ export class Harpoon extends BaseEntity implements Entity {
       new Box({
         width: SIZE,
         height: 0.2,
-        collisionGroup: CollisionGroups.World,
+        collisionGroup: CollisionGroups.Harpoon,
         collisionMask: CollisionGroups.World,
       })
     );

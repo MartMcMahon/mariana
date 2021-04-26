@@ -1,7 +1,6 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
-import { rUniform } from "../../core/util/Random";
 import { V } from "../../core/Vector";
 import { OceanAmbience } from "../audio/OceanAmbience";
 import { Background } from "../Background";
@@ -10,11 +9,7 @@ import { OCEAN_DEPTH } from "../constants";
 import { Diver } from "../Diver";
 import { DiverController } from "../DiverController";
 import { WaterOverlay } from "../effects/WaterOverlay";
-import { AnglerFish } from "../enemies/AnglerFish";
-import { Jellyfish } from "../enemies/Jellyfish";
-import { PufferFish } from "../enemies/PufferFish";
-import { Shark } from "../enemies/Shark";
-import { StingRay } from "../enemies/StingRay";
+import { DamagedOverlay } from "../hud/DamagedOverlay";
 import { DepthGauge } from "../hud/DepthGauge";
 import { genRegions } from "../region/genRegions";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
@@ -64,6 +59,7 @@ export class GameController extends BaseEntity implements Entity {
       console.log("dive start");
       this.gamePhase = GamePhase.Diving;
       const diver = this.game!.addEntity(new Diver(V(9.7, -1.8)));
+      this.game!.addEntity(new DamagedOverlay(() => diver));
       this.game?.addEntity(new CameraController(this.game.camera, diver));
       this.game?.addEntity(new DiverController(diver));
       this.game!.addEntity(new DepthGauge());

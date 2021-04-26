@@ -54,7 +54,10 @@ export class HarpoonGun extends BaseEntity implements Entity {
             this.diver
               .getPosition()
               .iadd([rUniform(-0.1, 0.1), rUniform(-0.1, -0.1)]),
-            polarToVec(rUniform(angle - 0.25, angle + 0.25), rUniform(4, 8)),
+            polarToVec(
+              rUniform(angle - 0.25, angle + 0.25),
+              rUniform(4, 8)
+            ).iadd(this.diver.body.velocity),
             rUniform(0.1, 0.3)
           )
         );
