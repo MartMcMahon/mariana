@@ -4,7 +4,7 @@
     "left": "c3-o13",
     "right": "c3-o13",
     "top": "o16",
-    "bottom": "c16"
+    "bottom": "c4-o1-c11"
   },
   "regions": [
     {
@@ -34,6 +34,34 @@
       "right": "c6-o6-c4",
       "top": "c4-o5-c7",
       "bottom": "c6-o2-c8"
+    },
+    {
+      "csv": "region5.csv",
+      "left": "c6-o6-c4",
+      "right": "c6-o6-c4",
+      "top": "c4-o1-c11",
+      "bottom": "c4-o1-c11"
+    },
+    {
+      "csv": "region6.csv",
+      "left": "c7-o2-c7",
+      "right": "c6-o6-c4",
+      "top": "c4-o5-c7",
+      "bottom": "c4-o5-c7"
+    },
+    {
+      "csv": "region7.csv",
+      "left": "c6-o6-c4",
+      "right": "c6-o6-c4",
+      "top": "c9-o2-c5",
+      "bottom": "c4-o5-c7"
+    },
+    {
+      "csv": "region8.csv",
+      "left": "c6-o6-c4",
+      "right": "c6-o6-c4",
+      "top": "c4-o5-c7",
+      "bottom": "c4-o5-c7"
     }
   ]
 }

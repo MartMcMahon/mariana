@@ -5,13 +5,15 @@ import Entity from "../core/entity/Entity";
 import { V2d } from "../core/Vector";
 import { getDiver } from "./diver/Diver";
 
-const PICKUP_DISTANCE = 3;
+const PICKUP_DISTANCE = 4;
 
 export class Phone extends BaseEntity implements Entity {
   sprite: Sprite;
 
-  constructor(position: V2d) {
+  constructor(public position: V2d) {
     super();
+
+    console.log(`phone spawned at ${position}`);
 
     this.sprite = Sprite.from(img_phone);
     this.sprite.height = this.sprite.width = 0.3;
@@ -25,9 +27,10 @@ export class Phone extends BaseEntity implements Entity {
     if (
       diver &&
       !diver.isDead &&
-      diver.getPosition().isub(this.getPosition()).magnitude < PICKUP_DISTANCE
+      diver.getPosition().isub(this.position).magnitude < PICKUP_DISTANCE
     ) {
       this.game?.dispatch({ type: "victory" });
+      this.destroy();
     }
   }
 }

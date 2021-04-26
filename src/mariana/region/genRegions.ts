@@ -38,13 +38,41 @@ export function generateRegions() {
       if (column == 0 && depthLevel == 0) {
         rdata = data.start;
       } else if (depthLevel == 0) {
+
         let filteredRegions = data.regions.filter(
           (r: any) => r.left == rdata.right
         );
 
         rdata = filteredRegions[rInteger(0, filteredRegions.length)];
+
+      } else if (column == 0) {
+
+        let filteredRegions = data.regions.filter(
+            (r: any) => r.top == regionsData[depthLevel - 1][column].bottom
+        );
+
+        if (filteredRegions.length == 0) {
+          console.log("Failed on Col 0")
+          console.log(regionsData[depthLevel - 1][column])
+        }
+
+        rdata = filteredRegions[rInteger(0, filteredRegions.length)];
+
       } else {
-        rdata = data.regions[3];
+
+        let filteredRegions = data.regions.filter(
+            (r: any) => r.left == rdata.right && r.top == regionsData[depthLevel - 1][column].bottom
+        );
+
+        if (filteredRegions.length == 0) {
+          console.log("Failed on Col !0")
+          console.log("left")
+          console.log(rdata.left)
+          console.log("Top")
+          console.log(regionsData[depthLevel - 1][column].bottom)
+        }
+
+        rdata = filteredRegions[rInteger(0, filteredRegions.length)];
       }
 
       regionsData[depthLevel].push(rdata);
