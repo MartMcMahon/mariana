@@ -72,7 +72,7 @@ export class OceanAmbience extends BaseEntity implements Entity {
   onTick() {
     const diver = this.game!.entities.getById("diver") as Diver;
     const depth = diver?.getDepth() ?? 0;
-    const isAboveWater = diver?.isSurfaced() || true;
+    const isAboveWater = diver?.isSurfaced() ?? true;
 
     const t = this.game!.audio.currentTime;
     const speed = 0.12;
