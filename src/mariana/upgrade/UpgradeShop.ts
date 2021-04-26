@@ -6,65 +6,65 @@ import Entity, { GameSprite } from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
 import { V } from "../../core/Vector";
 import { Layer } from "../config/layers";
-import {ProgressInfoController} from "../controllers/progressInfoController";
+import {
+  getProgressInfoController,
+  ProgressInfoController,
+  UpgradeOptions,
+} from "../controllers/progressInfoController";
 
-const getFromLocalStorage = () => {
-  const store = window.localStorage;
-  return {
-    poon: store.getItem("poon") || 0,
-    flashlight: store.getItem("flashlight") || 0
-  }
-}
+// const getFromLocalStorage = () => {
+//   const store = window.localStorage;
+//   return {
+//     poon: store.getItem("poon") || 0,
+//     flashlight: store.getItem("flashlight") || 0,
+//   };
+// };
 
 export class UpgradeShop extends BaseEntity implements Entity {
   sprite: Sprite & GameSprite;
+  saved_upgrades: UpgradeOptions;
+  poonItem: AnimatedSprite;
+
+  poonItemText: AnimatedSprite;
+  menuWidth: number;
+  menuHeight: number;
 
   constructor(menuWidth = 400, menuHeight = 300) {
     super();
     this.sprite = new Sprite();
     this.sprite.layerName = Layer.MENU;
 
-    let saved_upgrades = getFromLocalStorage();
-    let points = this.game?.entities.getById("upgradeManager")?.pointsAvailable!;
-    console.log(points)
+    this.saved_upgrades = { poon: 0 };
+    this.menuWidth = window.innerWidth * 0.7;
+    this.menuHeight = (window.innerHeight * 0.7) / 2;
 
-    let background = new Graphics();
-    background.beginFill(0xbbbbbb, 0.3);
-    background.lineStyle(1, 0x000);
-    background.drawRect(-menuWidth / 2, -menuHeight / 2, menuWidth, menuHeight);
-    this.sprite.addChild(background);
+    //     let background = new Graphics();
+    //     background.beginFill(0xbbbbbb, 0.3);
+    //     background.lineStyle(1, 0x000);
+    //     background.drawRect(
+    //       -menuWidth / 2,
+    //       -menuHeight / 2 - menuHeight / 5,
+    //       menuWidth,
+    //       menuHeight
+    //     );
+    //     this.sprite.addChild(background);
 
     // 'poon
-    let harpoonItem = AnimatedSprite.fromImages([img_harpoon]);
-    harpoonItem.scale.set(3, 3);
-    harpoonItem.position = V(-harpoonItem.width / 2, -harpoonItem.height / 2);
-    harpoonItem.interactive = true;
-    harpoonItem.click = () => {
+    this.poonItem = AnimatedSprite.fromImages([img_harpoon]);
+    this.poonItem.position = V(-this.poonItem.width / 2, -this.menuHeight);
+    this.poonItem.anchor.set(.5)
+    this.poonItem.scale.set(3, 3);
+    this.poonItem.interactive = true;
+    this.poonItem.click = () => {
       console.log("clicked the harpoon upgrade!");
     };
-    this.sprite.addChild(harpoonItem);
+    this.sprite.addChild(this.poonItem);
 
-    let harpoonItemBg = new Graphics()
+    let poonItemBg = new Graphics()
       .beginFill(0, 0)
       .lineStyle(1, 0x000)
-      .drawRect(0, 0, 22, 22);
-    harpoonItem.addChild(harpoonItemBg);
-
-    console.log(saved_upgrades.poon)
-    if (saved_upgrades.poon === 0 ) {
-      let harpoonItemText = AnimatedSprite.fromImages([img_buy]);
-      harpoonItemText.position = V(
-        -harpoonItem.width / 2,
-        -harpoonItem.height / 2 + 96
-      );
-      harpoonItemText.scale.set(0.5, 0.5);
-      harpoonItemText.interactive = true;
-      harpoonItemText.click = () => {
-        console.log("clicked text");
-        window.localStorage.setItem("poon", 1)
-      };
-      this.sprite.addChild(harpoonItemText);
-    }
+      .drawRect(-11, -11, 22,22)
+    this.poonItem.addChild(poonItemBg);
 
     // enter to dive
     const text = new Text("Press enter to dive", {
@@ -74,6 +74,30 @@ export class UpgradeShop extends BaseEntity implements Entity {
     text.position = V(0, menuHeight / 2 - 20);
     this.sprite.addChild(text);
     text.anchor.set(0.5);
+  }
+
+  onAdd() {
+    let controller = getProgressInfoController(this.game!);
+    this.saved_upgrades = controller.getFromLocalStorage();
+    console.log("saved_upgrades", this.saved_upgrades);
+
+    this.poonItemText = AnimatedSprite.fromImages([img_buy]);
+    this.poonItemText.position = V(-this.poonItem.width / 2 + 32, -this.menuHeight + 96);
+    this.poonItemText.anchor.set(0.5);
+    this.poonItemText.scale.set(0.5, 0.5);
+    this.poonItemText.interactive = true;
+    this.poonItemText.click = () => {
+      console.log("clicked text");
+      this.saved_upgrades.poon = 1;
+      controller.saveToLocalStorage(this.saved_upgrades);
+      this.poonItemText.destroy();
+    };
+  }
+
+  onRender() {
+    if (this.saved_upgrades.poon === 0) {
+      this.sprite.addChild(this.poonItemText);
+    }
   }
 
   onResize([width, height]: [number, number]) {
