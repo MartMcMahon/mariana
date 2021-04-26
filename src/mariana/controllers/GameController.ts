@@ -6,11 +6,12 @@ import { OceanAmbience } from "../audio/OceanAmbience";
 import { Background } from "../Background";
 import { Boat } from "../Boat";
 import { OCEAN_DEPTH } from "../constants";
-import { Diver } from "../Diver";
+import { Diver } from "../diver/Diver";
 import { DiverController } from "../DiverController";
 import { WaterOverlay } from "../effects/WaterOverlay";
 import { DamagedOverlay } from "../hud/DamagedOverlay";
 import { DepthGauge } from "../hud/DepthGauge";
+import { OxygenGauge } from "../hud/OxygenGauge";
 import { genRegions } from "../region/genRegions";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
@@ -63,6 +64,7 @@ export class GameController extends BaseEntity implements Entity {
       this.game?.addEntity(new CameraController(this.game.camera, diver));
       this.game?.addEntity(new DiverController(diver));
       this.game!.addEntity(new DepthGauge());
+      this.game!.addEntity(new OxygenGauge());
 
       this.game!.addEntities(genRegions());
     },

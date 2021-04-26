@@ -10,7 +10,7 @@ import {
   getResolutionForGraphicsQuality,
   GraphicsQuality,
 } from "../controllers/GraphicsQualityController";
-import { Diver } from "../Diver";
+import { Diver } from "../diver/Diver";
 import frag_damageFilter from "./damage-filter.frag";
 
 const FLASH_ALPHA = 0.4;

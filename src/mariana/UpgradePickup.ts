@@ -12,7 +12,7 @@ import Entity from "../core/entity/Entity";
 import { SoundInstance } from "../core/sound/SoundInstance";
 import { V, V2d } from "../core/Vector";
 import { CollisionGroups } from "./config/CollisionGroups";
-import { Diver } from "./Diver";
+import { Diver } from "./diver/Diver";
 
 const MAGNET_RADIUS = 4;
 const MAGNET_FORCE = 5;

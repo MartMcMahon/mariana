@@ -7,7 +7,7 @@ import Entity, { GameSprite } from "../../core/entity/Entity";
 import { rBool } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
-import { Diver } from "../Diver";
+import { Diver } from "../diver/Diver";
 import { GroundTile } from "../region/GroundTile";
 import { Harpoonable } from "../weapons/Harpoonable";
 import { BaseFish } from "./BaseFish";

@@ -5,7 +5,7 @@ import { LayerInfo } from "../../core/graphics/LayerInfo";
 import { KeyCode } from "../../core/io/Keys";
 import { Layer } from "../config/layers";
 import { V, V2d } from "../../core/Vector";
-import { Diver } from "../Diver";
+import { Diver } from "../diver/Diver";
 import img_buy from "../../../resources/images/buy.png";
 import img_harpoon from "../../../resources/images/harpoon.png";
 

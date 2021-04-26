@@ -6,7 +6,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { clamp, lerp, smoothStep } from "../../core/util/MathUtil";
-import { Diver } from "../Diver";
+import { Diver } from "../diver/Diver";
 
 const CUTOFF_HIGH = 250;
 const CUTOFF_LOW = 100;

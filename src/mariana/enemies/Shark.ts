@@ -10,7 +10,7 @@ import { GameSprite } from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V, V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
-import { Diver } from "../Diver";
+import { Diver } from "../diver/Diver";
 import { Harpoon } from "../weapons/Harpoon";
 import { BaseFish } from "./BaseFish";
 

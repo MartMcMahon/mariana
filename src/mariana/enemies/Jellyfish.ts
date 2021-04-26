@@ -6,7 +6,7 @@ import Entity, { GameSprite } from "../../core/entity/Entity";
 import { rUniform } from "../../core/util/Random";
 import { V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
-import { Diver } from "../Diver";
+import { Diver } from "../diver/Diver";
 import { BaseFish } from "./BaseFish";
 
 export class Jellyfish extends BaseFish {

@@ -5,9 +5,10 @@ import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { rBool, rNormal, rUniform } from "../../core/util/Random";
 import { V } from "../../core/Vector";
-import { Diver } from "../Diver";
-import { Bubble } from "./Bubble";
+import { Bubble } from "../effects/Bubble";
+import { Diver } from "./Diver";
 
+// Controls the tempo of breathing, playing sounds, creating bubbles, etc.
 export class BreatheEffect extends BaseEntity implements Entity {
   cadence = 3.4; // seconds between breaths
   exhaleDuration = 0.8; // seconds of exhaling
@@ -24,6 +25,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
   async breatheIn() {
     this.clearTimers();
     if (!this.diver.isSurfaced()) {
+      this.game?.dispatch({ type: "breatheIn" });
       this.addChild(new SoundInstance(snd_breatheIn1, { gain: 0.1 }));
       await this.wait(this.cadence);
     }

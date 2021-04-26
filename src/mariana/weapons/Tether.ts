@@ -7,7 +7,7 @@ import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
-import { Diver } from "../Diver";
+import { Diver } from "../diver/Diver";
 
 const TETHER_LENGTH = 13.0; // meters
 const NUM_SEGMENTS = 25; // segments in the rope

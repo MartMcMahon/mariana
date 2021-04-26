@@ -34,7 +34,7 @@ export abstract class BaseFish
   ) {
     super();
 
-    this.body = new Body({ mass: 1, collisionResponse: false });
+    this.body = new Body({ mass: 1 });
     this.body.addShape(
       new Box({
         width,

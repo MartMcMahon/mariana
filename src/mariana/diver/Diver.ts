@@ -1,26 +1,24 @@
 import { Body, Capsule } from "p2";
 import { Sprite } from "pixi.js";
-import snd_dead from "../../resources/audio/dead.flac";
-import snd_dialogHelmetPain1 from "../../resources/audio/dialog_helmet_pain1.flac";
-import snd_dialogHelmetPain2 from "../../resources/audio/dialog_helmet_pain2.flac";
-import snd_dialogHelmetPain3 from "../../resources/audio/dialog_helmet_pain3.flac";
-import snd_dialogHelmetPain4 from "../../resources/audio/dialog_helmet_pain4.flac";
-import snd_dialogHelmetPain5 from "../../resources/audio/dialog_helmet_pain5.flac";
-import snd_dialogHelmetPain6 from "../../resources/audio/dialog_helmet_pain6.flac";
-import snd_dialogHelmetPain7 from "../../resources/audio/dialog_helmet_pain7.flac";
-import snd_oww from "../../resources/audio/oww.flac";
-import img_diver from "../../resources/images/diver.png";
-import img_diverLeft from "../../resources/images/diver_left.png";
-import img_diverRight from "../../resources/images/diver_right.png";
-import BaseEntity from "../core/entity/BaseEntity";
-import Entity from "../core/entity/Entity";
-import { SoundInstance } from "../core/sound/SoundInstance";
-import { choose } from "../core/util/Random";
-import { V, V2d } from "../core/Vector";
-import { CollisionGroups } from "./config/CollisionGroups";
-import { BreatheEffect } from "./effects/BreatheEffect";
-import { ShuffleRing } from "./utils/ShuffleRing";
-import { HarpoonGun } from "./weapons/HarpoonGun";
+import snd_dialogHelmetPain1 from "../../../resources/audio/dialog_helmet_pain1.flac";
+import snd_dialogHelmetPain2 from "../../../resources/audio/dialog_helmet_pain2.flac";
+import snd_dialogHelmetPain3 from "../../../resources/audio/dialog_helmet_pain3.flac";
+import snd_dialogHelmetPain4 from "../../../resources/audio/dialog_helmet_pain4.flac";
+import snd_dialogHelmetPain5 from "../../../resources/audio/dialog_helmet_pain5.flac";
+import snd_dialogHelmetPain6 from "../../../resources/audio/dialog_helmet_pain6.flac";
+import snd_dialogHelmetPain7 from "../../../resources/audio/dialog_helmet_pain7.flac";
+import img_diver from "../../../resources/images/diver.png";
+import img_diverLeft from "../../../resources/images/diver_left.png";
+import img_diverRight from "../../../resources/images/diver_right.png";
+import BaseEntity from "../../core/entity/BaseEntity";
+import Entity from "../../core/entity/Entity";
+import { SoundInstance } from "../../core/sound/SoundInstance";
+import { V, V2d } from "../../core/Vector";
+import { CollisionGroups } from "../config/CollisionGroups";
+import { ShuffleRing } from "../utils/ShuffleRing";
+import { HarpoonGun } from "../weapons/HarpoonGun";
+import { BreatheEffect } from "./Breathing";
+import { HARPOON_OXYGEN_COST, OxygenManager } from "./OxygenManager";
 
 const DIVER_HEIGHT = 2.0; // in meters
 const DIVER_WIDTH = 0.65; // in meters
@@ -42,7 +40,6 @@ const HURT_SOUNDS = new ShuffleRing([
   snd_dialogHelmetPain4,
   snd_dialogHelmetPain5,
   snd_dialogHelmetPain6,
-  snd_dialogHelmetPain7,
 ]);
 
 export class Diver extends BaseEntity implements Entity {
@@ -64,6 +61,7 @@ export class Diver extends BaseEntity implements Entity {
   };
 
   harpoonGun: HarpoonGun;
+  oxygenManager: OxygenManager;
 
   aimDirection: V2d = V(0, 1);
   moveDirection: V2d = V(0, 0);
@@ -72,6 +70,7 @@ export class Diver extends BaseEntity implements Entity {
     super();
 
     this.harpoonGun = this.addChild(new HarpoonGun(this));
+    this.oxygenManager = this.addChild(new OxygenManager(() => this));
 
     this.body = new Body({
       mass: 1,
@@ -163,14 +162,17 @@ export class Diver extends BaseEntity implements Entity {
 
     if (this.hp <= 0) {
       this.game?.addEntity(
-        new SoundInstance(snd_dead, { persistenceLevel: 1 })
+        new SoundInstance(snd_dialogHelmetPain7, { persistenceLevel: 1 })
       );
       this.game?.dispatch({ type: "diveEnd" });
     }
   }
 
   shoot() {
-    if (!this.onBoat) {
+    if (
+      !this.onBoat &&
+      this.oxygenManager.currentOxygen > HARPOON_OXYGEN_COST
+    ) {
       this.harpoonGun.shoot(this.aimDirection);
     }
   }

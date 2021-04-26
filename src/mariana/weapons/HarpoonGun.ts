@@ -8,7 +8,7 @@ import { SoundInstance } from "../../core/sound/SoundInstance";
 import { polarToVec } from "../../core/util/MathUtil";
 import { rUniform, rNormal } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
-import { Diver } from "../Diver";
+import { Diver } from "../diver/Diver";
 import { Bubble } from "../effects/Bubble";
 import { ShuffleRing } from "../utils/ShuffleRing";
 import { Harpoon } from "./Harpoon";
@@ -35,6 +35,7 @@ export class HarpoonGun extends BaseEntity implements Entity {
 
   async shoot(direction: V2d) {
     if (!this.harpoon) {
+      this.game?.dispatch({ type: "harpoonFired" });
       const velocity = direction.inormalize().imul(SHOOT_SPEED);
       this.harpoon = this.addChild(
         new Harpoon(this.diver.getPosition(), velocity)

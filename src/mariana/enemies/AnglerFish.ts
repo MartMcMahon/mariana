@@ -3,7 +3,7 @@ import img_angler1 from "../../../resources/images/angler_1.png";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { rBool } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
-import { Diver } from "../Diver";
+import { Diver } from "../diver/Diver";
 import { GroundTile } from "../region/GroundTile";
 import { BaseFish } from "./BaseFish";
 

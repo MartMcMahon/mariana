@@ -5,7 +5,7 @@ import Entity, { GameSprite } from "../../core/entity/Entity";
 import { Layer } from "../config/layers";
 import { Diver } from "../diver/Diver";
 
-export class DepthGauge extends BaseEntity implements Entity {
+export class OxygenGauge extends BaseEntity implements Entity {
   sprite: Text & GameSprite;
 
   constructor() {
@@ -15,13 +15,12 @@ export class DepthGauge extends BaseEntity implements Entity {
     this.sprite.layerName = Layer.HUD;
     // this.sprite.anchor.set(1);
     this.sprite.x = 5;
-    this.sprite.y = 20;
+    this.sprite.y = 50;
   }
 
   onRender() {
     const diver = this.game!.entities.getById("diver") as Diver;
-    const depth = diver.getDepth();
-    const speed = vec2.length(diver.body.velocity);
-    this.sprite.text = `${depth.toFixed(0)} meters (${speed.toFixed(1)} m/s)`;
+    const oxygen = Math.round(diver.oxygenManager.getOxygenPercent() * 100);
+    this.sprite.text = `${oxygen}`;
   }
 }
