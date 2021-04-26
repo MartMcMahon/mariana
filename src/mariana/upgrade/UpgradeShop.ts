@@ -96,6 +96,9 @@ export class UpgradeShop extends BaseEntity implements Entity {
   onAdd() {
     let controller = getUpgradeManager(this.game!);
     this.savedData = controller.getFromLocalStorage();
+    this.speedCost = controller.data.speed * Math.pow(1, controller.data.speed);
+    this.oxygenCost =
+      controller.data.speed * Math.pow(1, controller.data.speed);
 
     // this.poonItemText = AnimatedSprite.fromImages([img_buy]);
     // this.poonItemText.position = V(
@@ -112,22 +115,30 @@ export class UpgradeShop extends BaseEntity implements Entity {
     // };
 
     this.speedUpgrade.click = () => {
-      this.savedData.speed += 1;
-      // controller.saveToLocalStorage(this.savedData);
-      this.game?.dispatch({ type: "upgrade", payload: "speed" });
+      let controller = getUpgradeManager(this.game!);
+      if (controller.pointsAvailable >= this.speedCost) {
+        this.game?.dispatch({ type: "upgradeSpeed" });
+        this.game?.dispatch({ type: "withdrawSouls", amount: this.speedCost });
+      }
     };
 
     this.oxygenUpgrade.click = () => {
-      this.savedData.oxygen += 1;
-      // controller.saveToLocalStorage(this.savedData);
-      this.game?.dispatch({ type: "upgrade", payload: "oxygen" });
+      let controller = getUpgradeManager(this.game!);
+      if (controller.pointsAvailable >= this.oxygenCost) {
+        this.game?.dispatch({ type: "upgradeOxygen" });
+        this.game?.dispatch({
+          type: "withdrawSouls",
+          amount: this.oxygenCost,
+        });
+      }
     };
   }
 
   onRender() {
     let controller = getUpgradeManager(this.game!);
-    this.speedCost = controller.data.speed * 10;
-    this.oxygenCost = controller.data.oxygen * 10;
+    this.speedCost = parseInt(controller.data.speed * Math.pow(1.01, controller.data.speed));
+    this.oxygenCost =
+      parseInt(controller.data.oxygen * Math.pow(1.01, controller.data.oxygen));
     this.speedUpgrade.text = `speed: ${controller.data.speed} ~ cost: ${this.speedCost}`;
     this.oxygenUpgrade.text = `oxygen: ${controller.data.oxygen} ~ cost: ${this.oxygenCost}`;
     this.moneyText.text = `🐟: ${controller.pointsAvailable}`;
