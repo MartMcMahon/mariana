@@ -60,12 +60,15 @@ export class Region extends BaseEntity implements Entity {
   spawnFishes() {
     // keep track
     const spawnCells = [...this.emptyCells];
-    shuffle(spawnCells);
 
-    // TODO: This shouldn't be here
+    // get the deepest
     if (this.depthLevel === WORLD_SIZE_REGIONS[1]) {
+      // TODO: This shouldn't be here
+      spawnCells.sort((a, b) => a[1] - b[1]);
       this.addChild(new Phone(spawnCells.pop()!));
     }
+
+    shuffle(spawnCells);
 
     for (let i = 0; i < this.numJellyfish && spawnCells.length > 0; i++) {
       const [x, y] = spawnCells.pop()!;
