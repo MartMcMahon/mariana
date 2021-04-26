@@ -1,14 +1,14 @@
-import img_stoneTiles2 from "../../../resources/images/tiles/stone_tiles2.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { rInteger, shuffle } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
-import { TILE_SIZE_METERS } from "../constants";
+import { TILE_SIZE_METERS, WORLD_SIZE_REGIONS } from "../constants";
 import { AnglerFish } from "../enemies/AnglerFish";
 import { Jellyfish } from "../enemies/Jellyfish";
 import { PufferFish } from "../enemies/PufferFish";
 import { Shark } from "../enemies/Shark";
 import { StingRay } from "../enemies/StingRay";
+import { Phone } from "../Phone";
 import { GroundTile } from "./GroundTile";
 import { RegionCSVData } from "./RegionData";
 import { Tileset } from "./Tileset";
@@ -29,7 +29,7 @@ export class Region extends BaseEntity implements Entity {
     origin: V2d = V(0, 0),
     cellData: RegionCSVData,
     tileset: Tileset,
-    depthLevel: number
+    public depthLevel: number
   ) {
     super();
 
@@ -61,6 +61,11 @@ export class Region extends BaseEntity implements Entity {
     // keep track
     const spawnCells = [...this.emptyCells];
     shuffle(spawnCells);
+
+    // TODO: This shouldn't be here
+    if (this.depthLevel === WORLD_SIZE_REGIONS[1]) {
+      this.addChild(new Phone(spawnCells.pop()!));
+    }
 
     for (let i = 0; i < this.numJellyfish && spawnCells.length > 0; i++) {
       const [x, y] = spawnCells.pop()!;
