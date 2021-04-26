@@ -4,11 +4,12 @@ import { KeyCode } from "../../core/io/Keys";
 import { OceanAmbience } from "../audio/OceanAmbience";
 import { Background } from "../Background";
 import { Boat } from "../Boat";
-import { Diver } from "../diver/Diver";
+import { Diver, getDiver } from "../diver/Diver";
 import { DiverController } from "../DiverController";
 import { WaterOverlay } from "../effects/WaterOverlay";
 import { DamagedOverlay } from "../hud/DamagedOverlay";
 import { DiveWatch } from "../hud/DiveWatch";
+import { FishCounter } from "../hud/FishCounter";
 import { genRegions } from "../region/genRegions";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
@@ -25,10 +26,6 @@ export class GameController extends BaseEntity implements Entity {
   handlers = {
     // Called at the beginning of the game
     gameStart: () => {
-      console.log("game started");
-
-      this.game!.dispatch({ type: "diveStart" });
-
       this.game!.addEntity(new Background());
       this.game!.addEntity(new Boat());
       this.game!.addEntity(new WaterOverlay());
@@ -38,19 +35,25 @@ export class GameController extends BaseEntity implements Entity {
       this.game?.addEntity(new CameraController(this.game.camera));
 
       this.game!.addEntities(genRegions());
+      this.game!.addEntity(new Diver());
+
+      this.game!.dispatch({ type: "diveStart" });
     },
 
     diveStart: () => {
       console.log("dive start");
-      const diver = this.game!.addEntity(new Diver());
+      const diver = getDiver(this.game)!;
 
       this.game!.addEntity(new DamagedOverlay(() => diver));
       this.game?.addEntity(new DiverController(diver));
       this.game!.addEntity(new DiveWatch(diver));
+      this.game!.addEntity(new FishCounter(diver));
     },
 
     openShop: async () => {
       this.game?.clearScene(0);
+      const diver = getDiver(this.game)!;
+      diver.onBoat = true;
       this.game?.addEntity(new UpgradeShop());
     },
 

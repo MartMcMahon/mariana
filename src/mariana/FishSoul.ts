@@ -15,7 +15,7 @@ import { SoundInstance } from "../core/sound/SoundInstance";
 import { rBool, rInteger, rNormal } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
 import { CollisionGroups } from "./config/CollisionGroups";
-import { Diver } from "./diver/Diver";
+import { Diver, getDiver } from "./diver/Diver";
 
 const MAGNET_RADIUS = 4;
 const MAGNET_FORCE = 5;
@@ -57,7 +57,7 @@ export class FishSoul extends BaseEntity implements Entity {
       V(this.body.velocity).imul(-FRICTION * this.body.mass)
     );
 
-    const diver = this.game?.entities.getById("diver") as Diver;
+    const diver = getDiver(this.game);
 
     if (diver) {
       const offset = diver.getPosition().isub(this.getPosition());
@@ -75,7 +75,7 @@ export class FishSoul extends BaseEntity implements Entity {
     if (other instanceof Diver) {
       const sound = this.value > 5 ? snd_bellPositive2 : snd_bellPositive1;
       this.game?.addEntity(new SoundInstance(sound, { gain: 0.05 }));
-      this.game?.dispatch({ type: "pickupCollected", value: this.value });
+      this.game?.dispatch({ type: "fishSoulCollected", value: this.value });
       this.destroy();
     }
   }
@@ -87,9 +87,12 @@ export class FishSoul extends BaseEntity implements Entity {
 }
 
 // Make a cluster of drops
-export function makeSoulDrops(position: V2d, valueRemaining: number = 1) {
+export function makeSoulDrops(
+  position: V2d,
+  valueRemaining: number = 1
+): FishSoul[] {
   const pickups: FishSoul[] = [];
-  while (valueRemaining >= 1) {
+  while (valueRemaining > 1) {
     const value = rInteger(1, valueRemaining);
     valueRemaining -= 1;
     pickups.push(new FishSoul(position.add([rNormal(), rNormal()]), value));

@@ -10,7 +10,7 @@ import { GameSprite } from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V, V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
-import { Diver } from "../diver/Diver";
+import { Diver, getDiver } from "../diver/Diver";
 import { Harpoon } from "../weapons/Harpoon";
 import { BaseFish } from "./BaseFish";
 
@@ -39,14 +39,18 @@ export class Shark extends BaseFish {
 
   tags = ["shark"];
 
-  hp = 30;
-
   patrolTexture = Texture.from(img_sharkPatrol);
   aggroTexture = Texture.from(img_sharkAggro);
   biteTexture = Texture.from(img_sharkBite);
 
   constructor(position: V2d) {
-    super(position, WIDTH, HEIGHT);
+    super(position, {
+      width: WIDTH,
+      height: HEIGHT,
+      friction: FRICTION,
+      hp: 30,
+      dropValue: 30,
+    });
 
     this.body = new Body({
       mass: 1,
@@ -109,7 +113,7 @@ export class Shark extends BaseFish {
     await this.wait(
       Infinity,
       () => {
-        const diver = this.game?.entities.getById("diver") as Diver;
+        const diver = getDiver(this.game);
 
         if (!diver) {
           this.patrol();
@@ -158,7 +162,7 @@ export class Shark extends BaseFish {
   }
 
   getDiverPos(): V2d {
-    const diver = this.game?.entities.getById("diver") as Diver;
+    const diver = getDiver(this.game);
 
     if (diver) {
       return diver.getPosition();
@@ -173,7 +177,7 @@ export class Shark extends BaseFish {
   }
 
   getDiverDistanceToMouth(): number {
-    const diver = this.game?.entities.getById("diver") as Diver;
+    const diver = getDiver(this.game);
     if (!diver) {
       return Infinity;
     } else {

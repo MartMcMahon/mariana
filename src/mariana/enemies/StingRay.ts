@@ -24,7 +24,14 @@ export class StingRay extends BaseFish {
   movingRight = rBool();
 
   constructor(position: V2d) {
-    super(position, WIDTH, HEIGHT, SPEED, FRICTION);
+    super(position, {
+      width: WIDTH,
+      height: HEIGHT,
+      speed: SPEED,
+      friction: FRICTION,
+      hp: 20,
+      dropValue: 10,
+    });
 
     this.sprite = AnimatedSprite.fromImages([img_stingRay1, img_stingRay2]);
 

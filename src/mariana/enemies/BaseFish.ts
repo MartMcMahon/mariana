@@ -93,7 +93,7 @@ export abstract class BaseFish
   onHarpooned(harpoon: Harpoon) {
     const damage = harpoon.getDamageAmount();
     if (damage > 0) {
-      this.game!.addEntity(makeSoulDrops(this.getPosition(), this.dropValue));
+      this.game!.addEntities(makeSoulDrops(this.getPosition(), this.dropValue));
       const sound = choose(
         snd_fleshHit1,
         snd_fleshHit2,

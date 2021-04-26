@@ -12,6 +12,7 @@ import img_diverLeft from "../../../resources/images/diver_left.png";
 import img_diverRight from "../../../resources/images/diver_right.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
+import Game from "../../core/Game";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V, V2d } from "../../core/Vector";
 import { Boat } from "../Boat";
@@ -45,6 +46,7 @@ const HURT_SOUNDS = new ShuffleRing([
 ]);
 
 export class Diver extends BaseEntity implements Entity {
+  persistenceLevel = 1;
   sprite: Sprite;
   body: Body;
   // So we can easily grab the diver from other entities
@@ -194,4 +196,8 @@ export class Diver extends BaseEntity implements Entity {
       this.harpoonGun.retract();
     }
   }
+}
+
+export function getDiver(game?: Game): Diver | undefined {
+  return game?.entities.getById("diver") as Diver;
 }

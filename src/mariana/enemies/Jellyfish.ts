@@ -13,7 +13,14 @@ export class Jellyfish extends BaseFish {
   sprite: AnimatedSprite & GameSprite;
 
   constructor(position: V2d, radius: number = rUniform(0.4, 0.9)) {
-    super(position, radius * 2, radius * 2);
+    super(position, {
+      width: radius * 2,
+      height: radius * 2,
+      speed: 0,
+      friction: 0,
+      hp: 5,
+      dropValue: 3,
+    });
 
     this.body = new Body({
       mass: 0,

@@ -6,7 +6,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { clamp, lerp, smoothStep } from "../../core/util/MathUtil";
-import { Diver } from "../diver/Diver";
+import { getDiver } from "../diver/Diver";
 
 const CUTOFF_HIGH = 250;
 const CUTOFF_LOW = 100;
@@ -70,7 +70,7 @@ export class OceanAmbience extends BaseEntity implements Entity {
   }
 
   onTick() {
-    const diver = this.game!.entities.getById("diver") as Diver;
+    const diver = getDiver(this.game);
     const depth = diver?.getDepth() ?? 0;
     const isAboveWater = diver?.isSurfaced() ?? true;
 

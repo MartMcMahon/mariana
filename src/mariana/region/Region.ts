@@ -58,6 +58,8 @@ export class Region extends BaseEntity implements Entity {
     this.numSharks = depthLevel > 1 ? rInteger(0, 2) : 0;
     this.numStingRays = depthLevel < 2 ? rInteger(0, 2) : 0;
     this.numAnglerFish = depthLevel > 2 ? rInteger(1, 2) : 0;
+
+    this.spawnFishes();
   }
 
   spawnFishes() {
