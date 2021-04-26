@@ -6,11 +6,7 @@ import Entity, { GameSprite } from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
 import { V } from "../../core/Vector";
 import { Layer } from "../config/layers";
-import {
-  getUpgradeManager,
-  UpgradeManager,
-  UpgradeOptions,
-} from "./UpgradeManager";
+import { getUpgradeManager, UpgradeOptions } from "./UpgradeManager";
 
 // const getFromLocalStorage = () => {
 //   const store = window.localStorage;
@@ -67,7 +63,8 @@ export class UpgradeShop extends BaseEntity implements Entity {
     this.poonItem.addChild(poonItemBg);
 
     // enter to dive
-    const text = new Text("Press enter to dive", {
+    const text = new Text("Press space to dive", {
+      fontFamily: "Montserrat Black",
       fontSize: 48,
       color: "white",
     });
@@ -108,8 +105,7 @@ export class UpgradeShop extends BaseEntity implements Entity {
   }
 
   onKeyDown(keyCode: KeyCode) {
-    if (keyCode === "Enter") {
-      this.game?.dispatch({ type: "diveStart" });
+    if (keyCode === "Escape") {
       this.destroy();
     }
   }

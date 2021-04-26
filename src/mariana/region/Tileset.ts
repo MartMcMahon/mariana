@@ -25,7 +25,7 @@ export class Tileset {
 
   constructor(
     imageUrl: string,
-    { tileSize = 64, columns = 3, rows = 3, gap = 1 }: Options
+    { tileSize = 64, columns = 3, rows = 6, gap = 1 }: Options = {}
   ) {
     this.baseTexture = (getOrMakeTexture(imageUrl) as any) as BaseTexture;
 

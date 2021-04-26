@@ -3,12 +3,11 @@ import img_diveWatchBack from "../../../resources/images/dive-watch-back.png";
 import img_diveWatchNeedle from "../../../resources/images/dive-watch-needle.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
-import { clamp, degToRad, lerp, stepToward } from "../../core/util/MathUtil";
+import { clamp, degToRad, lerp } from "../../core/util/MathUtil";
 import { V2d } from "../../core/Vector";
 import { Layer } from "../config/layers";
+import { WORLD_BOTTOM } from "../constants";
 import { Diver } from "../diver/Diver";
-
-const MAX_DEPTH = 100;
 
 const MIN_AIR_ANGLE = degToRad(-135);
 const MAX_AIR_ANGLE = degToRad(135);
@@ -60,7 +59,7 @@ export class DiveWatch extends BaseEntity implements Entity {
   }
 
   onRender(dt: number) {
-    const depthPercent = this.diver.getDepth() / MAX_DEPTH;
+    const depthPercent = this.diver.getDepth() / WORLD_BOTTOM;
     const airPercent = this.diver.oxygenManager.getOxygenPercent();
 
     const airTargetAngle = lerp(MIN_AIR_ANGLE, MAX_AIR_ANGLE, airPercent);

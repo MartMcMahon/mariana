@@ -33,7 +33,7 @@ export function initLayers(game: Game) {
     game.renderer.layerInfos.get(layerName)!.paralax = 0;
   }
 
-  game.renderer.layerInfos.get(Layer.BACKGROUND)!.paralax = 0.5;
+  // game.renderer.layerInfos.get(Layer.BACKGROUND)!.paralax = 0.9;
 
   game.renderer.defaultLayer = Layer.WORLD;
 }

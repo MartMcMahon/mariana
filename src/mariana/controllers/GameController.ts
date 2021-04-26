@@ -1,18 +1,20 @@
 import snd_musicalNope from "../../../resources/audio/musical_nope.flac";
+import img_stoneTiles2 from "../../../resources/images/tiles/stone_tiles2.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { OceanAmbience } from "../audio/OceanAmbience";
-import { Background } from "../Background";
 import { Boat } from "../Boat";
 import { Diver, getDiver } from "../diver/Diver";
 import { DiverController } from "../DiverController";
-import { WaterOverlay } from "../effects/WaterOverlay";
+import { Water } from "../effects/Water";
 import { DamagedOverlay } from "../hud/DamagedOverlay";
 import { DiveWatch } from "../hud/DiveWatch";
 import { FishCounter } from "../hud/FishCounter";
 import { generateRegions } from "../region/genRegions";
+import { Tileset } from "../region/Tileset";
+import { WorldBounds } from "../region/WorldBounds";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
 import CameraController from "./CameraController";
@@ -27,14 +29,14 @@ export class GameController extends BaseEntity implements Entity {
   handlers = {
     // Called at the beginning of the game
     gameStart: () => {
-      this.game!.addEntity(new Background());
       this.game!.addEntity(new Boat());
-      this.game!.addEntity(new WaterOverlay());
+      this.game!.addEntity(new Water());
       this.game!.addEntity(new OceanAmbience());
       this.game!.addEntity(new UpgradeManager());
       this.game?.addEntity(new CameraController(this.game.camera));
 
       this.game!.addEntities(generateRegions());
+      this.game?.addEntity(new WorldBounds(new Tileset(img_stoneTiles2, {})));
       const diver = this.game!.addEntity(new Diver());
 
       this.game!.addEntity(new DamagedOverlay(() => diver));

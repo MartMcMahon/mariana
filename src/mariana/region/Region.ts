@@ -28,16 +28,10 @@ export class Region extends BaseEntity implements Entity {
   constructor(
     origin: V2d = V(0, 0),
     cellData: RegionCSVData,
+    tileset: Tileset,
     depthLevel: number
   ) {
     super();
-
-    // TODO: Not the same tileset for every region
-    const tileset = new Tileset(img_stoneTiles2, {
-      columns: 3,
-      rows: 6,
-      gap: 1,
-    });
 
     cellData.forEach((row, j) =>
       row.forEach((tileType, i) => {
