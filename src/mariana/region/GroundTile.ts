@@ -5,6 +5,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { clamp } from "../../core/util/MathUtil";
+import { rUniform } from "../../core/util/Random";
 import { V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { Harpoon } from "../weapons/Harpoon";
@@ -39,6 +40,11 @@ export class GroundTile extends BaseEntity implements Entity, Harpoonable {
 
   onHarpooned(harpoon: Harpoon) {
     const gain = clamp(vec2.length(harpoon.body.velocity) / 12) / 10;
-    this.game!.addEntity(new SoundInstance(snd_metalHittingRock, { gain }));
+    this.game!.addEntity(
+      new SoundInstance(snd_metalHittingRock, {
+        gain,
+        speed: rUniform(0.9, 1.1),
+      })
+    );
   }
 }
