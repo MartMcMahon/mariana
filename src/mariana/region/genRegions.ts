@@ -3,13 +3,18 @@ import { rInteger } from "../../core/util/Random";
 import { V } from "../../core/Vector";
 import { GROUND_TILE_SIZE } from "./GroundTile";
 import { Region } from "./Region";
+import { getRegionCSV } from "./RegionData";
 
 const REGION_WIDTH = 16 * GROUND_TILE_SIZE; // width in meters
 const REGION_HEIGHT = 16 * GROUND_TILE_SIZE; // height in meters
 
 // Generates all the regions
-// TODO: Separate this to generate one region at a time?
-export function genRegions(numRows: number = 3, numColumns = 4) {
+export function genRegions(
+  // How many rows of regions
+  numRows: number = 3,
+  // how many regions in each row
+  numColumns = 4
+) {
   let regions = [];
 
   let pos = V((-REGION_WIDTH * numColumns) / 2, 0);
@@ -35,8 +40,9 @@ export function genRegions(numRows: number = 3, numColumns = 4) {
 
       regionsData[y].push(rdata);
 
+      const cellData = getRegionCSV(rdata.csv);
       regions.push(
-        new Region(V(pos.x + x * REGION_WIDTH, y * REGION_HEIGHT), rdata)
+        new Region(V(pos.x + x * REGION_WIDTH, y * REGION_HEIGHT), cellData)
       );
     }
   }
