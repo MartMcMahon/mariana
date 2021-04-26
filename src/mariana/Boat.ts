@@ -2,19 +2,20 @@ import { Sprite, Text } from "pixi.js";
 import img_boat from "../../resources/images/boat.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../core/entity/Entity";
+import Game from "../core/Game";
 import { ControllerButton } from "../core/io/Gamepad";
 import { KeyCode } from "../core/io/Keys";
 import { degToRad, lerp } from "../core/util/MathUtil";
 import { V } from "../core/Vector";
 import { Layer } from "./config/layers";
-import { Diver } from "./diver/Diver";
+import { Diver, getDiver } from "./diver/Diver";
 
 const BOAT_X = 0;
 const BOAT_WIDTH = 8; // meters
 
 const SHOP_RANGE = 7;
 const DROPOFF_RANGE = 9;
-const SHOP_DEPTH = 2;
+const SHOP_DEPTH = 4;
 const TOOLTIP_SPEED = 5;
 
 const WAVE_FREQUENCY = 0.3; // Hz
@@ -55,7 +56,7 @@ export class Boat extends BaseEntity implements Entity {
   }
 
   diverIsPresent() {
-    const diver = this.game!.entities.getById("diver") as Diver | undefined;
+    const diver = getDiver(this.game);
     if (!diver) {
       return false;
     }
@@ -66,7 +67,7 @@ export class Boat extends BaseEntity implements Entity {
   }
 
   diverWithinDropoffRange() {
-    const diver = this.game!.entities.getById("diver") as Diver | undefined;
+    const diver = getDiver(this.game);
     if (!diver) {
       return false;
     }
@@ -112,4 +113,8 @@ export class Boat extends BaseEntity implements Entity {
     const t = this.game!.elapsedTime * WAVE_FREQUENCY * Math.PI;
     this.sprite.y = Math.cos(t) * WAVE_AMPLITUDE;
   }
+}
+
+export function getBoat(game?: Game): Boat | undefined {
+  return game?.entities.getById("boat") as Boat;
 }

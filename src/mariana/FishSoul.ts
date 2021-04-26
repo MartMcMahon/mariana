@@ -15,7 +15,7 @@ import { SoundInstance } from "../core/sound/SoundInstance";
 import { rBool, rInteger, rNormal } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
 import { CollisionGroups } from "./config/CollisionGroups";
-import { Diver } from "./diver/Diver";
+import { Diver, getDiver } from "./diver/Diver";
 
 const MAGNET_RADIUS = 4;
 const MAGNET_FORCE = 5;
@@ -57,7 +57,7 @@ export class FishSoul extends BaseEntity implements Entity {
       V(this.body.velocity).imul(-FRICTION * this.body.mass)
     );
 
-    const diver = this.game?.entities.getById("diver") as Diver;
+    const diver = getDiver(this.game);
 
     if (diver) {
       const offset = diver.getPosition().isub(this.getPosition());
