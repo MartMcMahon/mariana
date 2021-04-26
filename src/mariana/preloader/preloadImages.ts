@@ -2,6 +2,7 @@ import img_angler1 from "../../../resources/images/angler_1.png";
 import img_background from "../../../resources/images/background.png";
 import img_boat from "../../../resources/images/boat.png";
 import img_bubble from "../../../resources/images/bubble.png";
+import img_buy from "../../../resources/images/buy.png";
 import img_diver from "../../../resources/images/diver.png";
 import img_diverLeft from "../../../resources/images/diver_left.png";
 import img_diverRight from "../../../resources/images/diver_right.png";
