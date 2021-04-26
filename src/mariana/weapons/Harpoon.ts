@@ -57,7 +57,7 @@ export class Harpoon extends BaseEntity implements Entity {
 
     this.minSpeed = Math.min(this.minSpeed, vec2.length(this.body.velocity));
 
-    const bubbleChance = clamp((this.minSpeed / 30) ** 2);
+    const bubbleChance = clamp((this.minSpeed / 40) ** 2);
     if (rBool(bubbleChance)) {
       this.game!.addEntity(
         new Bubble(
