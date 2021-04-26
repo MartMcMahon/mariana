@@ -13,8 +13,6 @@ import {
 import { Diver } from "../diver/Diver";
 import frag_damageFilter from "./damage-filter.frag";
 
-const FLASH_ALPHA = 0.4;
-
 export class DamagedOverlay extends BaseEntity implements Entity {
   persistenceLevel = 0;
   sprite: Container & GameSprite;
@@ -44,7 +42,7 @@ export class DamagedOverlay extends BaseEntity implements Entity {
 
   handlers = {
     diverHurt: ({ amount }: { amount: number }) => {
-      this.flash(0xff0000, 0, 0.4);
+      this.flash(0x550011, 0, 0.4, 0.2);
     },
 
     graphicsQualityChanged: ({ quality }: { quality: GraphicsQuality }) => {
@@ -55,7 +53,7 @@ export class DamagedOverlay extends BaseEntity implements Entity {
   onRender() {
     const diver = this.getPlayer();
     if (diver && !diver.isDestroyed) {
-      this.updateBaseline(1.0 - diver.oxygenManager.suffocationPercent ** 0.5);
+      this.updateBaseline(1.0 - diver.oxygenManager.suffocationPercent);
     } else {
       this.updateBaseline(0.0);
     }
@@ -77,17 +75,18 @@ export class DamagedOverlay extends BaseEntity implements Entity {
   async flash(
     color: number,
     fadeInTime: number = 0,
-    fadeOutTime: number = 0.4
+    fadeOutTime: number = 0.4,
+    alpha: number = 0.2
   ) {
     const graphics = this.makeOverlay(color);
     this.sprite.addChild(graphics);
     await this.wait(fadeInTime, (dt, t) => {
-      graphics.alpha = smoothStep(t * FLASH_ALPHA);
+      graphics.alpha = smoothStep(t * alpha);
     });
     await this.wait(
       fadeOutTime,
       (dt, t) => {
-        graphics.alpha = smoothStep((1 - t) * FLASH_ALPHA);
+        graphics.alpha = smoothStep((1 - t) * alpha);
       },
       "flash"
     );

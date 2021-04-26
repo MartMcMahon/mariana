@@ -35,6 +35,7 @@ import snd_fleshHit2 from "../../../resources/audio/flesh-hit-2.flac";
 import snd_fleshHit3 from "../../../resources/audio/flesh-hit-3.flac";
 import snd_fleshHit4 from "../../../resources/audio/flesh-hit-4.flac";
 import snd_metalHittingRock from "../../../resources/audio/metal_hitting_rock.flac";
+import snd_musicalNope from "../../../resources/audio/musical_nope.flac";
 import snd_oceanTexture from "../../../resources/audio/ocean_texture.flac";
 import snd_oww from "../../../resources/audio/oww.flac";
 import snd_reel from "../../../resources/audio/reel.flac";
@@ -92,6 +93,7 @@ export function getSoundsToPreload(): string[] {
     snd_fleshHit3,
     snd_fleshHit4,
     snd_metalHittingRock,
+    snd_musicalNope,
     snd_oceanTexture,
     snd_oww,
     snd_reel,

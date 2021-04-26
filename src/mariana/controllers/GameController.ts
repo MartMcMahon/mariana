@@ -1,6 +1,8 @@
+import snd_musicalNope from "../../../resources/audio/musical_nope.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
+import { SoundInstance } from "../../core/sound/SoundInstance";
 import { OceanAmbience } from "../audio/OceanAmbience";
 import { Background } from "../Background";
 import { Boat } from "../Boat";
@@ -35,7 +37,12 @@ export class GameController extends BaseEntity implements Entity {
       this.game?.addEntity(new CameraController(this.game.camera));
 
       this.game!.addEntities(genRegions());
-      this.game!.addEntity(new Diver());
+      const diver = this.game!.addEntity(new Diver());
+
+      this.game!.addEntity(new DamagedOverlay(() => diver));
+      this.game?.addEntity(new DiverController(diver));
+      this.game!.addEntity(new DiveWatch(diver));
+      this.game!.addEntity(new FishCounter(diver));
 
       this.game!.dispatch({ type: "diveStart" });
     },
@@ -43,29 +50,19 @@ export class GameController extends BaseEntity implements Entity {
     diveStart: () => {
       console.log("dive start");
       const diver = getDiver(this.game)!;
-
-      this.game!.addEntity(new DamagedOverlay(() => diver));
-      this.game?.addEntity(new DiverController(diver));
-      this.game!.addEntity(new DiveWatch(diver));
-      this.game!.addEntity(new FishCounter(diver));
+      diver.onBoat = true;
     },
 
     openShop: async () => {
-      this.game?.clearScene(0);
       const diver = getDiver(this.game)!;
       diver.onBoat = true;
       this.game?.addEntity(new UpgradeShop());
     },
 
-    diveEnd: async () => {},
-
     diverDied: async () => {
+      this.game?.addEntity(new SoundInstance(snd_musicalNope));
       await this.wait(2.0);
-      this.game!.camera.vy = -10;
-      this.game!.camera.vx = 0;
-      await this.waitUntil(() => this.game!.camera.y <= 0);
-      console.log("at surface");
-      this.game!.camera.vy = 0;
+      this.game?.dispatch({ type: "diveStart " });
     },
 
     victory: async () => {

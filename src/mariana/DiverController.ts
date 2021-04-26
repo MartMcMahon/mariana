@@ -73,4 +73,10 @@ export class DiverController extends BaseEntity implements Entity {
         this.diver.retract();
     }
   }
+
+  handlers = {
+    diverDied: () => {
+      this.destroy();
+    },
+  };
 }

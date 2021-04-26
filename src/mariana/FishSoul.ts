@@ -59,7 +59,7 @@ export class FishSoul extends BaseEntity implements Entity {
 
     const diver = getDiver(this.game);
 
-    if (diver) {
+    if (diver && !diver.isDead) {
       const offset = diver.getPosition().isub(this.getPosition());
       const distance = offset.magnitude;
 

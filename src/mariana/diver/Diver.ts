@@ -53,6 +53,7 @@ export class Diver extends BaseEntity implements Entity {
   id = "diver";
 
   onBoat = true;
+  isDead = false;
 
   subSprites: Sprites = {
     forward: Sprite.from(img_diver),
@@ -181,6 +182,17 @@ export class Diver extends BaseEntity implements Entity {
       this.harpoonGun.retract();
     }
   }
+
+  handlers = {
+    diverDied: () => {
+      this.isDead = true;
+      console.log("I am dead");
+    },
+
+    diveStart: () => {
+      this.isDead = false;
+    },
+  };
 }
 
 export function getDiver(game?: Game): Diver | undefined {

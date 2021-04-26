@@ -1,7 +1,7 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { stepToward } from "../../core/util/MathUtil";
-import { BreatheEffect } from "./Breathing";
+import { rBool } from "../../core/util/Random";
 import { Diver } from "./Diver";
 
 export const HARPOON_OXYGEN_COST = 5;
@@ -37,7 +37,12 @@ export class OxygenManager extends BaseEntity implements Entity {
   };
 
   useOxygen(amount: number) {
-    this.currentOxygen = Math.max(this.currentOxygen - amount, 0);
+    this.currentOxygen -= amount;
+
+    if (this.currentOxygen < 0) {
+      this.suffocationPercent += -this.currentOxygen / 100;
+      this.currentOxygen = 0;
+    }
   }
 
   giveOxygen(amount: number) {
@@ -49,6 +54,9 @@ export class OxygenManager extends BaseEntity implements Entity {
   }
 
   onTick(dt: number) {
+    if (this.game?.io.keyIsDown("KeyB")) {
+      this.useOxygen(0.2);
+    }
     if (this.diver.isSurfaced()) {
       this.giveOxygen(dt * this.fillRate);
     }
@@ -65,10 +73,11 @@ export class OxygenManager extends BaseEntity implements Entity {
         0,
         dt * 0.5
       );
+    }
 
-      if (this.suffocationPercent == 1) {
-        this.game?.dispatch({ type: "diverDied" });
-      }
+    if (this.suffocationPercent >= 1 && !this.diver.isDead) {
+      console.log("diver suffocated");
+      this.game?.dispatch({ type: "diverDied" });
     }
   }
 }
