@@ -11,17 +11,16 @@ export class OxygenManager extends BaseEntity implements Entity {
   currentOxygen = this.maxOxygen;
   fillRate = 20;
 
-  constructor(private getDiver: () => Diver) {
+  constructor(private diver: Diver) {
     super();
   }
 
   handlers = {
     breatheIn: () => {
-      const diver = this.getDiver();
       const depth = diver.getDepth();
       const amount = (depth + 10) / 10;
       if (this.currentOxygen < amount) {
-        diver.damage((amount - this.currentOxygen) * SUFFOCATION_DAMAGE);
+        this.diver.damage((amount - this.currentOxygen) * SUFFOCATION_DAMAGE);
       }
 
       this.useOxygen(amount);
@@ -45,8 +44,7 @@ export class OxygenManager extends BaseEntity implements Entity {
   }
 
   onTick(dt: number) {
-    const diver = this.getDiver();
-    if (diver.isSurfaced()) {
+    if (this.diver.isSurfaced()) {
       this.giveOxygen(dt * this.fillRate);
     }
   }

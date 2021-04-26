@@ -1,13 +1,11 @@
-import { AnimatedSprite, Graphics, Sprite, Text, Texture } from "pixi.js";
-import BaseEntity from "../../core/entity/BaseEntity";
-import Entity, { GameSprite } from "../../core/entity/Entity";
-import { LayerInfo } from "../../core/graphics/LayerInfo";
-import { KeyCode } from "../../core/io/Keys";
-import { Layer } from "../config/layers";
-import { V, V2d } from "../../core/Vector";
-import { Diver } from "../diver/Diver";
+import { AnimatedSprite, Graphics, Sprite, Text } from "pixi.js";
 import img_buy from "../../../resources/images/buy.png";
 import img_harpoon from "../../../resources/images/harpoon.png";
+import BaseEntity from "../../core/entity/BaseEntity";
+import Entity, { GameSprite } from "../../core/entity/Entity";
+import { KeyCode } from "../../core/io/Keys";
+import { V } from "../../core/Vector";
+import { Layer } from "../config/layers";
 
 export class UpgradeShop extends BaseEntity implements Entity {
   sprite: Sprite & GameSprite;

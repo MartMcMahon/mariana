@@ -19,6 +19,7 @@ import { CollisionGroups } from "../config/CollisionGroups";
 import { ShuffleRing } from "../utils/ShuffleRing";
 import { HarpoonGun } from "../weapons/HarpoonGun";
 import { BreatheEffect } from "./Breathing";
+import { Inventory } from "./Inventory";
 import { HARPOON_OXYGEN_COST, OxygenManager } from "./OxygenManager";
 
 const DIVER_HEIGHT = 2.0; // in meters
@@ -63,6 +64,7 @@ export class Diver extends BaseEntity implements Entity {
 
   harpoonGun: HarpoonGun;
   oxygenManager: OxygenManager;
+  inventory: Inventory;
 
   aimDirection: V2d = V(0, 1);
   moveDirection: V2d = V(0, 0);
@@ -71,7 +73,8 @@ export class Diver extends BaseEntity implements Entity {
     super();
 
     this.harpoonGun = this.addChild(new HarpoonGun(this));
-    this.oxygenManager = this.addChild(new OxygenManager(() => this));
+    this.oxygenManager = this.addChild(new OxygenManager(this));
+    this.inventory = this.addChild(new Inventory(this));
     this.addChild(new BreatheEffect(this));
 
     this.body = new Body({
@@ -173,7 +176,7 @@ export class Diver extends BaseEntity implements Entity {
       this.game?.addEntity(
         new SoundInstance(snd_dialogHelmetPain7, { persistenceLevel: 1 })
       );
-      this.game?.dispatch({ type: "diveEnd" });
+      this.game?.dispatch({ type: "diverDied" });
     }
   }
 

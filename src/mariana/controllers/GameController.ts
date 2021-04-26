@@ -50,13 +50,13 @@ export class GameController extends BaseEntity implements Entity {
     },
 
     openShop: async () => {
-      this.game?.clearScene();
+      this.game?.clearScene(0);
       this.game?.addEntity(new UpgradeShop());
     },
 
     diveEnd: async () => {},
 
-    diverDead: async () => {
+    diverDied: async () => {
       await this.wait(2.0);
       this.game!.camera.vy = -10;
       this.game!.camera.vx = 0;

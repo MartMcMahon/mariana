@@ -11,7 +11,7 @@ import { choose, rInteger, rNormal, rUniform } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { BloodSplash } from "../effects/BloodSplash";
-import { makePointDrops, PointDrop } from "../PointDrop";
+import { makeSoulDrops, FishSoul } from "../FishSoul";
 import { Harpoon } from "../weapons/Harpoon";
 import { Harpoonable } from "../weapons/Harpoonable";
 
@@ -31,6 +31,8 @@ export abstract class BaseFish
   body: Body;
   facingRight = true;
 
+  width: number;
+  height: number;
   speed: number;
   friction: number;
   dropValue: number;
@@ -42,6 +44,8 @@ export abstract class BaseFish
   ) {
     super();
 
+    this.width = width;
+    this.height = height;
     this.speed = speed;
     this.friction = friction;
     this.dropValue = dropValue;
@@ -89,7 +93,7 @@ export abstract class BaseFish
   onHarpooned(harpoon: Harpoon) {
     const damage = harpoon.getDamageAmount();
     if (damage > 0) {
-      this.game!.addEntity(makePointDrops(this.getPosition(), this.dropValue));
+      this.game!.addEntity(makeSoulDrops(this.getPosition(), this.dropValue));
       const sound = choose(
         snd_fleshHit1,
         snd_fleshHit2,

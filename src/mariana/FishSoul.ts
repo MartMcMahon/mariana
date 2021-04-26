@@ -22,7 +22,7 @@ const MAGNET_FORCE = 5;
 const GRAVITY = 3; // meters / sec^2
 const FRICTION = 2; // meters / sec^2
 
-export class PointDrop extends BaseEntity implements Entity {
+export class FishSoul extends BaseEntity implements Entity {
   sprite: AnimatedSprite;
   body: Body;
 
@@ -87,15 +87,15 @@ export class PointDrop extends BaseEntity implements Entity {
 }
 
 // Make a cluster of drops
-export function makePointDrops(position: V2d, valueRemaining: number = 1) {
-  const pickups: PointDrop[] = [];
+export function makeSoulDrops(position: V2d, valueRemaining: number = 1) {
+  const pickups: FishSoul[] = [];
   while (valueRemaining >= 1) {
     const value = rInteger(1, valueRemaining);
     valueRemaining -= 1;
-    pickups.push(new PointDrop(position.add([rNormal(), rNormal()]), value));
+    pickups.push(new FishSoul(position.add([rNormal(), rNormal()]), value));
   }
   if (rBool(valueRemaining)) {
-    pickups.push(new PointDrop(position.add([rNormal(), rNormal()]), 1));
+    pickups.push(new FishSoul(position.add([rNormal(), rNormal()]), 1));
   }
   return pickups;
 }

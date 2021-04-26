@@ -13,6 +13,8 @@ import { RegionCSVData } from "./RegionData";
 import { Tileset } from "./Tileset";
 
 export class Region extends BaseEntity implements Entity {
+  persistenceLevel = 1;
+
   // Cells that don't have land in them
   emptyCells: V2d[] = [];
 
