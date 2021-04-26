@@ -1,7 +1,7 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { stepToward } from "../../core/util/MathUtil";
-import { rBool } from "../../core/util/Random";
+import { getUpgradeManager } from "../upgrade/UpgradeManager";
 import { Diver } from "./Diver";
 
 export const HARPOON_OXYGEN_COST = 5;
@@ -10,9 +10,7 @@ export const DEPTH_BREATH_FACTOR = 0.1; // extra oxygen per meter
 
 // Keeps track of how much oxygen there is, and kills the player when there's not enough (TODO:)
 export class OxygenManager extends BaseEntity implements Entity {
-  maxOxygen = 100; // each point is approximately one breath at the surface
-  currentOxygen = this.maxOxygen;
-  fillRate = 20;
+  currentOxygen = 100;
   suffocationPercent = 0;
 
   constructor(private diver: Diver) {
@@ -36,6 +34,15 @@ export class OxygenManager extends BaseEntity implements Entity {
     },
   };
 
+  getMaxOxygen(): number {
+    const upgradeLevel = getUpgradeManager(this.game!)?.data.oxygen ?? 0;
+    return 100 + upgradeLevel * 50;
+  }
+
+  getFillRate(): number {
+    return this.getMaxOxygen() / 4;
+  }
+
   useOxygen(amount: number) {
     this.currentOxygen -= amount;
 
@@ -46,11 +53,14 @@ export class OxygenManager extends BaseEntity implements Entity {
   }
 
   giveOxygen(amount: number) {
-    this.currentOxygen = Math.min(this.currentOxygen + amount, this.maxOxygen);
+    this.currentOxygen = Math.min(
+      this.currentOxygen + amount,
+      this.getMaxOxygen()
+    );
   }
 
   getOxygenPercent() {
-    return this.currentOxygen / this.maxOxygen;
+    return this.currentOxygen / this.getMaxOxygen();
   }
 
   onTick(dt: number) {
@@ -58,7 +68,7 @@ export class OxygenManager extends BaseEntity implements Entity {
       this.useOxygen(0.2);
     }
     if (this.diver.isSurfaced()) {
-      this.giveOxygen(dt * this.fillRate);
+      this.giveOxygen(dt * this.getFillRate());
     }
 
     if (this.currentOxygen <= 0) {

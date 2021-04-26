@@ -1,5 +1,4 @@
 import { Graphics, Sprite, Text } from "pixi.js";
-import img_harpoon from "../../../resources/images/harpoon.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
@@ -7,7 +6,6 @@ import { V } from "../../core/Vector";
 import { Layer } from "../config/layers";
 import {
   getUpgradeManager,
-  UpgradeManager,
   UpgradeOptions,
 } from "./UpgradeManager";
 
@@ -20,8 +18,8 @@ export class UpgradeShop extends BaseEntity implements Entity {
 
   speedUpgrade: Text;
   oxygenUpgrade: Text;
-  speedCost: number;
-  oxygenCost: number;
+  speedCost: number = 0;
+  oxygenCost: number = 0;
   moneyText: Text;
 
   constructor(menuWidth = 400, menuHeight = 200) {
@@ -43,23 +41,6 @@ export class UpgradeShop extends BaseEntity implements Entity {
       this.menuHeight
     );
     this.sprite.addChild(background);
-
-    // 'poon
-    // this.poonItem = AnimatedSprite.fromImages([img_harpoon]);
-    // this.poonItem.position = V(-this.poonItem.width / 2, -this.menuHeight);
-    // this.poonItem.scale.set(3, 3);
-    // this.poonItem.anchor.set(0.5);
-    // this.poonItem.interactive = true;
-    // this.poonItem.click = () => {
-    //   console.log("clicked the harpoon upgrade");
-    // };
-    // this.sprite.addChild(this.poonItem);
-
-    // let poonItemBg = new Graphics()
-    //   .beginFill(0, 0)
-    //   .lineStyle(1, 0x000)
-    //   .drawRect(-11, -11, 22, 22);
-    // this.poonItem.addChild(poonItemBg);
 
     // enter to dive
     const text = new Text("Press space to dive", {
@@ -96,39 +77,39 @@ export class UpgradeShop extends BaseEntity implements Entity {
   onAdd() {
     let controller = getUpgradeManager(this.game!);
     this.savedData = controller.getFromLocalStorage();
-
-    // this.poonItemText = AnimatedSprite.fromImages([img_buy]);
-    // this.poonItemText.position = V(
-    //   -this.poonItem.width / 2 + 32,
-    //   -this.menuHeight + 96
-    // );
-    // this.poonItemText.anchor.set(0.5);
-    // this.poonItemText.scale.set(0.5, 0.5);
-    // this.poonItemText.interactive = true;
-    // this.poonItemText.click = () => {
-    //   this.savedData.poon = 1;
-    //   controller.saveToLocalStorage(this.savedData);
-    //   this.poonItemText.destroy();
-    // };
+    this.speedCost = controller.data.speed * Math.pow(1, controller.data.speed);
+    this.oxygenCost =
+      controller.data.speed * Math.pow(1, controller.data.speed);
 
     this.speedUpgrade.click = () => {
-      this.savedData.speed += 1;
-      // controller.saveToLocalStorage(this.savedData);
-      this.game?.dispatch({ type: "upgrade", payload: "speed" });
+      let controller = getUpgradeManager(this.game!);
+      if (controller.pointsAvailable >= this.speedCost) {
+        this.game?.dispatch({ type: "upgradeSpeed" });
+        this.game?.dispatch({ type: "withdrawSouls", amount: this.speedCost });
+      }
     };
 
     this.oxygenUpgrade.click = () => {
-      this.savedData.oxygen += 1;
-      // controller.saveToLocalStorage(this.savedData);
-      this.game?.dispatch({ type: "upgrade", payload: "oxygen" });
+      let controller = getUpgradeManager(this.game!);
+      if (controller.pointsAvailable >= this.oxygenCost) {
+        this.game?.dispatch({ type: "upgradeOxygen" });
+        this.game?.dispatch({
+          type: "withdrawSouls",
+          amount: this.oxygenCost,
+        });
+      }
     };
   }
 
   onRender() {
     let controller = getUpgradeManager(this.game!);
-    this.speedCost = controller.data.speed * 10;
-    this.oxygenCost = controller.data.oxygen * 10;
-    this.speedUpgrade.text = `speed: ${controller.data.speed} ~ cost: ${this.speedCost}`;
+    this.speedCost = "" + parseInt(
+      controller.data.speed * Math.pow(1.01, controller.data.speed)
+    );
+    this.oxygenCost = parseInt(
+      controller.data.oxygen * Math.pow(1.01, controller.data.oxygen)
+    );
+    this.speedUpgrade.text = `speed: ${controller.data.speed} ~ cost: ${"" + this.speedCost}`;
     this.oxygenUpgrade.text = `oxygen: ${controller.data.oxygen} ~ cost: ${this.oxygenCost}`;
     this.moneyText.text = `🐟: ${controller.pointsAvailable}`;
   }

@@ -16,7 +16,7 @@ export class UpgradeManager extends BaseEntity implements Entity {
 
   constructor() {
     super();
-    this.data = { speed: 0, oxygen: 0 };
+    this.data = { speed: 1, oxygen: 1 };
   }
 
   onAdd() {
@@ -28,7 +28,6 @@ export class UpgradeManager extends BaseEntity implements Entity {
     this.data = {
       speed: parseInt(store.getItem("speed")) || 0,
       oxygen: parseInt(store.getItem("oxygen")) || 0,
-     fishSouls: parseInt(store.getItem("fishSouls")) || 0,
     };
     return this.data;
   }
@@ -37,6 +36,7 @@ export class UpgradeManager extends BaseEntity implements Entity {
     if (!data) {
       data = this.data;
     }
+    console.log(data)
     for (const [item, val] of Object.entries(data)) {
       window.localStorage.setItem(item, val);
     }
@@ -50,12 +50,17 @@ export class UpgradeManager extends BaseEntity implements Entity {
       this.pointsAvailable += payload.amount;
     },
     withdrawSouls: (payload) => {
+      console.log(payload)
       this.pointsAvailable -= payload.amount;
     },
-    upgrade: (payload) => {
-      this.data[payload] += 1;
-      this.saveToLocalStorage()
+    upgradeSpeed: () => {
+      this.data.speed += 1
+      this.saveToLocalStorage();
     },
+    upgradeOxygen: () => {
+      this.data.oxygen += 1
+      this.saveToLocalStorage();
+    }
   };
 }
 
