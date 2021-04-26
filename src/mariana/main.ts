@@ -1,6 +1,8 @@
+import { SAPBroadphase, World } from "p2";
 import AutoPauser from "../core/AutoPauser";
 import Game from "../core/Game";
 import CustomWorld from "../core/physics/CustomWorld";
+import SpatialHashingBroadphase from "../core/physics/SpatialHashingBroadphase";
 import PositionalSoundListener from "../core/sound/PositionalSoundListener";
 import FPSMeter from "../core/util/FPSMeter";
 import { initLayers, Layer } from "./config/layers";
@@ -23,6 +25,7 @@ export async function main() {
     tickIterations: 4,
     world: new CustomWorld({
       gravity: [0, 0],
+      broadphase: new SpatialHashingBroadphase(3, 30, 100),
     }),
   });
   game.world.frictionGravity = 10;

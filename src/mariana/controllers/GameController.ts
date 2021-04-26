@@ -2,7 +2,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
 import { rUniform } from "../../core/util/Random";
-import {V, V2d} from "../../core/Vector";
+import { V } from "../../core/Vector";
 import { OceanAmbience } from "../audio/OceanAmbience";
 import { Background } from "../Background";
 import { Boat } from "../Boat";
@@ -16,10 +16,9 @@ import { PufferFish } from "../enemies/PufferFish";
 import { Shark } from "../enemies/Shark";
 import { StingRay } from "../enemies/StingRay";
 import { DepthGauge } from "../hud/DepthGauge";
-import { Region } from "../region/Region";
+import { genRegions } from "../region/genRegions";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
-import { UpgradePickup } from "../UpgradePickup";
 import CameraController from "./CameraController";
 import { ProgressInfoController } from "./progressInfoController";
 
@@ -67,44 +66,9 @@ export class GameController extends BaseEntity implements Entity {
       const diver = this.game!.addEntity(new Diver(V(9.7, -1.8)));
       this.game?.addEntity(new CameraController(this.game.camera, diver));
       this.game?.addEntity(new DiverController(diver));
-
       this.game!.addEntity(new DepthGauge());
 
-      this.game!.addEntities(Region.genRegions());
-
-      for (let i = 0; i < 50; i++) {
-        this.game?.addEntity(
-          new Jellyfish(V(rUniform(-30, 30), rUniform(10, 90)))
-        );
-      }
-
-      for (let i = 0; i < 20; i++) {
-        this.game?.addEntity(
-          new PufferFish(V(rUniform(-30, 30), rUniform(10, 90)))
-        );
-      }
-
-      for (let i = 0; i < 10; i++) {
-        this.game?.addEntity(new Shark(V(rUniform(-30, 30), rUniform(21, 90))));
-      }
-
-      for (let i = 0; i < 5; i++) {
-        this.game?.addEntity(
-          new StingRay(V(rUniform(-30, 30), rUniform(10, 50)))
-        );
-      }
-
-      for (let i = 0; i < 5; i++) {
-        this.game?.addEntity(
-          new AnglerFish(V(rUniform(-30, 30), rUniform(70, 100)))
-        );
-      }
-
-      for (let i = 0; i < 10; i++) {
-        this.game?.addEntity(
-          new UpgradePickup(V(rUniform(-30, 30), rUniform(1, 10)))
-        );
-      }
+      this.game!.addEntities(genRegions());
     },
 
     diveEnd: async () => {

@@ -14,7 +14,7 @@ import { BreatheEffect } from "./effects/BreatheEffect";
 import { HarpoonGun } from "./weapons/HarpoonGun";
 
 const DIVER_HEIGHT = 2.0; // in meters
-const DIVER_WIDTH = 0.5; // in meters
+const DIVER_WIDTH = 0.65; // in meters
 const DIVER_SPEED = 35.0; // Newtons?
 const DIVER_DAMPING = 0.1; // Water friction
 const DIVER_BUOYANCY = 1.5; //

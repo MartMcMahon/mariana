@@ -2,6 +2,7 @@ import { Container, DisplayObject, Text } from "pixi.js";
 import BaseEntity from "../entity/BaseEntity";
 import Entity, { GameSprite } from "../entity/Entity";
 import Game from "../Game";
+import SpatialHashingBroadphase from "../physics/SpatialHashingBroadphase";
 
 const SMOOTHING = 0.95;
 export default class FPSMeter extends BaseEntity implements Entity {
@@ -42,12 +43,20 @@ export default class FPSMeter extends BaseEntity implements Entity {
       bodyCount: this.game?.world.bodies.length ?? 0,
       entityCount: this.game?.entities.all.size ?? 0,
       spriteCount: getSpriteCount(this.game!.renderer.stage),
+      collisions: (this.game?.world.broadphase as SpatialHashingBroadphase)
+        .debugData.numCollisions,
     };
   }
 
   getText() {
-    const { fps, bodyCount, entityCount, spriteCount } = this.getStats();
-    return `fps: ${fps} | bodies: ${bodyCount} | entities: ${entityCount} | sprites ${spriteCount}`;
+    const {
+      fps,
+      bodyCount,
+      collisions,
+      entityCount,
+      spriteCount,
+    } = this.getStats();
+    return `fps: ${fps} | bodies: ${bodyCount} | collisions: ${collisions} | entities: ${entityCount} | sprites ${spriteCount}`;
   }
 }
 
