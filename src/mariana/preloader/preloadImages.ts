@@ -5,6 +5,7 @@ import img_blood2 from "../../../resources/images/blood-2.png";
 import img_blood3 from "../../../resources/images/blood-3.png";
 import img_boat from "../../../resources/images/boat.png";
 import img_bubble from "../../../resources/images/bubble.png";
+import img_buy from "../../../resources/images/buy.png";
 import img_diver from "../../../resources/images/diver.png";
 import img_diverLeft from "../../../resources/images/diver_left.png";
 import img_diverRight from "../../../resources/images/diver_right.png";
