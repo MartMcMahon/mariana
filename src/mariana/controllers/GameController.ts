@@ -16,7 +16,6 @@ import { genRegions } from "../region/genRegions";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
 import CameraController from "./CameraController";
-import { ProgressInfoController } from "./progressInfoController";
 
 /**
  * The top level control flow for the game, basically manages transitioning between menus and stuff
@@ -33,7 +32,6 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new WaterOverlay());
       this.game!.addEntity(new OceanAmbience());
       this.game!.addEntity(new UpgradeManager());
-      this.game!.addEntity(new ProgressInfoController());
       this.game?.addEntity(new CameraController(this.game.camera));
 
       this.game!.addEntities(genRegions());
