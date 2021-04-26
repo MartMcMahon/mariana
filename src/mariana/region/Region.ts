@@ -1,7 +1,7 @@
 import img_stoneTiles2 from "../../../resources/images/tiles/stone_tiles2.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
-import { rBool, rInteger, shuffle } from "../../core/util/Random";
+import { rInteger, shuffle } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { AnglerFish } from "../enemies/AnglerFish";
 import { Jellyfish } from "../enemies/Jellyfish";
@@ -9,10 +9,19 @@ import { PufferFish } from "../enemies/PufferFish";
 import { Shark } from "../enemies/Shark";
 import { StingRay } from "../enemies/StingRay";
 import { GroundTile, GROUND_TILE_SIZE } from "./GroundTile";
-import { getRegionCSV, RegionCSVData } from "./RegionData";
+import { RegionCSVData } from "./RegionData";
 import { Tileset } from "./Tileset";
 
 export class Region extends BaseEntity implements Entity {
+  // Cells that don't have land in them
+  emptyCells: V2d[] = [];
+
+  numJellyfish: number;
+  numPufferFish: number;
+  numSharks: number;
+  numStingRays: number;
+  numAnglerFish: number;
+
   constructor(
     origin: V2d = V(0, 0),
     cellData: RegionCSVData,
@@ -27,8 +36,6 @@ export class Region extends BaseEntity implements Entity {
       gap: 1,
     });
 
-    const emptyCells: V2d[] = [];
-
     cellData.forEach((row, j) =>
       row.forEach((tileType, i) => {
         const x = i * GROUND_TILE_SIZE;
@@ -38,42 +45,53 @@ export class Region extends BaseEntity implements Entity {
         if (tileType >= 0) {
           this.addChild(new GroundTile(position, tileset, tileType));
         } else {
-          emptyCells.push(position);
+          this.emptyCells.push(position);
         }
       })
     );
 
-    shuffle(emptyCells);
+    // The number that will spawn
+    this.numJellyfish = rInteger(2, 10);
+    this.numPufferFish = rInteger(0, 2);
+    this.numSharks = depthLevel > 1 ? rInteger(0, 2) : 0;
+    this.numStingRays = depthLevel < 2 ? rInteger(0, 2) : 0;
+    this.numAnglerFish = depthLevel > 2 ? rInteger(1, 2) : 0;
+  }
 
-    const numJellyfish = rInteger(2, 10);
-    const numPufferFish = rInteger(0, 2);
-    const numSharks = depthLevel > 1 ? rInteger(0, 2) : 0;
-    const numStingRays = depthLevel < 2 ? rInteger(0, 2) : 0;
-    const numAnglerFish = depthLevel > 2 ? rInteger(1, 2) : 0;
+  spawnFishes() {
+    // keep track
+    const spawnCells = [...this.emptyCells];
+    shuffle(spawnCells);
 
-    for (let i = 0; i < numJellyfish && emptyCells.length > 0; i++) {
-      const [x, y] = emptyCells.pop()!;
+    for (let i = 0; i < this.numJellyfish && spawnCells.length > 0; i++) {
+      const [x, y] = spawnCells.pop()!;
       this.addChild(new Jellyfish(V(x, y)));
     }
 
-    for (let i = 0; i < numPufferFish && emptyCells.length > 0; i++) {
-      const [x, y] = emptyCells.pop()!;
+    for (let i = 0; i < this.numPufferFish && spawnCells.length > 0; i++) {
+      const [x, y] = spawnCells.pop()!;
       this.addChild(new PufferFish(V(x, y)));
     }
 
-    for (let i = 0; i < numSharks && emptyCells.length > 0; i++) {
-      const [x, y] = emptyCells.pop()!;
+    for (let i = 0; i < this.numSharks && spawnCells.length > 0; i++) {
+      const [x, y] = spawnCells.pop()!;
       this.addChild(new Shark(V(x, y)));
     }
 
-    for (let i = 0; i < numStingRays && emptyCells.length > 0; i++) {
-      const [x, y] = emptyCells.pop()!;
+    for (let i = 0; i < this.numStingRays && spawnCells.length > 0; i++) {
+      const [x, y] = spawnCells.pop()!;
       this.addChild(new StingRay(V(x, y)));
     }
 
-    for (let i = 0; i < numAnglerFish && emptyCells.length > 0; i++) {
-      const [x, y] = emptyCells.pop()!;
+    for (let i = 0; i < this.numAnglerFish && spawnCells.length > 0; i++) {
+      const [x, y] = spawnCells.pop()!;
       this.addChild(new AnglerFish(V(x, y)));
     }
   }
+
+  // TODO: Loading and unloading when players get near
+
+  handlers = {
+    diveStart: () => {},
+  };
 }

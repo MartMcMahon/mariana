@@ -3,6 +3,7 @@ import Entity from "../../core/entity/Entity";
 import Game from "../../core/Game";
 
 export class ProgressInfoController extends BaseEntity implements Entity {
+  persistenceLevel = 1;
   id = "progressInfoController";
   data = { upgrades: {} };
 

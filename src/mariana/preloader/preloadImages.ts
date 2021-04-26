@@ -46,7 +46,6 @@ export function getImagesToPreload(): Set<string> {
     img_diveWatchBack,
     img_diveWatchNeedle,
     img_harpoon,
-    img_jellyfish,
     img_jellyfish1,
     img_jellyfish2,
     img_pickup1,

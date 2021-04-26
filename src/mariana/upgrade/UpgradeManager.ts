@@ -2,6 +2,8 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 
 export class UpgradeManager extends BaseEntity implements Entity {
+  persistenceLevel = 1;
+
   id = "upgradeManager";
 
   pointsAvailable: number = 0;

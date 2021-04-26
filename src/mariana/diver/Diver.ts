@@ -14,6 +14,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V, V2d } from "../../core/Vector";
+import { Boat } from "../Boat";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { ShuffleRing } from "../utils/ShuffleRing";
 import { HarpoonGun } from "../weapons/HarpoonGun";
@@ -71,6 +72,7 @@ export class Diver extends BaseEntity implements Entity {
 
     this.harpoonGun = this.addChild(new HarpoonGun(this));
     this.oxygenManager = this.addChild(new OxygenManager(() => this));
+    this.addChild(new BreatheEffect(this));
 
     this.body = new Body({
       mass: 1,
@@ -94,8 +96,6 @@ export class Diver extends BaseEntity implements Entity {
     }
 
     this.setSprite("forward");
-
-    this.addChild(new BreatheEffect(this));
   }
 
   setSprite(visibleSprite: keyof Sprites) {
@@ -128,7 +128,15 @@ export class Diver extends BaseEntity implements Entity {
   }
 
   onTick(dt: number) {
-    if (!this.onBoat) {
+    if (this.onBoat) {
+      const boat = this.game!.entities.getById("boat") as Boat;
+      const [x, y] = boat.getLaunchPosition();
+      this.body.position[0] = x;
+      this.body.position[1] = y;
+      this.body.velocity[0] = 0;
+      this.body.velocity[1] = 0;
+      this.body.collisionResponse = false;
+    } else {
       if (!this.isSurfaced()) {
         if (this.hp > 0) {
           this.body.applyForce(this.moveDirection.mul(DIVER_SPEED));
@@ -149,6 +157,7 @@ export class Diver extends BaseEntity implements Entity {
     if (this.onBoat) {
       this.onBoat = false;
       this.body.applyImpulse(V(1.6, -2));
+      this.body.collisionResponse = true;
     }
   }
 

@@ -7,32 +7,45 @@ import snd_fleshHit4 from "../../../resources/audio/flesh-hit-4.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
-import { choose, rInteger, rUniform } from "../../core/util/Random";
+import { choose, rInteger, rNormal, rUniform } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { BloodSplash } from "../effects/BloodSplash";
-import { UpgradePickup } from "../UpgradePickup";
+import { makePointDrops, PointDrop } from "../PointDrop";
 import { Harpoon } from "../weapons/Harpoon";
 import { Harpoonable } from "../weapons/Harpoonable";
+
+interface Options {
+  width: number;
+  height: number;
+  speed?: number;
+  friction?: number;
+  dropValue?: number;
+  hp?: number;
+}
 
 export abstract class BaseFish
   extends BaseEntity
   implements Entity, Harpoonable {
   sprite!: Sprite & GameSprite;
   body: Body;
-
-  hp = 10;
-
   facingRight = true;
+
+  speed: number;
+  friction: number;
+  dropValue: number;
+  hp: number;
 
   constructor(
     position: V2d,
-    public width: number,
-    public height: number,
-    public speed: number = 3,
-    public friction: number = 2
+    { width, height, speed = 3, friction = 2, dropValue = 1, hp = 10 }: Options
   ) {
     super();
+
+    this.speed = speed;
+    this.friction = friction;
+    this.dropValue = dropValue;
+    this.hp = hp;
 
     this.body = new Body({ mass: 1 });
     this.body.addShape(
@@ -76,9 +89,7 @@ export abstract class BaseFish
   onHarpooned(harpoon: Harpoon) {
     const damage = harpoon.getDamageAmount();
     if (damage > 0) {
-      this.game!.addEntity(
-        new UpgradePickup(this.getPosition(), rInteger(2, 4))
-      );
+      this.game!.addEntity(makePointDrops(this.getPosition(), this.dropValue));
       const sound = choose(
         snd_fleshHit1,
         snd_fleshHit2,

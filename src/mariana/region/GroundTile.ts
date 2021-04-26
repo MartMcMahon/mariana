@@ -14,6 +14,7 @@ import { Tileset } from "./Tileset";
 export const GROUND_TILE_SIZE = 2.25;
 
 export class GroundTile extends BaseEntity implements Entity, Harpoonable {
+  persistenceLevel = 1;
   sprite: Sprite;
 
   constructor(position: V2d, tileset: Tileset, tileType: number) {

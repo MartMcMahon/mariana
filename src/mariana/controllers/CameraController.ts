@@ -1,10 +1,11 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { Camera2d } from "../../core/graphics/Camera2d";
+import { Boat } from "../Boat";
 import { Diver } from "../diver/Diver";
 
 export default class CameraController extends BaseEntity implements Entity {
-  constructor(private camera: Camera2d, private diver: Diver) {
+  constructor(private camera: Camera2d) {
     super();
   }
 
@@ -14,7 +15,13 @@ export default class CameraController extends BaseEntity implements Entity {
   }
 
   onRender() {
-    this.camera.smoothCenter(this.diver.getPosition());
+    const diver = this.game!.entities.getById("diver") as Diver | undefined;
+    if (diver) {
+      this.camera.smoothCenter(diver.getPosition());
+    } else {
+      const boat = this.game!.entities.getById("boat") as Boat;
+      this.camera.smoothCenter(V(boat.sprite.x, boat.sprite.y));
+    }
   }
 
   onInputDeviceChange(usingGamepad: boolean) {

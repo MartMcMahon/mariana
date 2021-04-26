@@ -12,6 +12,7 @@ import img_pickup7 from "../../resources/images/pickup-7.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
 import { SoundInstance } from "../core/sound/SoundInstance";
+import { rBool, rInteger, rNormal } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
 import { CollisionGroups } from "./config/CollisionGroups";
 import { Diver } from "./diver/Diver";
@@ -21,7 +22,7 @@ const MAGNET_FORCE = 5;
 const GRAVITY = 3; // meters / sec^2
 const FRICTION = 2; // meters / sec^2
 
-export class UpgradePickup extends BaseEntity implements Entity {
+export class PointDrop extends BaseEntity implements Entity {
   sprite: AnimatedSprite;
   body: Body;
 
@@ -83,4 +84,18 @@ export class UpgradePickup extends BaseEntity implements Entity {
     this.sprite!.position.set(...this.body!.position);
     this.sprite.update(dt);
   }
+}
+
+// Make a cluster of drops
+export function makePointDrops(position: V2d, valueRemaining: number = 1) {
+  const pickups: PointDrop[] = [];
+  while (valueRemaining >= 1) {
+    const value = rInteger(1, valueRemaining);
+    valueRemaining -= 1;
+    pickups.push(new PointDrop(position.add([rNormal(), rNormal()]), value));
+  }
+  if (rBool(valueRemaining)) {
+    pickups.push(new PointDrop(position.add([rNormal(), rNormal()]), 1));
+  }
+  return pickups;
 }
