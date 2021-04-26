@@ -1,5 +1,4 @@
 import { AnimatedSprite, Graphics, Sprite, Text } from "pixi.js";
-// import img_buy from "../../../resources/images/buy.png";
 import img_harpoon from "../../../resources/images/harpoon.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
@@ -10,21 +9,23 @@ import { getUpgradeManager, UpgradeOptions } from "./UpgradeManager";
 
 export class UpgradeShop extends BaseEntity implements Entity {
   sprite: Sprite & GameSprite;
-  saved_upgrades: UpgradeOptions;
-  poonItem: AnimatedSprite;
+  savedData: UpgradeOptions;
 
   menuWidth: number;
   menuHeight: number;
 
   speedUpgrade: Text;
   oxygenUpgrade: Text;
+  speedCost: number;
+  oxygenCost: number;
+  moneyText: Text;
 
   constructor(menuWidth = 400, menuHeight = 200) {
     super();
     this.sprite = new Sprite();
     this.sprite.layerName = Layer.MENU;
 
-    this.saved_upgrades = { speed: 0, oxygen: 0 };
+    this.savedData = { speed: 0, oxygen: 0 };
     this.menuWidth = window.innerWidth * 0.7;
     this.menuHeight = (window.innerHeight * 0.7) / 2;
 
@@ -67,11 +68,16 @@ export class UpgradeShop extends BaseEntity implements Entity {
     text.anchor.set(0.5);
 
     // money text
+    this.moneyText = new Text("🐟");
+    this.moneyText.anchor.set(0.5);
+    this.moneyText.position = V(0, -this.menuHeight * 0.9);
+    this.moneyText.interactive = false;
+    this.sprite.addChild(this.moneyText);
 
     // speed upgrade
     this.speedUpgrade = new Text("speed", { fontSize: 42 });
     this.speedUpgrade.anchor.set(0.5);
-    this.speedUpgrade.position = V(0, -this.menuHeight *0.7);
+    this.speedUpgrade.position = V(0, -this.menuHeight * 0.7);
     this.speedUpgrade.interactive = true;
     this.sprite.addChild(this.speedUpgrade);
 
@@ -85,8 +91,8 @@ export class UpgradeShop extends BaseEntity implements Entity {
 
   onAdd() {
     let controller = getUpgradeManager(this.game!);
-    this.saved_upgrades = controller.getFromLocalStorage();
-    console.log("saved_upgrades", this.saved_upgrades);
+    this.savedData = controller.getFromLocalStorage();
+    console.log("savedData", this.savedData);
 
     // this.poonItemText = AnimatedSprite.fromImages([img_buy]);
     // this.poonItemText.position = V(
@@ -97,25 +103,29 @@ export class UpgradeShop extends BaseEntity implements Entity {
     // this.poonItemText.scale.set(0.5, 0.5);
     // this.poonItemText.interactive = true;
     // this.poonItemText.click = () => {
-    //   this.saved_upgrades.poon = 1;
-    //   controller.saveToLocalStorage(this.saved_upgrades);
+    //   this.savedData.poon = 1;
+    //   controller.saveToLocalStorage(this.savedData);
     //   this.poonItemText.destroy();
     // };
 
     this.speedUpgrade.click = () => {
-      this.saved_upgrades.speed += 1;
-      controller.saveToLocalStorage(this.saved_upgrades);
+      this.savedData.speed += 1;
+      controller.saveToLocalStorage(this.savedData);
     };
+    this.speedCost = this.savedData.speed * 10;
 
     this.oxygenUpgrade.click = () => {
-      this.saved_upgrades.oxygen += 1;
-      controller.saveToLocalStorage(this.saved_upgrades);
+      this.savedData.oxygen += 1;
+      controller.saveToLocalStorage(this.savedData);
     };
+    this.oxygenCost = this.savedData.oxygen * 10;
   }
 
   onRender() {
-    this.speedUpgrade.text = `speed: ${this.saved_upgrades.speed}`;
-    this.oxygenUpgrade.text = `oxygen: ${this.saved_upgrades.oxygen}`;
+    this.speedUpgrade.text = `speed: ${this.savedData.speed} ~ cost: ${this.speedCost}`;
+    this.oxygenUpgrade.text = `oxygen: ${this.savedData.oxygen} ~ cost: ${this.oxygenCost}`;
+    let controller = getUpgradeManager(this.game!);
+    this.moneyText.text = `🐟: ${controller.pointsAvailable}`;
   }
 
   onResize([width, height]: [number, number]) {
@@ -131,6 +141,9 @@ export class UpgradeShop extends BaseEntity implements Entity {
   handlers = {
     diverJumped: () => {
       this.destroy();
+    },
+    depositSouls: (payload) => {
+      this.savedData += payload.amount;
     },
   };
 }

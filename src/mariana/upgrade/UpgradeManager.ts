@@ -28,6 +28,7 @@ export class UpgradeManager extends BaseEntity implements Entity {
     this.data = {
       speed: parseInt(store.getItem("speed")) || 0,
       oxygen: parseInt(store.getItem("oxygen")) || 0,
+      fishSouls: parseInt(store.getItem("fishSouls")) || 0,
     };
     return this.data;
   }
@@ -44,6 +45,9 @@ export class UpgradeManager extends BaseEntity implements Entity {
     },
     depositSouls: (payload) => {
       this.pointsAvailable += payload.amount;
+    },
+    withdrawSouls: (payload) => {
+      this.pointsAvailable -= payload.amount;
     },
   };
 }
