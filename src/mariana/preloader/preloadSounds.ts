@@ -52,6 +52,7 @@ import snd_spear3 from "../../../resources/audio/spear3.flac";
 import snd_spear4 from "../../../resources/audio/spear4.flac";
 import snd_splash from "../../../resources/audio/splash.flac";
 import snd_spookySinking from "../../../resources/audio/spooky_sinking.flac";
+import snd_victory from "../../../resources/audio/victory.flac";
 
 export function getSoundsToPreload(): string[] {
   // use a set to make sure we don't include stuff multiple times
@@ -110,6 +111,7 @@ export function getSoundsToPreload(): string[] {
     snd_spear4,
     snd_splash,
     snd_spookySinking,
+    snd_victory,
   ]);
 
   // Just in case this sneaks in there somehow, make sure we don't load it

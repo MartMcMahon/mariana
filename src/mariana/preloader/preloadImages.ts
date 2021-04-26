@@ -13,6 +13,7 @@ import img_diverRight from "../../../resources/images/diver_right.png";
 import img_harpoon from "../../../resources/images/harpoon.png";
 import img_jellyfish1 from "../../../resources/images/jellyfish_1.png";
 import img_jellyfish2 from "../../../resources/images/jellyfish_2.png";
+import img_phone from "../../../resources/images/phone.png";
 import img_pickup1 from "../../../resources/images/pickup-1.png";
 import img_pickup2 from "../../../resources/images/pickup-2.png";
 import img_pickup3 from "../../../resources/images/pickup-3.png";
@@ -52,6 +53,7 @@ export function getImagesToPreload(): Set<string> {
     img_harpoon,
     img_jellyfish1,
     img_jellyfish2,
+    img_phone,
     img_pickup1,
     img_pickup2,
     img_pickup3,
