@@ -1,11 +1,15 @@
-import { AnimatedSprite, Graphics, Sprite, Text } from "pixi.js";
+import { Graphics, Sprite, Text } from "pixi.js";
 import img_harpoon from "../../../resources/images/harpoon.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
 import { V } from "../../core/Vector";
 import { Layer } from "../config/layers";
-import { getUpgradeManager, UpgradeOptions } from "./UpgradeManager";
+import {
+  getUpgradeManager,
+  UpgradeManager,
+  UpgradeOptions,
+} from "./UpgradeManager";
 
 export class UpgradeShop extends BaseEntity implements Entity {
   sprite: Sprite & GameSprite;
@@ -92,7 +96,6 @@ export class UpgradeShop extends BaseEntity implements Entity {
   onAdd() {
     let controller = getUpgradeManager(this.game!);
     this.savedData = controller.getFromLocalStorage();
-    console.log("savedData", this.savedData);
 
     // this.poonItemText = AnimatedSprite.fromImages([img_buy]);
     // this.poonItemText.position = V(
@@ -110,21 +113,23 @@ export class UpgradeShop extends BaseEntity implements Entity {
 
     this.speedUpgrade.click = () => {
       this.savedData.speed += 1;
-      controller.saveToLocalStorage(this.savedData);
+      // controller.saveToLocalStorage(this.savedData);
+      this.game?.dispatch({ type: "upgrade", payload: "speed" });
     };
-    this.speedCost = this.savedData.speed * 10;
 
     this.oxygenUpgrade.click = () => {
       this.savedData.oxygen += 1;
-      controller.saveToLocalStorage(this.savedData);
+      // controller.saveToLocalStorage(this.savedData);
+      this.game?.dispatch({ type: "upgrade", payload: "oxygen" });
     };
-    this.oxygenCost = this.savedData.oxygen * 10;
   }
 
   onRender() {
-    this.speedUpgrade.text = `speed: ${this.savedData.speed} ~ cost: ${this.speedCost}`;
-    this.oxygenUpgrade.text = `oxygen: ${this.savedData.oxygen} ~ cost: ${this.oxygenCost}`;
     let controller = getUpgradeManager(this.game!);
+    this.speedCost = controller.data.speed * 10;
+    this.oxygenCost = controller.data.oxygen * 10;
+    this.speedUpgrade.text = `speed: ${controller.data.speed} ~ cost: ${this.speedCost}`;
+    this.oxygenUpgrade.text = `oxygen: ${controller.data.oxygen} ~ cost: ${this.oxygenCost}`;
     this.moneyText.text = `🐟: ${controller.pointsAvailable}`;
   }
 
@@ -141,9 +146,6 @@ export class UpgradeShop extends BaseEntity implements Entity {
   handlers = {
     diverJumped: () => {
       this.destroy();
-    },
-    depositSouls: (payload) => {
-      this.savedData += payload.amount;
     },
   };
 }
