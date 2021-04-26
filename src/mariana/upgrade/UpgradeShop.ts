@@ -113,4 +113,10 @@ export class UpgradeShop extends BaseEntity implements Entity {
       this.destroy();
     }
   }
+
+  handlers = {
+    diverJumped: () => {
+      this.destroy();
+    },
+  };
 }

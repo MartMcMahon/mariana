@@ -3,12 +3,13 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { rInteger, shuffle } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
+import { TILE_SIZE_METERS } from "../constants";
 import { AnglerFish } from "../enemies/AnglerFish";
 import { Jellyfish } from "../enemies/Jellyfish";
 import { PufferFish } from "../enemies/PufferFish";
 import { Shark } from "../enemies/Shark";
 import { StingRay } from "../enemies/StingRay";
-import { GroundTile, GROUND_TILE_SIZE } from "./GroundTile";
+import { GroundTile } from "./GroundTile";
 import { RegionCSVData } from "./RegionData";
 import { Tileset } from "./Tileset";
 
@@ -40,8 +41,8 @@ export class Region extends BaseEntity implements Entity {
 
     cellData.forEach((row, j) =>
       row.forEach((tileType, i) => {
-        const x = i * GROUND_TILE_SIZE;
-        const y = j * GROUND_TILE_SIZE;
+        const x = i * TILE_SIZE_METERS;
+        const y = j * TILE_SIZE_METERS;
         const position = origin.add([x, y]);
 
         if (tileType >= 0) {

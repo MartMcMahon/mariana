@@ -47,6 +47,12 @@ export interface V2d extends ArrayLen2 {
   /** (In Place) Return the result of multiplying this vector by a scalar. */
   imul(scalar: number): this;
 
+  /** Return the result of multiplying this vector by another vector componentwise. */
+  mulComponent(other: ArrayLen2): V2d;
+
+  /** (In Place) Return the result of multiplying this vector by another vector componentwise. */
+  imulComponent(other: ArrayLen2): V2d;
+
   /** Returns the result of rotating this vector 90 decgrees clockwise */
   rotate90cw(): V2d;
 

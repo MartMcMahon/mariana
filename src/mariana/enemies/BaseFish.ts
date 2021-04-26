@@ -130,3 +130,7 @@ export abstract class BaseFish
     this.destroy();
   }
 }
+
+export function isFish(entity: Entity): entity is BaseFish {
+  return entity instanceof BaseFish;
+}

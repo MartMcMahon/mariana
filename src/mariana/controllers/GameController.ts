@@ -12,7 +12,7 @@ import { WaterOverlay } from "../effects/WaterOverlay";
 import { DamagedOverlay } from "../hud/DamagedOverlay";
 import { DiveWatch } from "../hud/DiveWatch";
 import { FishCounter } from "../hud/FishCounter";
-import { genRegions } from "../region/genRegions";
+import { generateRegions } from "../region/genRegions";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
 import CameraController from "./CameraController";
@@ -34,7 +34,7 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new UpgradeManager());
       this.game?.addEntity(new CameraController(this.game.camera));
 
-      this.game!.addEntities(genRegions());
+      this.game!.addEntities(generateRegions());
       const diver = this.game!.addEntity(new Diver());
 
       this.game!.addEntity(new DamagedOverlay(() => diver));
@@ -59,8 +59,8 @@ export class GameController extends BaseEntity implements Entity {
 
     diverDied: async () => {
       this.game?.addEntity(new SoundInstance(snd_musicalNope));
-      await this.wait(2.0);
-      this.game?.dispatch({ type: "diveStart " });
+      await this.wait(3.0);
+      this.game?.dispatch({ type: "diveStart" });
     },
 
     victory: async () => {

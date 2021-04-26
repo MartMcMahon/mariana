@@ -25,10 +25,10 @@ import { HARPOON_OXYGEN_COST, OxygenManager } from "./OxygenManager";
 
 const DIVER_HEIGHT = 2.0; // in meters
 const DIVER_WIDTH = 0.65; // in meters
-const DIVER_SPEED = 35.0; // Newtons?
+const DIVER_SPEED = 30.0; // Newtons?
 const DIVER_DAMPING = 0.1; // Water friction
-const DIVER_BUOYANCY = 1.5; //
-const SURFACE_GRAVITY = 9.8; // meters / second
+const SURFACE_GRAVITY = 9.8; // meters / second^2
+const SUBMERGED_GRAVITY = 5.0; // meters / second^2
 
 interface Sprites {
   forward: Sprite;
@@ -139,15 +139,14 @@ export class Diver extends BaseEntity implements Entity {
       this.body.velocity[1] = 0;
       this.body.collisionResponse = false;
     } else {
+      const g = this.isSurfaced() ? SURFACE_GRAVITY : SUBMERGED_GRAVITY;
+      this.body.applyForce([0, this.body.mass * g]);
+
       if (!this.isSurfaced()) {
-        this.body.applyForce(this.moveDirection.mul(DIVER_SPEED));
+        if (!this.isDead) {
+          this.body.applyForce(this.moveDirection.mul(DIVER_SPEED));
+        }
         this.body.applyDamping(DIVER_DAMPING);
-        this.body.applyForce([
-          0,
-          (this.body.mass * SURFACE_GRAVITY) / DIVER_BUOYANCY,
-        ]);
-      } else {
-        this.body.applyForce([0, this.body.mass * SURFACE_GRAVITY]);
       }
     }
   }
@@ -157,6 +156,7 @@ export class Diver extends BaseEntity implements Entity {
       this.onBoat = false;
       this.body.applyImpulse(V(1.6, -2));
       this.body.collisionResponse = true;
+      this.game?.dispatch({ type: "diverJumped" });
     }
   }
 

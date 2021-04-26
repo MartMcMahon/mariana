@@ -71,6 +71,18 @@ export class V2d extends Array {
     return this;
   }
 
+  /** Return the result of multiplying this vector by another vector componentwise. */
+  mulComponent(other) {
+    return this.clone().imul(other);
+  }
+
+  /** (In Place) Return the result of multiplying this vector by another vector componentwise. */
+  imulComponent(other) {
+    this[0] *= other[0];
+    this[1] *= other[1];
+    return this;
+  }
+
   /** Returns the result of rotating this vector 90 decgrees clockwise */
   rotate90cw() {
     return new V2d(this[1], -this[0]);

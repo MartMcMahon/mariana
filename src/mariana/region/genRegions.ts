@@ -1,24 +1,23 @@
 import data from "../../../resources/regions/regions.json";
 import { rInteger } from "../../core/util/Random";
 import { V } from "../../core/Vector";
-import { GROUND_TILE_SIZE } from "./GroundTile";
+import {
+  REGIONS_START_DEPTH,
+  REGION_SIZE_METERS,
+  WORLD_LEFT_EDGE,
+  WORLD_SIZE_REGIONS,
+} from "../constants";
 import { Region } from "./Region";
 import { getRegionCSV } from "./RegionData";
 
-const REGION_WIDTH = 16 * GROUND_TILE_SIZE; // width in meters
-const REGION_HEIGHT = 16 * GROUND_TILE_SIZE; // height in meters
-
 // Generates all the regions
-export function genRegions(
-  // How many rows of regions
-  numRows: number = 3,
-  // how many regions in each row
-  numColumns = 4
-) {
+export function generateRegions() {
   let regions = [];
 
+  const [numColumns, numRows] = WORLD_SIZE_REGIONS;
+
   // start down a ways so we don't have fish spawning right at the surface
-  let topLeft = V((-REGION_WIDTH * numColumns) / 2, 5);
+  let topLeft = V(WORLD_LEFT_EDGE, REGIONS_START_DEPTH);
   let rdata: any;
 
   let regionsData: any[][] = [];
@@ -42,8 +41,8 @@ export function genRegions(
       regionsData[depthLevel].push(rdata);
 
       const cellData = getRegionCSV(rdata.csv);
-      const regionX = topLeft.x + column * REGION_WIDTH;
-      const regionY = topLeft.y + depthLevel * REGION_HEIGHT;
+      const regionX = topLeft.x + column * REGION_SIZE_METERS[0];
+      const regionY = topLeft.y + depthLevel * REGION_SIZE_METERS[1];
       regions.push(new Region(V(regionX, regionY), cellData, depthLevel));
     }
   }

@@ -8,11 +8,10 @@ import { clamp } from "../../core/util/MathUtil";
 import { rUniform } from "../../core/util/Random";
 import { V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
+import { TILE_SIZE_METERS } from "../constants";
 import { Harpoon } from "../weapons/Harpoon";
 import { Harpoonable } from "../weapons/Harpoonable";
 import { Tileset } from "./Tileset";
-
-export const GROUND_TILE_SIZE = 2.25;
 
 export class GroundTile extends BaseEntity implements Entity, Harpoonable {
   persistenceLevel = 1;
@@ -24,15 +23,15 @@ export class GroundTile extends BaseEntity implements Entity, Harpoonable {
     let texture = tileset.getTexture(tileType);
 
     this.sprite = Sprite.from(texture);
-    this.sprite.width = this.sprite.height = GROUND_TILE_SIZE;
+    this.sprite.width = this.sprite.height = TILE_SIZE_METERS;
     this.sprite.position.set(...position);
     this.sprite.anchor.set(0.5);
 
     this.body = new Body({ mass: 0, position: position.clone() });
     this.body.addShape(
       new Box({
-        width: GROUND_TILE_SIZE,
-        height: GROUND_TILE_SIZE,
+        width: TILE_SIZE_METERS,
+        height: TILE_SIZE_METERS,
         collisionMask: CollisionGroups.All,
       })
     );

@@ -37,6 +37,7 @@ export class Inventory extends BaseEntity implements Entity {
     diverDied: () => {
       const center = this.diver.getPosition();
       makeSoulDrops(center, this.fishSouls);
+      this.fishSouls = 0;
     },
 
     fishSoulCollected: ({ value }: { value: number }) => {

@@ -10,6 +10,7 @@ import { initContactMaterials } from "./config/PhysicsMaterials";
 import { GameController } from "./controllers/GameController";
 import { GraphicsQualityController } from "./controllers/GraphicsQualityController";
 import VolumeController from "./controllers/VolumeController";
+import { isFish } from "./enemies/BaseFish";
 import Preloader from "./preloader/Preloader";
 
 declare global {
@@ -41,7 +42,7 @@ export async function main() {
 
   // Add some filters for fast lookup of certain entities later
   // Think of these like indexes in a DB
-  // game.entities.addFilter(isHuman);
+  game.entities.addFilter(isFish);
 
   game.addEntity(new AutoPauser());
   game.addEntity(new PositionalSoundListener());

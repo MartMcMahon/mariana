@@ -15,8 +15,8 @@ import { Diver, getDiver } from "../diver/Diver";
 import { Harpoon } from "../weapons/Harpoon";
 import { BaseFish } from "./BaseFish";
 
-const PATROL_SPEED = 8; // speed when patrolling
-const AGGRO_SPEED = 12; // speed when aggroed
+const PATROL_SPEED = 15; // speed when patrolling
+const AGGRO_SPEED = 20; // speed when aggroed
 const FRICTION = 2.5; // water friction
 const PATROL_TIME = 5.0; // seconds between turning around when patrolling
 
@@ -62,8 +62,8 @@ export class Shark extends BaseFish {
     });
     this.body.addShape(
       new Capsule({
-        length: WIDTH,
-        radius: HEIGHT,
+        length: WIDTH - HEIGHT,
+        radius: HEIGHT / 2,
         collisionMask: CollisionGroups.All,
       })
     );
