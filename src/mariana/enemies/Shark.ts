@@ -88,7 +88,7 @@ export class Shark extends BaseEntity implements Entity {
         if (this.getDiverDistanceToMouth() < AGGRO_RANGE) {
           this.clearTimers("patrol");
           this.followDiver();
-          this.game!.addEntity(new SoundInstance(AGGRO_SOUND, { gain: 0.1 }));
+          this.game!.addEntity(new SoundInstance(AGGRO_SOUND, { gain: 0.01 }));
         }
       },
       "patrol"
