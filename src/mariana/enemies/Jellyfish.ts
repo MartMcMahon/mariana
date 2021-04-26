@@ -23,9 +23,10 @@ export class Jellyfish extends BaseEntity implements Entity, Harpoonable {
     this.body = new Body({
       mass: 0,
       collisionResponse: false,
-      collisionMask: CollisionGroups.All,
     });
-    this.body.addShape(new Circle({ radius }));
+    this.body.addShape(
+      new Circle({ radius, collisionMask: CollisionGroups.All })
+    );
     this.body.position = position;
 
     this.sprite = AnimatedSprite.fromImages([img_jellyfish1, img_jellyfish2]);

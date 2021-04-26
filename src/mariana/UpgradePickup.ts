@@ -40,7 +40,11 @@ export class UpgradePickup extends BaseEntity implements Entity {
     this.sprite.animationSpeed = 8;
 
     this.body = new Body({ mass: 0.01, fixedRotation: true, position });
-    this.body.addShape(new Particle({ collisionMask: CollisionGroups.All }));
+    this.body.addShape(
+      new Particle({
+        collisionMask: CollisionGroups.World & CollisionGroups.Diver,
+      })
+    );
   }
 
   onTick() {
