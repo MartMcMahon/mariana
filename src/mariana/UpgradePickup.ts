@@ -42,7 +42,7 @@ export class UpgradePickup extends BaseEntity implements Entity {
     this.body = new Body({ mass: 0.01, fixedRotation: true, position });
     this.body.addShape(
       new Particle({
-        collisionMask: CollisionGroups.World & CollisionGroups.Diver,
+        collisionMask: CollisionGroups.World | CollisionGroups.Diver,
       })
     );
   }
