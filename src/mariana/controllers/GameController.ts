@@ -9,6 +9,7 @@ import { DiverController } from "../DiverController";
 import { WaterOverlay } from "../effects/WaterOverlay";
 import { DamagedOverlay } from "../hud/DamagedOverlay";
 import { DiveWatch } from "../hud/DiveWatch";
+import { FishCounter } from "../hud/FishCounter";
 import { genRegions } from "../region/genRegions";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
@@ -47,6 +48,7 @@ export class GameController extends BaseEntity implements Entity {
       this.game!.addEntity(new DamagedOverlay(() => diver));
       this.game?.addEntity(new DiverController(diver));
       this.game!.addEntity(new DiveWatch(diver));
+      this.game!.addEntity(new FishCounter(diver));
     },
 
     openShop: async () => {

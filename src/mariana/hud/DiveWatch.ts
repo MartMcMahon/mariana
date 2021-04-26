@@ -55,7 +55,7 @@ export class DiveWatch extends BaseEntity implements Entity {
   }
 
   onResize([width, height]: V2d) {
-    this.sprite!.x = width - DIVE_WATCH_WIDTH;
+    this.sprite!.x = width - DIVE_WATCH_WIDTH * 0.9;
     this.sprite!.y = height - DIVE_WATCH_HEIGHT;
   }
 

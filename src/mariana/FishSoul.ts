@@ -89,7 +89,7 @@ export class FishSoul extends BaseEntity implements Entity {
 // Make a cluster of drops
 export function makeSoulDrops(position: V2d, valueRemaining: number = 1) {
   const pickups: FishSoul[] = [];
-  while (valueRemaining >= 1) {
+  while (valueRemaining > 1) {
     const value = rInteger(1, valueRemaining);
     valueRemaining -= 1;
     pickups.push(new FishSoul(position.add([rNormal(), rNormal()]), value));
