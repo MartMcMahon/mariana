@@ -13,6 +13,11 @@ export class Inventory extends BaseEntity implements Entity {
 
   onTick(dt: number) {
     const boat = this.game!.entities.getById("boat") as Boat;
+
+    if (boat.diverIsPresent()) {
+      this.game?.dispatch({ type: "depositSouls", amount: this.fishSouls });
+      this.fishSouls = 0;
+    }
   }
 
   handlers = {

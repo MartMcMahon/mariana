@@ -7,6 +7,7 @@ import { V, V2d } from "../../core/Vector";
 import { Layer } from "../config/layers";
 
 const FRICTION = 1.5;
+const RISE_SPEED = 16; // meters / sec ^ 2
 
 export class Bubble extends BaseEntity implements Entity {
   constructor(
@@ -27,7 +28,7 @@ export class Bubble extends BaseEntity implements Entity {
 
   onTick(dt: number) {
     const sprite = this.sprite! as Sprite;
-    this.velocity[1] += dt * -8;
+    this.velocity[1] += dt * -RISE_SPEED;
 
     this.velocity.imul(Math.exp(-dt * FRICTION));
 

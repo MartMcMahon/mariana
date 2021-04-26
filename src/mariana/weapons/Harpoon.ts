@@ -3,8 +3,11 @@ import { Sprite } from "pixi.js";
 import img_harpoon from "../../../resources/images/harpoon.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
+import { clamp, polarToVec } from "../../core/util/MathUtil";
+import { rBool, rDirection, rNormal, rUniform } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
+import { Bubble } from "../effects/Bubble";
 import { isHarpoonable } from "./Harpoonable";
 import { DAMPING, SIZE } from "./HarpoonGun";
 
@@ -53,6 +56,17 @@ export class Harpoon extends BaseEntity implements Entity {
     }
 
     this.minSpeed = Math.min(this.minSpeed, vec2.length(this.body.velocity));
+
+    const bubbleChance = clamp((this.minSpeed / 30) ** 2);
+    if (rBool(bubbleChance)) {
+      this.game!.addEntity(
+        new Bubble(
+          this.getPosition().iadd(polarToVec(rDirection(), rUniform(0, 0.15))),
+          V(rNormal(), rNormal()),
+          rUniform(0.1, 0.2 + 0.2 * bubbleChance)
+        )
+      );
+    }
   }
 
   onRender() {

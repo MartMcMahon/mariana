@@ -18,8 +18,8 @@ const MAX_DEPTH_ANGLE = degToRad(150);
 const NEEDLE_SPEED = 2;
 
 const SCALE = 0.4;
-const WIDTH = 512 * SCALE;
-const HEIGHT = 512 * SCALE;
+export const DIVE_WATCH_WIDTH = 512 * SCALE;
+export const DIVE_WATCH_HEIGHT = 512 * SCALE;
 
 export class DiveWatch extends BaseEntity implements Entity {
   sprite: Sprite & GameSprite;
@@ -55,8 +55,8 @@ export class DiveWatch extends BaseEntity implements Entity {
   }
 
   onResize([width, height]: V2d) {
-    this.sprite!.x = width - WIDTH;
-    this.sprite!.y = height - HEIGHT;
+    this.sprite!.x = width - DIVE_WATCH_WIDTH;
+    this.sprite!.y = height - DIVE_WATCH_HEIGHT;
   }
 
   onRender(dt: number) {
