@@ -6,14 +6,27 @@ import Entity, { GameSprite } from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
 import { V } from "../../core/Vector";
 import { Layer } from "../config/layers";
+import {ProgressInfoController} from "../controllers/progressInfoController";
+
+const getFromLocalStorage = () => {
+  const store = window.localStorage;
+  return {
+    poon: store.getItem("poon") || 0,
+    flashlight: store.getItem("flashlight") || 0
+  }
+}
 
 export class UpgradeShop extends BaseEntity implements Entity {
   sprite: Sprite & GameSprite;
 
-  constructor(menuWidth = 800, menuHeight = 600) {
+  constructor(menuWidth = 400, menuHeight = 300) {
     super();
     this.sprite = new Sprite();
     this.sprite.layerName = Layer.MENU;
+
+    let saved_upgrades = getFromLocalStorage();
+    let points = this.game?.entities.getById("upgradeManager")?.pointsAvailable!;
+    console.log(points)
 
     let background = new Graphics();
     background.beginFill(0xbbbbbb, 0.3);
@@ -23,8 +36,8 @@ export class UpgradeShop extends BaseEntity implements Entity {
 
     // 'poon
     let harpoonItem = AnimatedSprite.fromImages([img_harpoon]);
-    harpoonItem.scale.set(2, 2);
-    harpoonItem.position = V(-menuWidth / 2, -menuHeight / 2);
+    harpoonItem.scale.set(3, 3);
+    harpoonItem.position = V(-harpoonItem.width / 2, -harpoonItem.height / 2);
     harpoonItem.interactive = true;
     harpoonItem.click = () => {
       console.log("clicked the harpoon upgrade!");
@@ -34,40 +47,24 @@ export class UpgradeShop extends BaseEntity implements Entity {
     let harpoonItemBg = new Graphics()
       .beginFill(0, 0)
       .lineStyle(1, 0x000)
-      .drawRect(0, 0, 30, 30);
+      .drawRect(0, 0, 22, 22);
     harpoonItem.addChild(harpoonItemBg);
 
-    let harpoonItemText = AnimatedSprite.fromImages([img_buy]);
-    harpoonItemText.position = V(-menuWidth / 2, -menuHeight / 2 + 64);
-    harpoonItemText.scale.set(0.5, 0.5);
-    harpoonItemText.interactive = true;
-    harpoonItemText.click = () => {
-      console.log("clicked text");
-    };
-    this.sprite.addChild(harpoonItemText);
-
-    // flashlight
-    let flashlightItem = AnimatedSprite.fromImages([img_harpoon]);
-    flashlightItem.scale.set(2, 2);
-    flashlightItem.position = V(-menuWidth / 2 + 64, -menuHeight / 2);
-    flashlightItem.interactive = true;
-    flashlightItem.click = () => {
-      console.log("clicked the flashlight upgrade");
-    };
-    this.sprite.addChild(flashlightItem);
-    let flashlightItemBg = new Graphics()
-      .beginFill(0, 0)
-      .lineStyle(1, 0)
-      .drawRect(0, 0, 30, 30);
-    flashlightItem.addChild(flashlightItemBg);
-    let flashlightItemText = AnimatedSprite.fromImages([img_buy]);
-    flashlightItemText.position = V(-menuWidth / 2 + 64, -menuHeight / 2 + 64);
-    flashlightItemText.scale.set(0.5, 0.5);
-    flashlightItemText.interactive = true;
-    flashlightItemText.click = () => {
-      console.log("buying flashlight");
-    };
-    this.sprite.addChild(flashlightItemText);
+    console.log(saved_upgrades.poon)
+    if (saved_upgrades.poon === 0 ) {
+      let harpoonItemText = AnimatedSprite.fromImages([img_buy]);
+      harpoonItemText.position = V(
+        -harpoonItem.width / 2,
+        -harpoonItem.height / 2 + 96
+      );
+      harpoonItemText.scale.set(0.5, 0.5);
+      harpoonItemText.interactive = true;
+      harpoonItemText.click = () => {
+        console.log("clicked text");
+        window.localStorage.setItem("poon", 1)
+      };
+      this.sprite.addChild(harpoonItemText);
+    }
 
     // enter to dive
     const text = new Text("Press enter to dive", {
