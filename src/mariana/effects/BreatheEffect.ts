@@ -58,6 +58,3 @@ export class BreatheEffect extends BaseEntity implements Entity {
     },
   };
 }
-
-// SIMON!
-// TODO: breathe out on damage
