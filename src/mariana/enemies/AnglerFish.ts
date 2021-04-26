@@ -36,10 +36,6 @@ export class AnglerFish extends BaseFish {
     this.sprite.anchor.set(0.5);
     this.sprite.loop = true;
     this.sprite.position.set(...position);
-
-    if (this.movingRight) {
-      this.sprite.scale.x *= -1;
-    }
   }
 
   async onAdd() {
@@ -55,11 +51,6 @@ export class AnglerFish extends BaseFish {
     await this.wait(PATROL_TIME, undefined, "turnAround");
     this.turnAround();
   }
-
-  // onRender(dt: number) {
-  //   this.sprite.position.set(...this.body!.position);
-  //   this.sprite.update(dt);
-  // }
 
   onTick(dt: number) {
     super.onTick(dt);

@@ -25,7 +25,7 @@ export class WorldBounds extends BaseEntity implements Entity {
       );
       this.addChild(
         new GroundTile(
-          V(WORLD_RIGHT_EDGE + TILE_SIZE_METERS / 3, depth),
+          V(WORLD_RIGHT_EDGE - TILE_SIZE_METERS / 3, depth),
           tileset,
           3
         )
