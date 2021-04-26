@@ -14,7 +14,7 @@ import { ShuffleRing } from "../utils/ShuffleRing";
 import { Harpoon } from "./Harpoon";
 import { Tether } from "./Tether";
 
-export const SIZE = 2.0; // Length in meters
+export const SIZE = 0.8; // Length in meters
 const SHOOT_SPEED = 60; // meters / second
 export const DAMPING = 0.07;
 
