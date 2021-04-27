@@ -109,10 +109,9 @@ export class UpgradeShop extends BaseEntity implements Entity {
   onRender() {
     let controller = getUpgradeManager(this.game!);
     this.speedCost =
-      "" +
-      parseInt(controller.data.speed * Math.pow(1.01, controller.data.speed));
+      parseInt(controller.data.speed * Math.pow(1.1, controller.data.speed));
     this.oxygenCost = parseInt(
-      controller.data.oxygen * Math.pow(1.01, controller.data.oxygen)
+      controller.data.oxygen * Math.pow(1.1, controller.data.oxygen)
     );
     this.speedUpgrade.text = `speed: ${controller.data.speed} ~ cost: ${
       "" + this.speedCost
