@@ -1,13 +1,17 @@
 // Maps the file name to the file contents because weird bundler stuff
 const csvFileContents: { [filename: string]: string } = {
-  "test.csv": require("fs").readFileSync("resources/regions/test.csv", "utf8"),
-  "tes2.csv": require("fs").readFileSync("resources/regions/tes2.csv", "utf8"),
-  "test3.csv": require("fs").readFileSync("resources/regions/test3.csv", "utf8"),
-  "test4.csv": require("fs").readFileSync("resources/regions/test4.csv", "utf8"),
+  "region1.csv": require("fs").readFileSync("resources/regions/region1.csv", "utf8"),
+  "region2.csv": require("fs").readFileSync("resources/regions/region2.csv", "utf8"),
+  "region3.csv": require("fs").readFileSync("resources/regions/region3.csv", "utf8"),
+  "region4.csv": require("fs").readFileSync("resources/regions/region4.csv", "utf8"),
   "region5.csv": require("fs").readFileSync("resources/regions/region5.csv", "utf8"),
   "region6.csv": require("fs").readFileSync("resources/regions/region6.csv", "utf8"),
   "region7.csv": require("fs").readFileSync("resources/regions/region7.csv", "utf8"),
   "region8.csv": require("fs").readFileSync("resources/regions/region8.csv", "utf8"),
+  "region9.csv": require("fs").readFileSync("resources/regions/region9.csv", "utf8"),
+  "region10.csv": require("fs").readFileSync("resources/regions/region10.csv", "utf8"),
+  "region11.csv": require("fs").readFileSync("resources/regions/region11.csv", "utf8"),
+  "region12.csv": require("fs").readFileSync("resources/regions/region12.csv", "utf8"),
 };
 
 type TileType = number;

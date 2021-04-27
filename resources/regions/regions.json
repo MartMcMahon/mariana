@@ -1,6 +1,6 @@
 {
   "start": {
-    "csv": "test.csv",
+    "csv": "region1.csv",
     "left": "c3-o13",
     "right": "c3-o13",
     "top": "o16",
@@ -8,14 +8,14 @@
   },
   "regions": [
     {
-      "csv": "test.csv",
+      "csv": "region1.csv",
       "left": "c3-o13",
       "right": "c3-o13",
       "top": "o16",
       "bottom": "c4-o1-c11"
     },
     {
-      "csv": "tes2.csv",
+      "csv": "region2.csv",
       "left": "c3-o13",
       "right": "c3-o13",
       "top": "o16",
@@ -44,8 +44,8 @@
     },
     {
       "csv": "region6.csv",
-      "left": "c7-o2-c7",
-      "right": "c6-o6-c4",
+      "right": "c7-o2-c7",
+      "left": "c6-o6-c4",
       "top": "c4-o5-c7",
       "bottom": "c4-o5-c7"
     },
@@ -62,6 +62,34 @@
       "right": "c6-o6-c4",
       "top": "c4-o5-c7",
       "bottom": "c4-o5-c7"
+    },
+    {
+      "csv": "region9.csv",
+      "left": "c7-o2-c7",
+      "right": "c7-o2-c7",
+      "top": "c4-o1-c11",
+      "bottom": "c4-o5-c7"
+    },
+    {
+      "csv": "region10.csv",
+      "left": "c7-o2-c7",
+      "right": "c7-o2-c7",
+      "top": "c9-o2-c5",
+      "bottom": "c9-o2-c5"
+    },
+    {
+      "csv": "region11.csv",
+      "left": "c7-o2-c7",
+      "right": "c6-o6-c4",
+      "top": "c6-o2-c8",
+      "bottom": "c9-o2-c5"
+    },
+    {
+      "csv": "region12.csv",
+      "left": "c6-o6-c4",
+      "right": "c7-o2-c7",
+      "top": "c6-o2-c8",
+      "bottom": "c4-o1-c11"
     }
   ]
 }
