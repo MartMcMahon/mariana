@@ -71,7 +71,7 @@ export class Shark extends BaseFish {
         length: WIDTH - HEIGHT,
         radius: HEIGHT / 2,
         collisionGroup: CollisionGroups.Fish,
-        collisionMask: CollisionGroups.All,
+        collisionMask: CollisionGroups.All ^ CollisionGroups.Divers,
       })
     );
 

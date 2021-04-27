@@ -90,7 +90,7 @@ export class Harpoon extends BaseEntity implements Entity {
     if (this.minSpeed < MIN_SPEED_FOR_DAMAGE) {
       return 0;
     } else {
-      return 20;
+      return 10;
     }
   }
 }

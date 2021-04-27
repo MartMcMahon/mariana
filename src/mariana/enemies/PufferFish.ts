@@ -25,6 +25,7 @@ import { BaseFish } from "./BaseFish";
 const SPEED = 5;
 const FRICTION = 2.0;
 const PATROL_TIME = 5.0; // seconds travelled in each direction
+const HP = 20;
 
 const PUFF_TIME = 0.5; // duration of puff animation
 const PUFF_COOLDOWN = 1.5; // duration after puff animation
@@ -62,7 +63,7 @@ export class PufferFish extends BaseFish {
       height: 1.5 * radius,
       speed: SPEED,
       friction: FRICTION,
-      hp: 20,
+      hp: HP,
       dropValue: 20,
     });
 
