@@ -103,7 +103,7 @@ export class Diver extends BaseEntity implements Entity {
 
   getSpeed(): number {
     const upgradeLevel = getUpgradeManager(this.game!)?.data.speed ?? 0;
-    return BASE_SPEED + upgradeLevel * SPEED_PER_UPGRADE;
+    return BASE_SPEED + upgradeLevel;
   }
 
   setSprite(visibleSprite: keyof Sprites) {
