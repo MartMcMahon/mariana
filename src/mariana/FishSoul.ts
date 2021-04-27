@@ -72,7 +72,7 @@ export class FishSoul extends BaseEntity implements Entity {
   }
 
   onBeginContact(other: Entity) {
-    if (other instanceof Diver) {
+    if (other instanceof Diver && !other.isDead) {
       const sound = this.value > 5 ? snd_bellPositive2 : snd_bellPositive1;
       this.game?.addEntity(new SoundInstance(sound, { gain: 0.05 }));
       this.game?.dispatch({ type: "fishSoulCollected", value: this.value });

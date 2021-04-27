@@ -28,8 +28,17 @@ export class Inventory extends BaseEntity implements Entity {
     const boat = this.game!.entities.getById("boat") as Boat;
 
     if (boat.diverWithinDropoffRange() && this.fishSouls > 0 && rBool(0.2)) {
-      this.game?.addEntity(new FishSoulTransfer(this.diver.getPosition()));
-      this.fishSouls -= 1;
+      let value = 1;
+      if (this.fishSouls > 100) {
+        value = 5;
+      }
+      if (this.fishSouls > 1000) {
+        value = 50;
+      }
+      this.game?.addEntity(
+        new FishSoulTransfer(this.diver.getPositwion(), value)
+      );
+      this.fishSouls -= value;
     }
   }
 
