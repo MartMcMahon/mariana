@@ -1,0 +1,134 @@
+# Simon's Notes on the state of the game
+
+  ## Things that are really good
+
+    - The music and sonic atmosphere in general is really great.
+    - The harpoon gun is a cool and kinda unique weapon.
+    - The terrain generation is not bad.
+    - The puffer fish is pretty cool.
+    - The idea feels like it has a lot of potential.
+    - The bubbles are cool
+
+
+  ## Things that could be better
+
+    ### It's too easy/no real threat
+
+    Fish don't feel scary. Oxygen doesn't feel like a real threat after a couple upgrade.
+
+    - I think we should bring back the health system so fish are more dangerous
+
+    - Upgrades are way too cheap and powerful
+
+
+    ### I think it's too focused on killing fish
+    
+    - You shouldn't start with the harpoon gun, therefore you have to learn other stuff to do before you learn killing fish
+    - There should be more neutral fish that don't bother you
+
+
+
+    ### It feels extremely short/small
+
+    - Map size is limited because of performance reasons that we can probably solve
+    - It's so easy that you can breeze through the content quickly
+    - I think content should be more "locked" behind upgrades
+
+
+    ### Performance
+
+    It looks like our performance cost right now is split almost evenly between rendering and physics
+
+    Performance limits our ability to make the map bigger
+     - We could load/unload entities dynamically by region. 
+
+    ### Enemy ideas
+
+    ### Upgrade Ideas
+
+    Upgrades need a lot of 
+    - Start with no harpoon
+    - More distinct upgrades
+      -
+
+    ### Need strong visual ambience to match the music
+
+    - I think dynamic lighting could go a long way towards this
+    - More terrain that looks spookier when you get deeper
+    - Things feel too floaty in their movement.
+      They like they're in space, not water.
+      Things should move more freely in 2 dimensions rather than just horizontally
+
+      
+
+    ### Could use a lot of visual polish
+
+    Effects everywhere
+    - Waves on the surface
+    - Splashes when you/fish/bubbles/spines surface/submerge
+    - Dust/silt/fog could be cool
+    - Trail of blood when you're bleeding
+    - 
+    
+    Make things prettier
+    - Make the shop prettier
+    - Draw the boat in higher resolution
+    - Hurt red flash is ugly and inconsistent
+
+    ### UX polish
+    - 
+
+  ## Ideas for cool features to have in the game
+
+    Dynamic lighting
+     - Basically the same as in previous game but without shadows
+     - Flashlight based on diver aim direction
+     - Glowsticks
+     - Depth lighting could be done with one large gradient sprite pretty easily
+     - Angler fish
+     - Glow in the dark plants
+     - Day/night cycle!
+  
+
+    Terrain/Flora
+     - Current that moves you/sucks you down
+     - Geiser that burns you
+     - Kepl forests
+
+    More Types of Fish
+      - Large segmented (worm) fish
+      - Barnacle — shoots when you go by
+      - Fish that travel through walls
+      - Exploding fish
+      - Sword fish — impales you
+      - Squid — ink?
+      - Electric Eel
+    
+    Advanced World Generation — Biome
+      Choose region for biome based on depth
+      Biome determines
+      - types of flora and fauna
+      - tileset for terrain
+      - water color?
+      - music?
+      - type of resources
+      Biome types
+      - shark den
+      - 
+
+
+
+    More meaningful Upgrades
+     - Finite and deliberate upgrades for speed and air
+       - First oxygen tank
+       - Advanced oxygen tank
+       - Nitrox mix to be able to go deeper
+       - Repreather (almost eliminates bubbles)
+       - Flippers
+       - Advanced Flippers
+       - weight belt/bcd aids in vertical movement only
+
+    Terrain manipulation
+     - Seems like it could be cool and honestly not that hard to implement
+     - Explosives to mine a few tiles?
+     - Pickaxe-like tool to remove individual tiles
