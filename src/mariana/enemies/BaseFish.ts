@@ -56,6 +56,7 @@ export abstract class BaseFish
       new Box({
         width,
         height,
+        collisionGroup: CollisionGroups.Fish,
         collisionMask: CollisionGroups.All,
       })
     );

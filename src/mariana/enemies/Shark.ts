@@ -70,6 +70,7 @@ export class Shark extends BaseFish {
       new Capsule({
         length: WIDTH - HEIGHT,
         radius: HEIGHT / 2,
+        collisionGroup: CollisionGroups.Fish,
         collisionMask: CollisionGroups.All,
       })
     );

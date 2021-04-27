@@ -32,6 +32,7 @@ export class GroundTile extends BaseEntity implements Entity, Harpoonable {
       new Box({
         width: TILE_SIZE_METERS,
         height: TILE_SIZE_METERS,
+        collisionGroup: CollisionGroups.World,
         collisionMask: CollisionGroups.All,
       })
     );

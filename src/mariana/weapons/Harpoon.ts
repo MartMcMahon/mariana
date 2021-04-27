@@ -37,7 +37,7 @@ export class Harpoon extends BaseEntity implements Entity {
         width: SIZE,
         height: 0.2,
         collisionGroup: CollisionGroups.Harpoon,
-        collisionMask: CollisionGroups.World,
+        collisionMask: CollisionGroups.World | CollisionGroups.Fish,
       })
     );
     this.body.velocity = velocity;

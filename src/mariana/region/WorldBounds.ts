@@ -15,29 +15,16 @@ export class WorldBounds extends BaseEntity implements Entity {
   constructor(tileset: Tileset) {
     super();
 
+    const lx = WORLD_LEFT_EDGE - TILE_SIZE_METERS / 3;
+    const rx = WORLD_RIGHT_EDGE - TILE_SIZE_METERS / 3;
+
     for (let depth = 0; depth < WORLD_BOTTOM; depth += TILE_SIZE_METERS) {
-      this.addChild(
-        new GroundTile(
-          V(WORLD_LEFT_EDGE - TILE_SIZE_METERS / 3, depth),
-          tileset,
-          5
-        )
-      );
-      this.addChild(
-        new GroundTile(
-          V(WORLD_RIGHT_EDGE - TILE_SIZE_METERS / 3, depth),
-          tileset,
-          3
-        )
-      );
+      this.addChild(new GroundTile(V(lx, depth), tileset, 5));
+      this.addChild(new GroundTile(V(rx, depth), tileset, 3));
     }
 
-    this.addChild(
-      new GroundTile(V(WORLD_LEFT_EDGE, -TILE_SIZE_METERS), tileset, 2)
-    );
-    this.addChild(
-      new GroundTile(V(WORLD_RIGHT_EDGE, -TILE_SIZE_METERS), tileset, 0)
-    );
+    this.addChild(new GroundTile(V(lx, -TILE_SIZE_METERS), tileset, 2));
+    this.addChild(new GroundTile(V(rx, -TILE_SIZE_METERS), tileset, 0));
 
     for (let x = WORLD_LEFT_EDGE; x < WORLD_RIGHT_EDGE; x += TILE_SIZE_METERS) {
       this.addChild(new GroundTile(V(x, WORLD_BOTTOM), tileset, 1));

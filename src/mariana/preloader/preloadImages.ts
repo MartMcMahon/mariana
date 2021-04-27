@@ -30,6 +30,7 @@ import img_shark1 from "../../../resources/images/shark1.png";
 import img_shark2 from "../../../resources/images/shark2.png";
 import img_shark3 from "../../../resources/images/shark3.png";
 import img_sky from "../../../resources/images/sky.png";
+import img_spine from "../../../resources/images/spine.png";
 import img_stingRay1 from "../../../resources/images/sting_ray_1.png";
 import img_stingRay2 from "../../../resources/images/sting_ray_2.png";
 import img_waterOverlay from "../../../resources/images/water-overlay.png";
@@ -70,6 +71,7 @@ export function getImagesToPreload(): Set<string> {
     img_shark2,
     img_shark3,
     img_sky,
+    img_spine,
     img_stingRay1,
     img_stingRay2,
     img_waterOverlay,

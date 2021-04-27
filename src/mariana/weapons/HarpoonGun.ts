@@ -18,7 +18,7 @@ export const SIZE = 0.8; // Length in meters
 const SHOOT_SPEED = 60; // meters / second
 export const DAMPING = 0.07;
 
-export const SOUND_RING = new ShuffleRing([
+const HARPOON_SOUNDS = new ShuffleRing([
   snd_smallweapon1,
   snd_smallweapon2,
   snd_smallweapon3,
@@ -44,7 +44,7 @@ export class HarpoonGun extends BaseEntity implements Entity {
         )
       );
       this.game?.addEntity(
-        new SoundInstance(SOUND_RING.getNext(), {
+        new SoundInstance(HARPOON_SOUNDS.getNext(), {
           gain: 0.3,
         })
       );
