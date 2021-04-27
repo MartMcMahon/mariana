@@ -22,14 +22,14 @@
       "bottom": "c9-o2-c5"
     },
     {
-      "csv": "test3.csv",
+      "csv": "region3.csv",
       "left": "c3-o13",
       "right": "c3-o13",
       "top": "o16",
       "bottom": "c4-o5-c7"
     },
     {
-      "csv": "test4.csv",
+      "csv": "region4.csv",
       "left": "c7-o2-c7",
       "right": "c6-o6-c4",
       "top": "c4-o5-c7",
