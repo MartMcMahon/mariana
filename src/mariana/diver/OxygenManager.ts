@@ -7,6 +7,8 @@ import { Diver } from "./Diver";
 export const HARPOON_OXYGEN_COST = 5;
 export const SUFFOCATION_TIME = 10; // seconds without breathing to die
 export const DEPTH_BREATH_FACTOR = 0.1; // extra oxygen per meter
+export const BASE_OXYGEN = 100;
+export const OXYGEN_PER_UPGRADE = 50;
 
 // Keeps track of how much oxygen there is, and kills the player when there's not enough (TODO:)
 export class OxygenManager extends BaseEntity implements Entity {
@@ -36,7 +38,7 @@ export class OxygenManager extends BaseEntity implements Entity {
 
   getMaxOxygen(): number {
     const upgradeLevel = getUpgradeManager(this.game!)?.data.oxygen ?? 0;
-    return 100 + upgradeLevel * 50;
+    return BASE_OXYGEN + upgradeLevel * OXYGEN_PER_UPGRADE;
   }
 
   getFillRate(): number {

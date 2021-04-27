@@ -1,9 +1,11 @@
 import { Body, Capsule } from "p2";
-import { Sprite, Texture } from "pixi.js";
+import { AnimatedSprite, Sprite, Texture } from "pixi.js";
 import snd_ding from "../../../resources/audio/ding.flac";
 import snd_sharkMiss from "../../../resources/audio/shark-miss.flac";
 import snd_sharkbite from "../../../resources/audio/sharkbite.flac";
 import img_shark1 from "../../../resources/images/shark1.png";
+import img_shark2 from "../../../resources/images/shark2.png";
+import img_shark3 from "../../../resources/images/shark3.png";
 import img_sharkAggro from "../../../resources/images/shark_aggro.png";
 import img_sharkBite from "../../../resources/images/shark_bite.png";
 import img_sharkPatrol from "../../../resources/images/shark_patrol.png";
@@ -35,12 +37,16 @@ const HEIGHT = 2;
 const AGGRO_SOUND = snd_ding;
 
 export class Shark extends BaseFish {
-  sprite: Sprite & GameSprite;
+  sprite: AnimatedSprite & GameSprite;
   body: Body;
 
   tags = ["shark"];
 
-  patrolTexture = Texture.from(img_shark1);
+  patrolTextures = [
+    Texture.from(img_shark1),
+    Texture.from(img_shark2),
+    Texture.from(img_shark3),
+  ];
   aggroTexture = Texture.from(img_shark1);
   biteTexture = Texture.from(img_shark1);
 
@@ -68,7 +74,8 @@ export class Shark extends BaseFish {
       })
     );
 
-    this.sprite = new Sprite(this.patrolTexture);
+    this.sprite = new AnimatedSprite(this.patrolTextures);
+    this.sprite.animationSpeed = 1.2;
     this.sprite.scale.set(WIDTH / this.sprite.texture.width);
     this.sprite.anchor.set(0.5);
     this.sprite.position.set(...position);
@@ -84,7 +91,7 @@ export class Shark extends BaseFish {
     this.clearTimers("patrol");
 
     this.speed = PATROL_SPEED;
-    this.sprite.texture = this.patrolTexture;
+    this.sprite.textures = this.patrolTextures;
 
     await this.wait(
       PATROL_TIME,
@@ -193,6 +200,11 @@ export class Shark extends BaseFish {
     if (this.body.position[1] < 0) {
       this.body.applyForce([0, 9.8 * this.body.mass]);
     }
+  }
+
+  onRender(dt: number) {
+    super.onRender(dt);
+    this.sprite.update(dt);
   }
 
   onHarpooned(harpoon: Harpoon) {

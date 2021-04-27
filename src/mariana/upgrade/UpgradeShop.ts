@@ -4,10 +4,7 @@ import Entity, { GameSprite } from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
 import { V } from "../../core/Vector";
 import { Layer } from "../config/layers";
-import {
-  getUpgradeManager,
-  UpgradeOptions,
-} from "./UpgradeManager";
+import { getUpgradeManager, UpgradeOptions } from "./UpgradeManager";
 
 export class UpgradeShop extends BaseEntity implements Entity {
   sprite: Sprite & GameSprite;
@@ -42,33 +39,41 @@ export class UpgradeShop extends BaseEntity implements Entity {
     );
     this.sprite.addChild(background);
 
-    // enter to dive
+    // space to dive
     const text = new Text("Press space to dive", {
       fontFamily: "Montserrat Black",
       fontSize: 48,
-      color: "white",
     });
     text.position = V(0, menuHeight / 2 - 20);
     this.sprite.addChild(text);
     text.anchor.set(0.5);
 
     // money text
-    this.moneyText = new Text("🐟");
+    this.moneyText = new Text("🐟", {
+      fontFamily: "Montserrat Black",
+      fontSize: 42,
+    });
     this.moneyText.anchor.set(0.5);
     this.moneyText.position = V(0, -this.menuHeight * 0.9);
     this.moneyText.interactive = false;
     this.sprite.addChild(this.moneyText);
 
     // speed upgrade
-    this.speedUpgrade = new Text("speed", { fontSize: 42 });
-    this.speedUpgrade.anchor.set(0.5);
+    this.speedUpgrade = new Text("speed", {
+      fontFamily: "Montserrat Black",
+      fontSize: 42,
+    });
+    this.speedUpgrade.anchor.set(0.556, 0.5);
     this.speedUpgrade.position = V(0, -this.menuHeight * 0.7);
     this.speedUpgrade.interactive = true;
     this.sprite.addChild(this.speedUpgrade);
 
     // oxygen upgrade
-    this.oxygenUpgrade = new Text("oxygen", { fontSize: 42 });
-    this.oxygenUpgrade.anchor.set(0.5);
+    this.oxygenUpgrade = new Text("oxygen", {
+      fontFamily: "Montserrat Black",
+      fontSize: 42,
+    });
+    this.oxygenUpgrade.anchor.set(0.585, 0.5);
     this.oxygenUpgrade.position = V(0, -this.menuHeight / 2);
     this.oxygenUpgrade.interactive = true;
     this.sprite.addChild(this.oxygenUpgrade);
@@ -103,15 +108,17 @@ export class UpgradeShop extends BaseEntity implements Entity {
 
   onRender() {
     let controller = getUpgradeManager(this.game!);
-    this.speedCost = "" + parseInt(
-      controller.data.speed * Math.pow(1.01, controller.data.speed)
-    );
+    this.speedCost =
+      "" +
+      parseInt(controller.data.speed * Math.pow(1.01, controller.data.speed));
     this.oxygenCost = parseInt(
       controller.data.oxygen * Math.pow(1.01, controller.data.oxygen)
     );
-    this.speedUpgrade.text = `speed: ${controller.data.speed} ~ cost: ${"" + this.speedCost}`;
+    this.speedUpgrade.text = `speed: ${controller.data.speed} ~ cost: ${
+      "" + this.speedCost
+    }`;
     this.oxygenUpgrade.text = `oxygen: ${controller.data.oxygen} ~ cost: ${this.oxygenCost}`;
-    this.moneyText.text = `🐟: ${controller.pointsAvailable}`;
+    this.moneyText.text = `🐟  ${controller.pointsAvailable}`;
   }
 
   onResize([width, height]: [number, number]) {

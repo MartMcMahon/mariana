@@ -37,7 +37,7 @@ export class VictoryScreen extends BaseEntity implements Entity {
 
     this.background = new Graphics();
     this.background.beginFill(0xffffff);
-    this.background.drawRect(-1000, -1000, 2000, 2000);
+    this.background.drawRect(0, 0, 10000, 10000);
     this.background.endFill();
 
     this.sprite = new Sprite();
