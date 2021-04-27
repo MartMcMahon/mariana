@@ -26,7 +26,7 @@ import { HARPOON_OXYGEN_COST, OxygenManager } from "./OxygenManager";
 const HEIGHT = 2.0; // in meters
 const WIDTH = 0.65; // in meters
 const BASE_SPEED = 25.0; // Newtons?
-const UPGRADE_SPEED = 3.0; // Newtons?
+const SPEED_PER_UPGRADE = 3.0; // Newtons?
 const DIVER_DAMPING = 0.1; // Water friction
 const SURFACE_GRAVITY = 9.8; // meters / second^2
 const SUBMERGED_GRAVITY = 5.0; // meters / second^2
@@ -103,7 +103,7 @@ export class Diver extends BaseEntity implements Entity {
 
   getSpeed(): number {
     const upgradeLevel = getUpgradeManager(this.game!)?.data.speed ?? 0;
-    return BASE_SPEED + upgradeLevel * UPGRADE_SPEED;
+    return BASE_SPEED + upgradeLevel * SPEED_PER_UPGRADE;
   }
 
   setSprite(visibleSprite: keyof Sprites) {
