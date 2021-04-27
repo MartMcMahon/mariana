@@ -47,9 +47,12 @@ export async function main() {
   game.addEntity(new AutoPauser());
   game.addEntity(new PositionalSoundListener());
   game.addEntity(new GameController());
-  game.addEntity(new FPSMeter(Layer.MENU));
   game.addEntity(new GraphicsQualityController());
   game.addEntity(new VolumeController());
+
+  if (process.env.NODE_ENV === "development") {
+    game.addEntity(new FPSMeter(Layer.MENU));
+  }
 
   game.dispatch({ type: "gameStart" });
 

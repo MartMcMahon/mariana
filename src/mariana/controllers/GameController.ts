@@ -84,7 +84,10 @@ export class GameController extends BaseEntity implements Entity {
   onKeyDown(key: KeyCode) {
     switch (key) {
       case "KeyV":
-        this.game?.dispatch({ type: "victory" });
+        if (process.env.NODE_ENV === "development") {
+          this.game?.dispatch({ type: "victory" });
+        }
+        break;
     }
   }
 }
