@@ -1,4 +1,4 @@
-import { AnimatedSprite, Sprite } from "pixi.js";
+import { AnimatedSprite } from "pixi.js";
 import snd_bellPositive2 from "../../../resources/audio/bell_positive_2.flac";
 import img_pickup1 from "../../../resources/images/pickup-1.png";
 import img_pickup2 from "../../../resources/images/pickup-2.png";
@@ -36,7 +36,7 @@ export class Inventory extends BaseEntity implements Entity {
         value = 50;
       }
       this.game?.addEntity(
-        new FishSoulTransfer(this.diver.getPositwion(), value)
+        new FishSoulTransfer(this.diver.getPosition(), value)
       );
       this.fishSouls -= value;
     }
