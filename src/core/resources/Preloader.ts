@@ -1,21 +1,18 @@
 import * as Pixi from "pixi.js";
-import BaseEntity from "../../core/entity/BaseEntity";
-import Entity from "../../core/entity/Entity";
-import Game from "../../core/Game";
-import {
-  getBiggestSounds,
-  getTotalSoundBytes,
-  loadSound,
-} from "../../core/resources/sounds";
-import { getFontsToPreload } from "./preloadFonts";
-import { getImagesToPreload } from "./preloadImages";
-import { getSoundsToPreload } from "./preloadSounds";
+import BaseEntity from "../entity/BaseEntity";
+import Entity from "../entity/Entity";
+import Game from "../Game";
+import { getBiggestSounds, getTotalSoundBytes, loadSound } from "./sounds";
 
 export default class Preloader extends BaseEntity implements Entity {
   private _resolve!: () => void;
   private _promise!: Promise<void>;
 
-  constructor() {
+  constructor(
+    private getImages: () => ReadonlyArray<string>,
+    private getSounds: () => ReadonlyArray<string>,
+    private getFonts: () => ReadonlyArray<FontFace>
+  ) {
     super();
 
     this._promise = new Promise((resolve) => {
@@ -48,7 +45,7 @@ export default class Preloader extends BaseEntity implements Entity {
   }
 
   async loadFonts() {
-    const fonts = getFontsToPreload();
+    const fonts = this.getFonts();
     let loaded = 0;
     const total = fonts.length;
     const element = document.getElementById("font-count")!;
@@ -64,7 +61,7 @@ export default class Preloader extends BaseEntity implements Entity {
   }
 
   async loadSounds(audioContext: AudioContext) {
-    const urls = getSoundsToPreload();
+    const urls = this.getSounds();
     let loaded = 0;
     const total = urls.length;
     const element = document.getElementById("sound-count")!;
@@ -84,10 +81,10 @@ export default class Preloader extends BaseEntity implements Entity {
   }
 
   async loadImages() {
-    const imageUrls = getImagesToPreload();
+    const imageUrls = this.getImages();
 
     let loaded = 0;
-    const total = imageUrls.size;
+    const total = imageUrls.length;
     const element = document.getElementById("image-count")!;
     element.innerText = `${loaded} / ${total}`;
 
