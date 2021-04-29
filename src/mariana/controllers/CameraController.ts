@@ -1,6 +1,7 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { Camera2d } from "../../core/graphics/Camera2d";
+import { getPositionalSoundListener } from "../../core/sound/PositionalSoundListener";
 import { clamp } from "../../core/util/MathUtil";
 import { V } from "../../core/Vector";
 import { Boat } from "../Boat";
@@ -34,6 +35,11 @@ export default class CameraController extends BaseEntity implements Entity {
     } else {
       const boat = this.game!.entities.getById("boat") as Boat;
       this.camera.smoothCenter(boat.getLaunchPosition());
+    }
+
+    const listener = getPositionalSoundListener(this.game);
+    if (listener) {
+      listener.setPosition(this.camera.position);
     }
   }
 

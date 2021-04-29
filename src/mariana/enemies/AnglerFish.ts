@@ -4,6 +4,7 @@ import Entity, { GameSprite } from "../../core/entity/Entity";
 import { rBool } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { Diver } from "../diver/Diver";
+import { PointLight } from "../lighting/PointLight";
 import { GroundTile } from "../region/GroundTile";
 import { BaseFish } from "./BaseFish";
 
@@ -17,6 +18,9 @@ export class AnglerFish extends BaseFish {
   sprite: AnimatedSprite & GameSprite;
 
   movingRight = rBool();
+  light: PointLight;
+
+  t = Math.random();
 
   constructor(position: V2d) {
     super(position, {
@@ -36,6 +40,8 @@ export class AnglerFish extends BaseFish {
     this.sprite.anchor.set(0.5);
     this.sprite.loop = true;
     this.sprite.position.set(...position);
+
+    this.light = this.addChild(new PointLight(position, { size: 2 }));
   }
 
   async onAdd() {
@@ -53,6 +59,7 @@ export class AnglerFish extends BaseFish {
   }
 
   onTick(dt: number) {
+    this.t += dt;
     super.onTick(dt);
     const direction = this.movingRight ? 1 : -1;
     this.swim(V(direction, 0));
@@ -64,5 +71,21 @@ export class AnglerFish extends BaseFish {
     } else if (other instanceof GroundTile) {
       this.turnAround();
     }
+  }
+
+  getLightPosition() {
+    const x = this.facingRight ? 0.82 : -0.82;
+    return this.localToWorld([x, -0.78]);
+  }
+
+  onRender(dt: number) {
+    super.onRender(dt);
+
+    this.light.setPosition(this.getLightPosition());
+    this.light.intensity = 0.6 + 0.2 * Math.sin(this.t);
+  }
+
+  onDestroy() {
+    console.log("angler fish dead");
   }
 }

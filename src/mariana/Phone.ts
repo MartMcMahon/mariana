@@ -13,8 +13,6 @@ export class Phone extends BaseEntity implements Entity {
   constructor(public position: V2d) {
     super();
 
-    console.log(`phone spawned at ${position}`);
-
     this.sprite = Sprite.from(img_phone);
     this.sprite.height = this.sprite.width = 0.3;
     this.sprite.anchor.set(0.5);

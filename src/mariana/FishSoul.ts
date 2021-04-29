@@ -16,15 +16,20 @@ import { rBool, rInteger, rNormal } from "../core/util/Random";
 import { V, V2d } from "../core/Vector";
 import { CollisionGroups } from "./config/CollisionGroups";
 import { Diver, getDiver } from "./diver/Diver";
+import { PointLight } from "./lighting/PointLight";
 
 const MAGNET_RADIUS = 4;
 const MAGNET_FORCE = 5;
 const GRAVITY = 3; // meters / sec^2
 const FRICTION = 2; // meters / sec^2
+const GLOW_PERIOD = 1; // seconds
 
 export class FishSoul extends BaseEntity implements Entity {
   sprite: AnimatedSprite;
   body: Body;
+  light: PointLight;
+
+  t = Math.random();
 
   constructor(position: V2d, public value: number = 1) {
     super();
@@ -49,9 +54,18 @@ export class FishSoul extends BaseEntity implements Entity {
         collisionMask: CollisionGroups.World | CollisionGroups.Diver,
       })
     );
+
+    this.light = this.addChild(
+      new PointLight(this.getPosition(), {
+        size: 2,
+        color: 0xddffff,
+      })
+    );
   }
 
-  onTick() {
+  onTick(dt: number) {
+    this.t = (this.t + dt / GLOW_PERIOD) % 1;
+
     this.body.applyForce([0, GRAVITY * this.body!.mass]);
     this.body.applyForce(
       V(this.body.velocity).imul(-FRICTION * this.body.mass)
@@ -80,9 +94,14 @@ export class FishSoul extends BaseEntity implements Entity {
     }
   }
 
-  onRender(dt: number) {
-    this.sprite!.position.set(...this.body!.position);
-    this.sprite.update(dt);
+  onRender() {
+    this.sprite.position.set(...this.body.position);
+
+    const textures = this.sprite.textures;
+    this.sprite.texture = textures[Math.floor(this.t * textures.length)];
+
+    this.light.setPosition(this.body.position);
+    this.light.intensity = 0.12 + 0.03 * Math.sin(this.t * 2 * Math.PI);
   }
 }
 
@@ -94,7 +113,7 @@ export function makeSoulDrops(
   const pickups: FishSoul[] = [];
   while (valueRemaining > 1) {
     const value = rInteger(1, valueRemaining);
-    valueRemaining -= 1;
+    valueRemaining -= value;
     pickups.push(new FishSoul(position.add([rNormal(), rNormal()]), value));
   }
   if (rBool(valueRemaining)) {

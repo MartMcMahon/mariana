@@ -7,6 +7,8 @@ import Game from "../Game";
 function isPositionalSound(e: Entity): e is PositionalSound {
   return e instanceof PositionalSound;
 }
+
+// Like Camera but for audio
 export default class PositionalSoundListener
   extends BaseEntity
   implements Entity {
@@ -24,4 +26,12 @@ export default class PositionalSoundListener
       sound.setListenerPosition(position);
     }
   }
+}
+
+export function getPositionalSoundListener(
+  game?: Game
+): PositionalSoundListener | undefined {
+  return game?.entities.getById(
+    "positional_sound_listener"
+  ) as PositionalSoundListener;
 }

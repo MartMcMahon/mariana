@@ -5,6 +5,7 @@ import Entity, { GameSprite } from "../core/entity/Entity";
 import { SoundInstance } from "../core/sound/SoundInstance";
 import { V2d } from "../core/Vector";
 import { Layer } from "./config/layers";
+import { FONT_HEADING } from "./fonts";
 
 const LINES = [
   "Phew, I did it!",
@@ -14,7 +15,7 @@ const LINES = [
 ];
 
 const fontStyle: Partial<TextStyle> = {
-  fontFamily: "Montserrat Black",
+  fontFamily: FONT_HEADING,
   fontSize: 48,
   wordWrap: true,
   wordWrapWidth: 100,

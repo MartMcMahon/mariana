@@ -1,6 +1,4 @@
-import * as Keys from "./io/Keys";
 import BaseEntity from "./entity/BaseEntity";
-import { ControllerButton } from "./io/Gamepad";
 import Entity from "./entity/Entity";
 
 /** Pauses and unpauses the game when visibility is lost. */

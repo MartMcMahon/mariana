@@ -120,7 +120,7 @@ export class PufferFish extends BaseFish {
       await this.wait(SPINE_DELAY);
       const direction = polarToVec(angle, 0.3);
       const position = direction.add(this.getPosition());
-      this.game!.addEntity(new Spine(position, direction));
+      this.game?.addEntity(new Spine(position, direction));
     }
 
     await this.wait(PUFF_COOLDOWN);

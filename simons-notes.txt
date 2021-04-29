@@ -23,8 +23,10 @@
 
     ### I think it's too focused on killing fish
     
+    - You should get resources in more ways than just killing fish
     - You shouldn't start with the harpoon gun, therefore you have to learn other stuff to do before you learn killing fish
     - There should be more neutral fish that don't bother you
+    - If fish are scarier and you feel weaker, it can be more about avoiding fish at least earlier on
 
 
 
@@ -40,9 +42,20 @@
     It looks like our performance cost right now is split almost evenly between rendering and physics
 
     Performance limits our ability to make the map bigger
-     - We could load/unload entities dynamically by region. 
 
-    ### Enemy ideas
+    We could load/unload entities dynamically
+     - Have all tile data in one large World Map
+     - When a ground tile is within range, create a body/sprite for it
+     - When a ground tile goes out of range, remove body/sprite for it
+     - Fish?
+
+    Physics improvements
+     - Optimize broadphase for particles — this should make harpoon tether a lot faster
+
+    Rendering improvements
+     - Filters on the whole stage seem slow, I think we can do without them
+       - replace suffocation thing with simple graphic/animation
+       - Lighting is all done with layers and render textures
 
     ### Upgrade Ideas
 
@@ -51,7 +64,7 @@
     - More distinct upgrades
       -
 
-    ### Need strong visual ambience to match the music
+    ### Need strong visual ambience to match the music/sounds
 
     - I think dynamic lighting could go a long way towards this
     - More terrain that looks spookier when you get deeper
@@ -61,22 +74,28 @@
 
       
 
-    ### Could use a lot of visual polish
+    ### Could use a lot of small polish things
 
-    Effects everywhere
-    - Waves on the surface
-    - Splashes when you/fish/bubbles/spines surface/submerge
-    - Dust/silt/fog could be cool
-    - Trail of blood when you're bleeding
-    - 
+    Add particle effects everywhere
+     - Waves on the surface
+     - Splashes when you/fish/bubbles/spines surface/submerge
+     - Dust/silt/fog could be cool
+     - Trail of blood when you're bleeding
+     - Blood could look better
     
-    Make things prettier
-    - Make the shop prettier
-    - Draw the boat in higher resolution
-    - Hurt red flash is ugly and inconsistent
+    Make retracting harpoon better
 
-    ### UX polish
-    - 
+    Make things prettier
+     - Make the shop prettier
+     - Draw the boat in higher resolution
+     - Hurt red flash is ugly and inconsistent
+
+    Pause menu
+     - Graphics Toggle
+     - Volume Slider
+     - Mute
+     - Respawn
+     - Reset progress
 
   ## Ideas for cool features to have in the game
 
@@ -89,46 +108,101 @@
      - Glow in the dark plants
      - Day/night cycle!
   
-
     Terrain/Flora
      - Current that moves you/sucks you down
      - Geiser that burns you
-     - Kepl forests
+     - Kelp forests
 
     More Types of Fish
-      - Large segmented (worm) fish
-      - Barnacle — shoots when you go by
-      - Fish that travel through walls
-      - Exploding fish
-      - Sword fish — impales you
-      - Squid — ink?
-      - Electric Eel
+     - Passive fish that don't harm you
+     - Crabs
+     - Fish that blend in with the walls until you get close, then they strike
+     - Large segmented (worm) fish
+     - Barnacle — shoots when you go by
+     - Fish that travel through walls
+     - Exploding fish
+     - Sword fish — impales you
+     - Squid — ink?
+     - Electric Eel
+     - Leviathon that will eat you in one shot
+     - Double angler — An angler with an angler for a bobble thing
+     - Thing that propels itself in bursts
     
     Advanced World Generation — Biome
-      Choose region for biome based on depth
-      Biome determines
-      - types of flora and fauna
-      - tileset for terrain
-      - water color?
-      - music?
-      - type of resources
-      Biome types
-      - shark den
-      - 
+     - Choose region for biome based on depth
+     - Biome determines
+       - types of flora and fauna
+       - tileset for terrain
+       - water color?
+       - music?
+       - type of resources
+     - Biome types
+       - shark den
+       - kelp forest
+       - narrow caves
+       - icy caves
+       - shipwreck
+       - empty ocean
+       - coral reef
 
+    More harpoon stuff
+     - Grapple mode — lets you grab stuff, or move towards stuff
+     - double 'poon
+     - Glow in the dark
+     - Better retraction
+     - 
 
+    More meaningful shop purchases
+      - Finite and deliberate upgrades for air
+        - Single tank to double tank — double max gas
+        - Advanced high pressure tank — another 50%
+        - Nitrox mix to be able to go deeper
+        - Repreather (almost eliminates bubbles)
+      
+      - Finite and deliberate upgrades for speed
+        - Flippers
+        - Advanced Flippers
 
-    More meaningful Upgrades
-     - Finite and deliberate upgrades for speed and air
-       - First oxygen tank
-       - Advanced oxygen tank
-       - Nitrox mix to be able to go deeper
-       - Repreather (almost eliminates bubbles)
-       - Flippers
-       - Advanced Flippers
-       - weight belt/bcd aids in vertical movement only
+      - Reinforced suit — take less damage from creatures
+
+      - Digital readout
+        - Replaces analogue guages with digital ones
+        - Beeps to remind you to go up
+
+      - weight belt/bcd aids in vertical movement only
+        - Could have actual scuba-like controls
+        - Moving could make you breath heavier, while 
+        - This might not be fun
+      
+      - Harpoon upgrades
+        - Having the harpoon at all
+        - auto retractor — much faster retraction
+        - extended tether — longer rope
+        - efficient valve — uses less gas
+        - Sharpened tip — does extra damage
+      
+      - Flashlight — basically unlocks going into darkness
+
+      - Consumables
+        - Rapid Ascent Balloon (one time use?) brings you straight up quickly
+        - Spare Tank (one time use)
+
 
     Terrain manipulation
      - Seems like it could be cool and honestly not that hard to implement
      - Explosives to mine a few tiles?
      - Pickaxe-like tool to remove individual tiles
+
+
+
+# Prioritized Things I wanna work on
+ [x] Dynamic Lighting
+ [x] Autogenerate preloader stuff
+ [ ] Revamp upgrades
+ [ ] Revamp upgrade shop
+ [ ] Glowsticks
+ [ ] Make jellyfish glow
+ [ ] Surface waves shader
+ [ ] Make squid thing
+ [ ] Make harpoon retraction smoother - retract when collides with diver?
+ [ ] Do some performance profiling

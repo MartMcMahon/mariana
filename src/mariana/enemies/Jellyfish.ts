@@ -7,10 +7,14 @@ import { rUniform } from "../../core/util/Random";
 import { V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { Diver } from "../diver/Diver";
+import { PointLight } from "../lighting/PointLight";
 import { BaseFish } from "./BaseFish";
 
 export class Jellyfish extends BaseFish {
   sprite: AnimatedSprite & GameSprite;
+  light: PointLight;
+
+  t = Math.random();
 
   constructor(position: V2d, radius: number = rUniform(0.3, 0.7)) {
     super(position, {
@@ -41,15 +45,25 @@ export class Jellyfish extends BaseFish {
     this.sprite.position.set(...position);
 
     this.sprite.update(Math.random() * 1.0);
+
+    this.light = new PointLight(position, {
+      size: 3,
+      intensity: 0.5,
+      color: 0xff55bb,
+    });
   }
 
   onRender(dt: number) {
+    this.t += dt;
     this.sprite.update(dt);
+    this.light.intensity;
   }
 
   onBeginContact(other: Entity) {
     if (other instanceof Diver) {
       other.damage(20);
+      // TODO: Sound
+      // TODO: Visual effect
     }
   }
 }

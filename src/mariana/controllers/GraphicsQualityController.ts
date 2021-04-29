@@ -10,7 +10,6 @@ export enum GraphicsQuality {
 }
 
 function parseQuality(quality: string | null): GraphicsQuality | undefined {
-  console.log("parsing saved quality", quality);
   if (!quality) {
     return undefined;
   }

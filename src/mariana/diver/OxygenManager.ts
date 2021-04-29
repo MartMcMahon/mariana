@@ -8,9 +8,8 @@ export const HARPOON_OXYGEN_COST = 5;
 export const SUFFOCATION_TIME = 10; // seconds without breathing to die
 export const DEPTH_BREATH_FACTOR = 0.1; // extra oxygen per meter
 export const BASE_OXYGEN = 100;
-export const OXYGEN_PER_UPGRADE = 50;
 
-// Keeps track of how much oxygen there is, and kills the player when there's not enough (TODO:)
+// Keeps track of how much oxygen there is, and kills the player when there's not enough
 export class OxygenManager extends BaseEntity implements Entity {
   currentOxygen = 100;
   suffocationPercent = 0;
@@ -37,8 +36,16 @@ export class OxygenManager extends BaseEntity implements Entity {
   };
 
   getMaxOxygen(): number {
-    const upgradeLevel = getUpgradeManager(this.game!)?.data.oxygen ?? 0;
-    return BASE_OXYGEN + upgradeLevel * OXYGEN_PER_UPGRADE;
+    const upgradeManager = getUpgradeManager(this.game!)!;
+
+    let maxOxygen = BASE_OXYGEN;
+    if (upgradeManager.hasUpgrade("air1")) {
+      maxOxygen += 50;
+    }
+    if (upgradeManager.hasUpgrade("air2")) {
+      maxOxygen += 100;
+    }
+    return maxOxygen;
   }
 
   getFillRate(): number {

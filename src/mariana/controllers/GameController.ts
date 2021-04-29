@@ -7,12 +7,13 @@ import { SoundInstance } from "../../core/sound/SoundInstance";
 import { OceanAmbience } from "../audio/OceanAmbience";
 import { Boat } from "../Boat";
 import { Diver, getDiver } from "../diver/Diver";
-import { DiverController } from "../DiverController";
-import { Water } from "../effects/Water";
 import { isFish } from "../enemies/BaseFish";
-import { DamagedOverlay } from "../hud/DamagedOverlay";
+import { Water } from "../environment/Background";
+import { Daylight } from "../environment/Daylight";
 import { DiveWatch } from "../hud/DiveWatch";
 import { FishCounter } from "../hud/FishCounter";
+import LightingManager from "../lighting/LightingManager";
+import PauseMenu from "../menu/PauseMenu";
 import { generateRegions } from "../region/genRegions";
 import { Tileset } from "../region/Tileset";
 import { WorldBounds } from "../region/WorldBounds";
@@ -20,6 +21,7 @@ import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
 import { VictoryScreen } from "../VictoryScreen";
 import CameraController from "./CameraController";
+import { DiverController } from "./DiverController";
 
 /**
  * The top level control flow for the game, basically manages transitioning between menus and stuff
@@ -30,9 +32,12 @@ export class GameController extends BaseEntity implements Entity {
 
   handlers = {
     // Called at the beginning of the game
-    gameStart: () => {
-      this.game!.addEntity(new Boat());
+    newGame: () => {
+      this.game!.addEntity(new PauseMenu());
+      this.game!.addEntity(new LightingManager());
+      this.game!.addEntity(new Daylight());
       this.game!.addEntity(new Water());
+      this.game!.addEntity(new Boat());
       this.game!.addEntity(new OceanAmbience());
       this.game!.addEntity(new UpgradeManager());
       this.game?.addEntity(new CameraController(this.game.camera));
@@ -41,7 +46,7 @@ export class GameController extends BaseEntity implements Entity {
       this.game?.addEntity(new WorldBounds(new Tileset(img_stoneTiles2, {})));
       const diver = this.game!.addEntity(new Diver());
 
-      this.game!.addEntity(new DamagedOverlay(() => diver));
+      // this.game!.addEntity(new DamagedOverlay(() => diver));
       this.game?.addEntity(new DiverController(diver));
       this.game!.addEntity(new DiveWatch(diver));
       this.game!.addEntity(new FishCounter(diver));
@@ -68,7 +73,6 @@ export class GameController extends BaseEntity implements Entity {
     },
 
     victory: async () => {
-      // TODO: More victory stuff
       const diver = getDiver(this.game);
 
       // hacky way to make sure we don't die...

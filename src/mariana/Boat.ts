@@ -5,10 +5,13 @@ import Entity, { GameSprite } from "../core/entity/Entity";
 import Game from "../core/Game";
 import { ControllerButton } from "../core/io/Gamepad";
 import { KeyCode } from "../core/io/Keys";
-import { degToRad, lerp } from "../core/util/MathUtil";
+import { lerp } from "../core/util/MathUtil";
 import { V } from "../core/Vector";
 import { Layer } from "./config/layers";
-import { Diver, getDiver } from "./diver/Diver";
+import { getDiver } from "./diver/Diver";
+import { getWaves } from "./effects/Waves";
+import { FONT_HEADING } from "./fonts";
+import { PointLight } from "./lighting/PointLight";
 
 const BOAT_X = 0;
 const BOAT_WIDTH = 8; // meters
@@ -28,6 +31,9 @@ export class Boat extends BaseEntity implements Entity {
 
   sprite: Sprite & GameSprite;
   tooltip: Text;
+  light: PointLight;
+
+  elapsedTime = 0;
 
   constructor() {
     super();
@@ -42,13 +48,17 @@ export class Boat extends BaseEntity implements Entity {
     this.tooltip = new Text("Press E To Shop", {
       fontSize: 24,
       fill: "black",
-      fontFamily: "Montserrat Black",
+      fontFamily: FONT_HEADING,
     });
     this.tooltip.position.set(0, 10);
     this.tooltip.anchor.set(0.5, 0);
     this.tooltip.alpha = 0;
 
     this.sprite.addChild(this.tooltip);
+
+    this.light = this.addChild(
+      new PointLight(V(0, 0), { size: 20, intensity: 0.2, color: 0xffeedd })
+    );
   }
 
   onInputDeviceChange(usingController: boolean) {
@@ -104,14 +114,20 @@ export class Boat extends BaseEntity implements Entity {
   }
 
   onRender(dt: number) {
+    if (!this.game?.paused) {
+      this.elapsedTime += dt;
+    }
+
     this.tooltip.alpha = lerp(
       this.tooltip.alpha,
       this.diverIsPresent() ? 1 : 0,
       dt * TOOLTIP_SPEED
     );
 
-    const t = this.game!.elapsedTime * WAVE_FREQUENCY * Math.PI;
-    this.sprite.y = Math.cos(t) * WAVE_AMPLITUDE;
+    const t = this.elapsedTime * WAVE_FREQUENCY * Math.PI;
+    this.sprite.y = getWaves(this.game!).getSurfaceHeight(0);
+
+    this.light.setPosition(this.getDropoffPosition());
   }
 }
 

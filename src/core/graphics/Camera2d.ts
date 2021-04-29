@@ -97,12 +97,27 @@ export class Camera2d extends BaseEntity implements Entity {
     this.z = smooth * this.z + (1 - smooth) * z;
   }
 
-  // Returns [width, height] of the viewport
+  // Returns [width, height] of the viewport in pixels
   getViewportSize(): V2d {
     return V(
       this.renderer.pixiRenderer.width / this.renderer.pixiRenderer.resolution,
       this.renderer.pixiRenderer.height / this.renderer.pixiRenderer.resolution
     );
+  }
+
+  getWorldViewport(): {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+    width: number;
+    height: number;
+  } {
+    const [top, left] = this.toWorld(V(0, 0));
+    const [bottom, right] = this.toWorld(this.getViewportSize());
+    const width = right - left;
+    const height = bottom - top;
+    return { top, bottom, left, right, width, height };
   }
 
   // Convert screen coordinates to world coordinates

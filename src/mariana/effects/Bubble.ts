@@ -5,6 +5,7 @@ import Entity from "../../core/entity/Entity";
 import { rNormal } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { Layer } from "../config/layers";
+import { getWaves } from "./Waves";
 
 const FRICTION = 1.5;
 const RISE_SPEED = 16; // meters / sec ^ 2
@@ -23,7 +24,7 @@ export class Bubble extends BaseEntity implements Entity {
     sprite.anchor.set(0.5);
     sprite.alpha = 0.7;
 
-    this.sprite.layerName = Layer.WORLD_FRONT;
+    this.sprite.layerName = Layer.WORLD_EXTRA_FRONT;
   }
 
   onTick(dt: number) {
@@ -39,7 +40,10 @@ export class Bubble extends BaseEntity implements Entity {
 
     sprite.scale.set(this.size / sprite.texture.width);
 
-    if (sprite.y <= 0) {
+    const waves = getWaves(this.game!);
+    const x = sprite.x;
+    const surfaceY = waves.getSurfaceHeight(x);
+    if (sprite.y <= surfaceY) {
       this.destroy();
     }
   }

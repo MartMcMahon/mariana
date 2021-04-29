@@ -31,7 +31,7 @@ export default class Preloader extends BaseEntity implements Entity {
     console.group(`Audio Loaded: ${(bytes / 2 ** 20).toFixed(1)}MB total`);
 
     getBiggestSounds()
-      .slice(0, 10)
+      .slice(0, 3)
       .forEach(([url, size]) =>
         console.log(url, "\n", `${(size / 1024).toFixed(1)}kB`)
       );

@@ -23,8 +23,7 @@ export default abstract class BaseEntity implements Entity {
   sprite?: GameSprite;
   sprites?: GameSprite[];
 
-  // Convert local coordinates to world coordinates.
-  // Requires a body
+  /** Convert local coordinates to world coordinates. Requires a body */
   localToWorld(localPoint: [number, number]): V2d {
     if (this.body) {
       const result: V2d = V(0, 0);
@@ -63,6 +62,7 @@ export default abstract class BaseEntity implements Entity {
     }
   }
 
+  /** Add another entity as a child of this one. Child entities will get destroyed when their parent is destroyed. */
   addChild<T extends Entity>(child: T, changeParent: boolean = false): T {
     if (child.parent) {
       if (changeParent) {
@@ -83,6 +83,7 @@ export default abstract class BaseEntity implements Entity {
     return child;
   }
 
+  /** Add multiple entities as children of this one. See addChild. */
   addChildren(...children: readonly Entity[]): void {
     for (const child of children) {
       this.addChild(child);

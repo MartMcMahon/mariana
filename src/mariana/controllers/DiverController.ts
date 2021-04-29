@@ -1,9 +1,9 @@
-import BaseEntity from "../core/entity/BaseEntity";
-import Entity from "../core/entity/Entity";
-import { ControllerButton } from "../core/io/Gamepad";
-import { KeyCode } from "../core/io/Keys";
-import { clamp } from "../core/util/MathUtil";
-import { Diver } from "./Diver";
+import BaseEntity from "../../core/entity/BaseEntity";
+import Entity from "../../core/entity/Entity";
+import { ControllerButton } from "../../core/io/Gamepad";
+import { KeyCode } from "../../core/io/Keys";
+import { clamp } from "../../core/util/MathUtil";
+import { Diver } from "../diver/Diver";
 
 // Maps player inputs into things the diver can do
 export class DiverController extends BaseEntity implements Entity {

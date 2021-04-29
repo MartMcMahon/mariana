@@ -262,6 +262,7 @@ export default class Game {
     const lastFrameDuration = (time - this.lastFrameTime) / 1000;
     this.lastFrameTime = time;
 
+    // TODO: This honestly doesn't work great
     // Keep a rolling average
     if (0 < lastFrameDuration && lastFrameDuration < 0.3) {
       // Ignore weird durations because they're probably flukes from the user

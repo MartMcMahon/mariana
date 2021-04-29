@@ -39,11 +39,14 @@ export default class FPSMeter extends BaseEntity implements Entity {
 
   getStats() {
     const world = this.game?.world;
+    const broadphase = this.game?.world.broadphase as SpatialHashingBroadphase;
     return {
       fps: Math.ceil(1000 / this.averageDuration),
       bodyCount: world?.bodies.length ?? 0,
-      hugeBodyCount:
-        (world?.broadphase as SpatialHashingBroadphase).hugeBodies?.size ?? 0,
+      hugeBodyCount: broadphase.hugeBodies?.size ?? 0,
+      dynamicBodyCount: broadphase.dynamicBodies.size,
+      kinematicBodyCount: broadphase.kinematicBodies.size,
+      particleBodyCount: broadphase.particleBodies.size,
       entityCount: this.game?.entities.all.size ?? 0,
       spriteCount: getSpriteCount(this.game!.renderer.stage),
       collisions: (this.game?.world.broadphase as SpatialHashingBroadphase)
@@ -56,11 +59,14 @@ export default class FPSMeter extends BaseEntity implements Entity {
       fps,
       bodyCount,
       hugeBodyCount,
+      kinematicBodyCount,
+      particleBodyCount,
+      dynamicBodyCount,
       collisions,
       entityCount,
       spriteCount,
     } = this.getStats();
-    return `fps: ${fps} | bodies: ${bodyCount} (${hugeBodyCount}) | collisions: ${collisions} | entities: ${entityCount} | sprites ${spriteCount}`;
+    return `fps: ${fps} | bodies: ${bodyCount} (${kinematicBodyCount}, ${particleBodyCount}, ${dynamicBodyCount}, ${hugeBodyCount}) | collisions: ${collisions} | entities: ${entityCount} | sprites ${spriteCount}`;
   }
 }
 

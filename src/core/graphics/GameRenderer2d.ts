@@ -73,6 +73,7 @@ export class GameRenderer2d {
       view,
     });
     PIXI.settings.RESOLUTION = resolution;
+    PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
     this.handleResize();
   }

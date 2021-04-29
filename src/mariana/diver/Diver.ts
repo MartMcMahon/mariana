@@ -16,6 +16,7 @@ import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V, V2d } from "../../core/Vector";
 import { Boat } from "../Boat";
 import { CollisionGroups } from "../config/CollisionGroups";
+import { getWaves } from "../effects/Waves";
 import { getUpgradeManager } from "../upgrade/UpgradeManager";
 import { ShuffleRing } from "../utils/ShuffleRing";
 import { HarpoonGun } from "../weapons/HarpoonGun";
@@ -29,7 +30,10 @@ const BASE_SPEED = 25.0; // Newtons?
 const SPEED_PER_UPGRADE = 3.0; // Newtons?
 const DIVER_DAMPING = 0.1; // Water friction
 const SURFACE_GRAVITY = 9.8; // meters / second^2
-const SUBMERGED_GRAVITY = 5.0; // meters / second^2
+const SUBMERGED_GRAVITY = 0; //5.0; // meters / second^2
+const HEAD_OFFSET = -0.35; // meters offset from center for head to be submerged
+const MAX_WAVE_FORCE = 15; // multiplier of wave velocity
+const WAVE_DEPTH_FACTOR = 0.95; // multiplier of wave velocity
 
 interface Sprites {
   forward: Sprite;
@@ -102,8 +106,17 @@ export class Diver extends BaseEntity implements Entity {
   }
 
   getSpeed(): number {
-    const upgradeLevel = getUpgradeManager(this.game!)?.data.speed ?? 0;
-    return BASE_SPEED + upgradeLevel;
+    const upgradeManager = getUpgradeManager(this.game!)!;
+
+    let speed = BASE_SPEED;
+    if (upgradeManager.hasUpgrade("flippers1")) {
+      speed += SPEED_PER_UPGRADE;
+    }
+    if (upgradeManager.hasUpgrade("flippers2")) {
+      speed += SPEED_PER_UPGRADE;
+    }
+
+    return speed;
   }
 
   setSprite(visibleSprite: keyof Sprites) {
@@ -114,16 +127,19 @@ export class Diver extends BaseEntity implements Entity {
 
   // Return the current depth in meters under the surface
   getDepth() {
-    return this.body.position[1];
+    const waves = getWaves(this.game!);
+    const x = this.body.position[1];
+    const surfaceHeight = waves.getSurfaceHeight(x);
+
+    return this.body.position[1] - surfaceHeight;
   }
 
   isSurfaced() {
-    return this.getDepth() <= 0.4;
+    return this.getDepth() + HEAD_OFFSET <= 0;
   }
 
   onRender() {
-    this.sprite.x = this.body.position[0];
-    this.sprite.y = this.body.position[1];
+    this.sprite.position.set(...this.body.position);
 
     const xMove = this.moveDirection[0];
     if (xMove > 0.1) {
@@ -153,6 +169,16 @@ export class Diver extends BaseEntity implements Entity {
           this.body.applyForce(this.moveDirection.mul(this.getSpeed()));
         }
         this.body.applyDamping(DIVER_DAMPING);
+
+        // Wave forces
+        const waves = getWaves(this.game!);
+        const x = this.body.position[1];
+        const surfaceVelocity = waves.getSurfaceVelocity(x);
+        const d = this.getDepth() - HEAD_OFFSET; // that this number doesn't go negative
+        const depthFactor = WAVE_DEPTH_FACTOR ** d;
+        this.body.applyImpulse(
+          surfaceVelocity.imul(MAX_WAVE_FORCE * depthFactor * dt)
+        );
       }
     }
   }

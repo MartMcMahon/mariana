@@ -22,7 +22,8 @@ canvas {
 
 #preloader {
   color: #adf;
-  font: 20px sans-serif;
+  font-size: 20px;
+  font-family: "Montserrat Black", sans-serif;
   left: 50vw;
   position: absolute;
   top: 30vh;

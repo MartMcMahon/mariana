@@ -1,66 +1,71 @@
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import Game from "../../core/Game";
+import { loadMoney, loadUpgrades, saveUpgrades } from "./persistence";
+import { isUpgradeId, UpgradeId, UPGRADES } from "./upgrades";
 
-export interface UpgradeOptions {
-  speed: number;
-  oxygen: number;
-}
+const MONEY_KEY = "money";
+const UPGRADES_KEY = "upgradesPurchased";
 
+// This keeps track of all our upgrades and money and stuff
 export class UpgradeManager extends BaseEntity implements Entity {
   persistenceLevel = 1;
   id = "upgradeManager";
-  data: UpgradeOptions;
 
-  pointsAvailable: number = 0;
+  money: number = 0;
+  private upgradesPurchased: Set<UpgradeId>;
 
   constructor() {
     super();
-    this.data = { speed: 1, oxygen: 1 };
+
+    this.money = loadMoney();
+    this.upgradesPurchased = loadUpgrades();
   }
 
-  onAdd() {
-    this.getFromLocalStorage();
+  hasUpgrade(upgradeId: UpgradeId): boolean {
+    return this.upgradesPurchased.has(upgradeId);
   }
 
-  getFromLocalStorage() {
-    const store = window.localStorage;
-    this.data = {
-      speed: parseInt(store.getItem("speed")) || 0,
-      oxygen: parseInt(store.getItem("oxygen")) || 0,
-    };
-    return this.data;
-  }
+  canBuyUpgrade(upgradeId: UpgradeId): boolean {
+    const upgrade = UPGRADES[upgradeId];
 
-  saveToLocalStorage(data: UpgradeOptions) {
-    if (!data) {
-      data = this.data;
+    // you can't buy the same upgrade twice
+    if (this.hasUpgrade(upgradeId)) {
+      return false;
     }
-    console.log(data)
-    for (const [item, val] of Object.entries(data)) {
-      window.localStorage.setItem(item, val);
+
+    // make sure we can afford it
+    if (this.money < upgrade.cost) {
+      return false;
     }
+
+    // And we've researched all its prerequisites
+    for (const prerequisite of upgrade.prerequisites) {
+      if (!this.hasUpgrade(prerequisite)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  buyUpgrade(upgradeId: UpgradeId) {
+    if (!this.canBuyUpgrade(upgradeId)) {
+      throw new Error(`Cannot buy upgrade: ${upgradeId}`);
+    }
+
+    const upgrade = UPGRADES[upgradeId];
+
+    this.money -= upgrade.cost;
+    this.upgradesPurchased.add(upgradeId);
+
+    saveUpgrades(this.upgradesPurchased);
   }
 
   handlers = {
-    diveEnd: () => {
-      this.pointsAvailable += 100;
+    depositSouls: (event: { amount: number }) => {
+      this.money += event.amount;
     },
-    depositSouls: (payload) => {
-      this.pointsAvailable += payload.amount;
-    },
-    withdrawSouls: (payload) => {
-      console.log(payload)
-      this.pointsAvailable -= payload.amount;
-    },
-    upgradeSpeed: () => {
-      this.data.speed += 1
-      this.saveToLocalStorage();
-    },
-    upgradeOxygen: () => {
-      this.data.oxygen += 1
-      this.saveToLocalStorage();
-    }
   };
 }
 

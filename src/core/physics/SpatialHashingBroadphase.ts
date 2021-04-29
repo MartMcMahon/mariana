@@ -1,5 +1,4 @@
-import { AABB, Body, Broadphase, SAPBroadphase, World, Ray } from "p2";
-import Grid from "../util/Grid";
+import { AABB, Body, Broadphase, Ray, SAPBroadphase, Shape, World } from "p2";
 import { mod } from "../util/MathUtil";
 
 const CUSTOM_BROADPHASE_TYPE = 3;
@@ -8,6 +7,7 @@ const DEFAULT_CELL_SIZE = 6;
 const HUGE: number[] = [];
 
 export default class SpatialHashingBroadphase extends SAPBroadphase {
+  particleBodies: Set<Body> = new Set();
   dynamicBodies: Set<Body> = new Set();
   kinematicBodies: Set<Body> = new Set();
   hugeBodies: Set<Body> = new Set();
@@ -64,7 +64,11 @@ export default class SpatialHashingBroadphase extends SAPBroadphase {
 
   onAddBody(body: Body) {
     if (body.type === Body.DYNAMIC) {
-      this.dynamicBodies.add(body);
+      if (isParticleBody(body)) {
+        this.particleBodies.add(body);
+      } else {
+        this.dynamicBodies.add(body);
+      }
     } else if (body.type === Body.KINEMATIC) {
       this.kinematicBodies.add(body);
     } else {
@@ -75,6 +79,7 @@ export default class SpatialHashingBroadphase extends SAPBroadphase {
   onRemoveBody(body: Body) {
     if (body.type === Body.DYNAMIC) {
       this.dynamicBodies.delete(body);
+      this.particleBodies.delete(body);
     } else if (body.type === Body.KINEMATIC) {
       this.kinematicBodies.delete(body);
     } else {
@@ -111,6 +116,9 @@ export default class SpatialHashingBroadphase extends SAPBroadphase {
     for (const dBody of this.dynamicBodies) {
       this.addBodyToHash(dBody);
     }
+    for (const pBody of this.particleBodies) {
+      this.addBodyToHash(pBody);
+    }
   }
 
   removeExtraBodies() {
@@ -119,6 +127,9 @@ export default class SpatialHashingBroadphase extends SAPBroadphase {
     }
     for (const dBody of this.dynamicBodies) {
       this.removeBodyFromHash(dBody);
+    }
+    for (const pBody of this.particleBodies) {
+      this.removeBodyFromHash(pBody);
     }
   }
 
@@ -132,6 +143,20 @@ export default class SpatialHashingBroadphase extends SAPBroadphase {
 
     for (const dBody of this.dynamicBodies) {
       this.addBodyToHash(dBody);
+    }
+
+    //
+    for (const pBody of this.particleBodies) {
+      for (const other of this.aabbQuery(
+        world,
+        pBody.getAABB(),
+        undefined,
+        false
+      )) {
+        if (Broadphase.canCollide(pBody, other)) {
+          result.push(pBody, other);
+        }
+      }
     }
 
     for (const dBody of this.dynamicBodies) {
@@ -274,4 +299,17 @@ export default class SpatialHashingBroadphase extends SAPBroadphase {
 
     return result;
   }
+}
+
+// Returns true if this is a dynamic body with no non-particle shapes
+function isParticleBody(body: Body): boolean {
+  if (body.type !== Body.DYNAMIC) {
+    return false;
+  }
+  for (const shape of body.shapes) {
+    if (shape.type !== Shape.PARTICLE) {
+      return false;
+    }
+  }
+  return true;
 }

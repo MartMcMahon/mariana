@@ -12,16 +12,27 @@ export enum Layer {
   WORLD = "world",
   // Stuff that renders in front of other stuff, but still in the water
   WORLD_FRONT = "world_front",
-  // The water
+  // The blue part of water
   WATER_OVERLAY = "water_overlay",
+  // Stuff that renders in front of the water too
+  WORLD_EXTRA_FRONT = "world_extra_front",
+  // Layer reserved for rendering lighting
+  LIGHTING = "lighting",
   // Stuff not in the world, so it doesn't move when the camera moves
   HUD = "hud",
   // Stuff above even the HUD
   MENU = "menu",
+  // debug info that goes on top of everything
+  DEBUG_INFO = "debug_info",
 }
 
 // Special layers that don't move with the camera
-const PARALAX_FREE_LAYERS = [Layer.HUD, Layer.MENU];
+const PARALAX_FREE_LAYERS = [
+  Layer.HUD,
+  Layer.MENU,
+  Layer.LIGHTING,
+  Layer.DEBUG_INFO,
+];
 
 // Set up the game to use our layers
 export function initLayers(game: Game) {

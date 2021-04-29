@@ -2,6 +2,7 @@ import BaseEntity from "../entity/BaseEntity";
 import Entity from "../entity/Entity";
 import Game from "../Game";
 import { getSoundBuffer, hasSoundBuffer, SoundName } from "../resources/sounds";
+import { clamp } from "../util/MathUtil";
 import { rUniform } from "../util/Random";
 
 export interface SoundOptions {
@@ -200,7 +201,10 @@ export class SoundInstance extends BaseEntity implements Entity {
     newNode.loop = this.sourceNode.loop;
     this.sourceNode = newNode;
     this.sourceNode.connect(this.panNode);
-    this.sourceNode.start(this.game!.audio.currentTime, startTime);
+    this.sourceNode.start(
+      this.game!.audio.currentTime,
+      clamp(startTime, 0, this.sourceNode.buffer!.duration)
+    );
   }
 
   jumpToRandom() {

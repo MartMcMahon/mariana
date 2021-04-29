@@ -1,14 +1,11 @@
 import { Body, Capsule } from "p2";
-import { AnimatedSprite, Sprite, Texture } from "pixi.js";
+import { AnimatedSprite, Texture } from "pixi.js";
 import snd_ding from "../../../resources/audio/ding.flac";
 import snd_sharkMiss from "../../../resources/audio/shark-miss.flac";
 import snd_sharkbite from "../../../resources/audio/sharkbite.flac";
 import img_shark1 from "../../../resources/images/shark1.png";
 import img_shark2 from "../../../resources/images/shark2.png";
 import img_shark3 from "../../../resources/images/shark3.png";
-import img_sharkAggro from "../../../resources/images/shark_aggro.png";
-import img_sharkBite from "../../../resources/images/shark_bite.png";
-import img_sharkPatrol from "../../../resources/images/shark_patrol.png";
 import { GameSprite } from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V, V2d } from "../../core/Vector";
@@ -71,7 +68,7 @@ export class Shark extends BaseFish {
         length: WIDTH - HEIGHT,
         radius: HEIGHT / 2,
         collisionGroup: CollisionGroups.Fish,
-        collisionMask: CollisionGroups.All ^ CollisionGroups.Divers,
+        collisionMask: CollisionGroups.All ^ CollisionGroups.Diver,
       })
     );
 

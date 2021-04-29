@@ -12,7 +12,7 @@ import { GraphicsQualityController } from "./controllers/GraphicsQualityControll
 import VolumeController from "./controllers/VolumeController";
 import { isFish } from "./enemies/BaseFish";
 import Preloader from "../core/resources/Preloader";
-import { getFontsToPreload } from "./preloader/preloadFonts";
+import { getFontsToPreload } from "./fonts";
 
 // So we can attach stuff to the window
 declare global {
@@ -77,12 +77,10 @@ export async function main() {
 
   // Add dev tools
   if (process.env.NODE_ENV === "development") {
-    game.addEntity(new FPSMeter(Layer.MENU));
+    game.addEntity(new FPSMeter(Layer.DEBUG_INFO));
   }
 
-  game.dispatch({ type: "gameStart" });
-
-  const element = game.renderer.pixiRenderer.view;
+  game.dispatch({ type: "newGame" });
 
   // // Make the game fullScreen on click
   // const element = game.renderer.pixiRenderer.view;

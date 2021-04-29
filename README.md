@@ -9,9 +9,10 @@ Make sure you have [`npm`](https://www.npmjs.com/) installed.
 First run `npm install`, then:
 
 - Use `npm run start` to start the development server at [http://localhost:1234].
-- Use `npm run build` to output a production build to `dist/`.
+- Use `npm run tsc-watch` to run the type checker continuously.
+  I recommend running this whenever you're developing so you can spot errors early.
 - Use `npm run tsc` to run the type checker once.
-- Use `npm run tsc-watch` to run the type checker continuously
+- Use `npm run build` to output a production build to `dist/`.
 - Use `npm run prettier` to autoformat all source files
 
 ## What's in all the folders?
@@ -26,8 +27,8 @@ First run `npm install`, then:
 
 ## What libraries does this use?
 
-The physics engine is [p2](https://github.com/schteppe/p2.js)
-The graphics engine is [pixi](https://github.com/pixijs/pixi.js)
+The physics engine is [p2](https://github.com/schteppe/p2.js) with some modifications for improved performance.
+The graphics engine is [pixi](https://github.com/pixijs/pixi.js).
 
 ## Concepts from the library to understand
 
@@ -129,3 +130,8 @@ this.game.addEntity(new PositionalSound(snd_mySound), V(10, 20), options));
 
 We use `prettier` with all default settings for formatting.
 I recommend setting up your editor to use it and to format on save of a file so that we never end up with misformatted files.
+
+## Links
+
+[1D Simulation of Ocean Waves](https://gabrielegiuseppini.wordpress.com/2019/05/12/1d-simulation-of-ocean-waves/)
+[https://github.com/pixijs/pixi.js/wiki/v5-Creating-filters]

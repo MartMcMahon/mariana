@@ -10,6 +10,7 @@ var applyForce_r = vec2.create(),
   applyForce_rj = vec2.create(),
   applyForce_tmp = vec2.create();
 
+/** Like a spring but only applies force when stretched not when compressed */
 export default class RopeSpring extends LinearSpring {
   applyForce() {
     var k = this.stiffness,
