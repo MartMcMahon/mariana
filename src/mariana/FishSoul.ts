@@ -1,5 +1,5 @@
 import { Body, Particle } from "p2";
-import { AnimatedSprite } from "pixi.js";
+import { AnimatedSprite, Texture } from "pixi.js";
 import snd_bellPositive1 from "../../resources/audio/bell_positive_1.flac";
 import snd_bellPositive2 from "../../resources/audio/bell_positive_2.flac";
 import img_pickup1 from "../../resources/images/pickup-1.png";
@@ -100,7 +100,9 @@ export class FishSoul extends BaseEntity implements Entity {
     this.sprite.position.set(...this.body.position);
 
     const textures = this.sprite.textures;
-    this.sprite.texture = textures[Math.floor(this.t * textures.length)];
+    this.sprite.texture = textures[
+      Math.floor(this.t * textures.length)
+    ] as Texture;
 
     this.light.setPosition(this.body.position);
     this.light.intensity = 0.12 + 0.03 * Math.sin(this.t * 2 * Math.PI);

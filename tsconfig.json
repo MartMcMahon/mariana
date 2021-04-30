@@ -5,6 +5,13 @@
     "noEmit": true,
     "target": "ES5",
     "downlevelIteration": true,
-    "strict": true
+    "strict": true,
+
+    // needed because pixi does some weird shit
+    "paths": {
+      "mini-signals": [
+        "./node_modules/resource-loader/typings/mini-signals.d.ts"
+      ]
+    }
   }
 }

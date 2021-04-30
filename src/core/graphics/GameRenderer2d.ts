@@ -1,4 +1,5 @@
 import * as Pixi from "pixi.js";
+import { SCALE_MODES, settings as PixiSettings } from "pixi.js";
 import { GameSprite } from "../entity/Entity";
 import { V, V2d } from "../Vector";
 import { Camera2d } from "./Camera2d";
@@ -72,8 +73,8 @@ export class GameRenderer2d {
       resolution,
       view,
     });
-    PIXI.settings.RESOLUTION = resolution;
-    PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+    PixiSettings.RESOLUTION = resolution;
+    PixiSettings.SCALE_MODE = SCALE_MODES.NEAREST;
 
     this.handleResize();
   }

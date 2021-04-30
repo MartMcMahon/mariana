@@ -209,9 +209,11 @@
  [√] Autogenerate preloader stuff
  [√] Surface waves shader
  [√] Surface splashes
- [ ] Glowsticks
  [√] Revamp upgrades
- [!] Revamp upgrade shop
+ [√] Upgrade Pixi Version
+ [ ] Glowsticks
+ [ ] Menus with react?
+ [ ] Revamp upgrade shop
  [ ] Make jellyfish glow
  [ ] Make squid thing
  [ ] Make harpoon retraction smoother - retract when collides with diver?

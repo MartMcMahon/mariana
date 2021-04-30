@@ -1,4 +1,4 @@
-import { BaseTexture, Rectangle, Texture } from "pixi.js";
+import { BaseTexture, Rectangle, SCALE_MODES, Texture } from "pixi.js";
 
 const textureCache = new Map<string, Texture>();
 
@@ -35,20 +35,11 @@ export class Tileset {
         const y = row * (tileSize + gap);
         const frame = new Rectangle(x, y, tileSize, tileSize);
         const texture = new Texture(this.baseTexture, frame);
-        texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+        texture.baseTexture.scaleMode = SCALE_MODES.NEAREST;
         //
         this.tiles.push(texture);
       }
     }
-    // let texture = new Texture(
-    //   (Region.tileset as any) as BaseTexture,
-    //   new Rectangle(
-    //     (i % TILE_SET_WIDTH) * (TILE_SIZE + 1) + 0.25,
-    //     Math.floor(i / TILE_SET_WIDTH) * (TILE_SIZE + 1) + 0.25,
-    //     TILE_SIZE - 0.25,
-    //     TILE_SIZE - 0.25
-    //   )
-    // );
   }
 
   getTexture(i: number) {
