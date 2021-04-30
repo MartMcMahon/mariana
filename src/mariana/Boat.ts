@@ -5,11 +5,11 @@ import Entity, { GameSprite } from "../core/entity/Entity";
 import Game from "../core/Game";
 import { ControllerButton } from "../core/io/Gamepad";
 import { KeyCode } from "../core/io/Keys";
-import { lerp } from "../core/util/MathUtil";
+import { degToRad, lerp, polarToVec } from "../core/util/MathUtil";
 import { V } from "../core/Vector";
 import { Layer } from "./config/layers";
 import { getDiver } from "./diver/Diver";
-import { getWaves } from "./effects/Waves";
+import { getWaves, Waves } from "./effects/Waves";
 import { FONT_HEADING } from "./fonts";
 import { PointLight } from "./lighting/PointLight";
 
@@ -106,7 +106,10 @@ export class Boat extends BaseEntity implements Entity {
   }
 
   getLaunchPosition() {
-    return V(this.sprite.x + 2.8, this.sprite.y - 1.5);
+    return polarToVec(degToRad(-30) + this.sprite.rotation, 3).iadd([
+      this.sprite.x,
+      this.sprite.y,
+    ]);
   }
 
   getDropoffPosition() {
@@ -125,7 +128,9 @@ export class Boat extends BaseEntity implements Entity {
     );
 
     const t = this.elapsedTime * WAVE_FREQUENCY * Math.PI;
-    this.sprite.y = getWaves(this.game!).getSurfaceHeight(0);
+    const waves = getWaves(this.game!);
+    this.sprite.y = waves.getSurfaceHeight(0);
+    this.sprite.rotation = waves.getSurfaceAngle(0);
 
     this.light.setPosition(this.getDropoffPosition());
   }
