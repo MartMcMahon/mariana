@@ -61,10 +61,16 @@ export class Waves extends BaseEntity implements Entity {
 
   getSurfaceVelocity(x: number): V2d {
     const { t, a, lambda, T } = this.getWaveStats();
-    const wave1 =
-      -a * Math.cos((2 * Math.PI * x) / lambda - (2 * Math.PI * t) / T);
+    const wave1 = -a * Math.cos(2 * Math.PI * (x / lambda - t / T));
 
     return V(0, wave1);
+  }
+
+  getSurfaceAngle(x: number): number {
+    const { t, a, lambda, T } = this.getWaveStats();
+    const wave1 = a * Math.cos(2 * Math.PI * (x / lambda - t / T));
+
+    return Math.atan(wave1 / lambda) * 10; // rise / run
   }
 
   getWaveStats() {

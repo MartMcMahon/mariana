@@ -84,7 +84,7 @@ export class Boat extends BaseEntity implements Entity {
 
     const distance = diver.getPosition().isub(this.getDropoffPosition())
       .magnitude;
-    return !diver.onBoat && distance < DROPOFF_RANGE;
+    return distance < DROPOFF_RANGE;
   }
 
   openShopIfDiverPresent() {

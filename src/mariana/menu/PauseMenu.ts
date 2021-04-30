@@ -38,7 +38,7 @@ export default class PauseMenu extends BaseEntity implements Entity {
     this.pausedText = new Text("PAUSED", {
       fontSize: 96,
       fontFamily: FONT_HEADING,
-      fill: "red",
+      fill: "#0000ff",
       align: "center",
     });
     this.pausedText.anchor.set(0.5, 1);

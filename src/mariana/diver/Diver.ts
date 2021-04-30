@@ -105,7 +105,7 @@ export class Diver extends BaseEntity implements Entity {
     this.setSprite("forward");
   }
 
-  getSpeed(): number {
+  getMaxSpeed(): number {
     const upgradeManager = getUpgradeManager(this.game!)!;
 
     let speed = BASE_SPEED;
@@ -166,7 +166,7 @@ export class Diver extends BaseEntity implements Entity {
 
       if (!this.isSurfaced()) {
         if (!this.isDead) {
-          this.body.applyForce(this.moveDirection.mul(this.getSpeed()));
+          this.body.applyForce(this.moveDirection.mul(this.getMaxSpeed()));
         }
         this.body.applyDamping(DIVER_DAMPING);
 

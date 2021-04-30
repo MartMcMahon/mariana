@@ -7,8 +7,6 @@ import { WORLD_BOTTOM, WORLD_SIZE_METERS } from "../constants";
 import { Waves } from "../effects/Waves";
 import frag_background from "./background.frag";
 
-const BACK_FADE_LOCATION = 0.02 * WORLD_BOTTOM;
-
 export class Water extends BaseEntity implements Entity {
   persistenceLevel = 1;
   filter: Filter;

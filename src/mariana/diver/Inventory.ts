@@ -16,13 +16,24 @@ export class Inventory extends BaseEntity implements Entity {
   onTick(dt: number) {
     const boat = this.game!.entities.getById("boat") as Boat;
 
-    if (boat.diverWithinDropoffRange() && this.fishSouls > 0 && rBool(0.2)) {
+    if (
+      boat.diverWithinDropoffRange() &&
+      this.fishSouls > 0 &&
+      this.game!.ticknumber % 4 === 0
+    ) {
       this.transferSouls(Math.ceil(this.fishSouls / 10));
+    }
+
+    if (
+      process.env.NODE_ENV === "development" &&
+      this.game!.io.keyIsDown("KeyF")
+    ) {
+      this.fishSouls += 1;
     }
   }
 
   transferSouls(value: number) {
-    this.game?.addEntity(new FishSoulTransfer(this.diver.getPosition(), value));
+    this.game!.addEntity(new FishSoulTransfer(this.diver.getPosition(), value));
     this.fishSouls -= value;
   }
 

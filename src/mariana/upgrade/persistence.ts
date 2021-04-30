@@ -8,9 +8,9 @@ export function loadMoney(): number {
   const storedPoints = parseInt(window.localStorage.getItem(MONEY_KEY) ?? "");
 
   if (isNaN(storedPoints)) {
-    return storedPoints;
-  } else {
     return 0;
+  } else {
+    return storedPoints;
   }
 }
 

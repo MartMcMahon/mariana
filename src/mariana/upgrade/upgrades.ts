@@ -7,10 +7,15 @@ interface Upgrade {
 }
 
 // TODO: Find a way to not have to repeat these ids
-export type UpgradeId = "flippers1" | "flippers2" | "air1" | "air2";
+export type UpgradeId =
+  | "flippers1"
+  | "flippers2"
+  | "air1"
+  | "air2"
+  | "rebreather";
 
 /** All the upgrades */
-export const UPGRADES: Record<UpgradeId, Upgrade> = {
+const UPGRADES: Record<UpgradeId, Upgrade> = {
   flippers1: {
     name: "Flippers",
     description: "Swim faster",
@@ -18,8 +23,8 @@ export const UPGRADES: Record<UpgradeId, Upgrade> = {
     prerequisites: [],
   },
   flippers2: {
-    name: "Flippers",
-    description: "Swim faster",
+    name: "Advanced Flippers",
+    description: "Swim even faster",
     cost: 200,
     prerequisites: ["flippers1"],
   },
@@ -35,7 +40,20 @@ export const UPGRADES: Record<UpgradeId, Upgrade> = {
     cost: 200,
     prerequisites: ["air1"],
   },
+  rebreather: {
+    name: "Rebreather",
+    description: "Blow fewer bubbles",
+    cost: 500,
+    prerequisites: ["air2"],
+  },
 };
+
+export const UPGRADE_IDS: UpgradeId[] = Object.keys(UPGRADES) as UpgradeId[];
+
+/** Returns the upgrade with the given ID */
+export function getUpgrade(id: UpgradeId): Upgrade {
+  return UPGRADES[id];
+}
 
 export function isUpgradeId(s: string): s is UpgradeId {
   return s in UPGRADES;

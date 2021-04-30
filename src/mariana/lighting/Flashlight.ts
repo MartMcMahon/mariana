@@ -10,7 +10,9 @@ interface Options {
   intensity?: number;
   color?: number;
 }
-export class PointLight extends BaseEntity implements Entity {
+
+// TODO: write me
+export class Flashlight extends BaseEntity implements Entity {
   lightSprite: Sprite;
 
   constructor(

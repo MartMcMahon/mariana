@@ -48,7 +48,7 @@ export class FishSoulTransfer extends BaseEntity implements Entity {
       this.sprite?.position.set(...p);
     });
 
-    this.game?.dispatch({ type: "depositSouls", amount: 1 });
+    this.game?.dispatch({ type: "depositSouls", amount: this.amount });
     this.game?.addEntity(new SoundInstance(snd_bellPositive2, { gain: 0.05 }));
     this.destroy();
   }

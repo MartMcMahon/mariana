@@ -44,6 +44,8 @@ export class FishSoul extends BaseEntity implements Entity {
       img_pickup7,
     ]);
 
+    this.sprite.tint = 0xddff99;
+
     this.sprite.anchor.set(0.5);
     this.sprite.width = this.sprite.height = 0.5 + Math.sqrt(value) * 0.1;
     this.sprite.animationSpeed = 8;

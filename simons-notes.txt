@@ -112,12 +112,18 @@
      - Current that moves you/sucks you down
      - Geiser that burns you
      - Kelp forests
+     - Sea cucumber
+     - Fan worm
 
     More Types of Fish
      - Passive fish that don't harm you
+       - fish: angelfish, clownfish, perch
+       - bigboys: whales, whale shark, manatee, 
+       - other: emperor shrimp, 
      - Crabs
+     - Barracuda
      - Fish that blend in with the walls until you get close, then they strike
-     - Large segmented (worm) fish
+     - Large segmented (worm) fish like an eel
      - Barnacle — shoots when you go by
      - Fish that travel through walls
      - Exploding fish
@@ -127,6 +133,9 @@
      - Leviathon that will eat you in one shot
      - Double angler — An angler with an angler for a bobble thing
      - Thing that propels itself in bursts
+     - Something that grabs you with a tentacle and pulls you in
+       - Maybe a small something like a Barnacle
+       - Also could be a cool boss fight with a kraken
     
     Advanced World Generation — Biome
      - Choose region for biome based on depth
@@ -196,13 +205,14 @@
 
 
 # Prioritized Things I wanna work on
- [x] Dynamic Lighting
- [x] Autogenerate preloader stuff
- [ ] Revamp upgrades
- [ ] Revamp upgrade shop
+ [√] Dynamic Lighting
+ [√] Autogenerate preloader stuff
+ [√] Surface waves shader
+ [√] Surface splashes
  [ ] Glowsticks
+ [√] Revamp upgrades
+ [!] Revamp upgrade shop
  [ ] Make jellyfish glow
- [ ] Surface waves shader
  [ ] Make squid thing
  [ ] Make harpoon retraction smoother - retract when collides with diver?
  [ ] Do some performance profiling
