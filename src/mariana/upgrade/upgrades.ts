@@ -25,25 +25,25 @@ const UPGRADES: Record<UpgradeId, Upgrade> = {
   flippers2: {
     name: "Advanced Flippers",
     description: "Swim even faster",
-    cost: 200,
+    cost: 300,
     prerequisites: ["flippers1"],
   },
   air1: {
     name: "Air Tank",
     description: "Stay underwater for longer",
-    cost: 100,
+    cost: 150,
     prerequisites: [],
   },
   air2: {
     name: "Bigger Air Tank",
     description: "Holds more air",
-    cost: 200,
+    cost: 300,
     prerequisites: ["air1"],
   },
   rebreather: {
     name: "Rebreather",
     description: "Blow fewer bubbles",
-    cost: 500,
+    cost: 800,
     prerequisites: ["air2"],
   },
 };

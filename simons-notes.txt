@@ -211,8 +211,8 @@
  [√] Surface splashes
  [√] Revamp upgrades
  [√] Upgrade Pixi Version
- [ ] Glowsticks
  [ ] Menus with react?
+ [ ] Glowsticks
  [ ] Revamp upgrade shop
  [ ] Make jellyfish glow
  [ ] Make squid thing

@@ -1,0 +1,61 @@
+.PauseMenu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #36ad;
+  user-select: none;
+  cursor: default;
+}
+
+.PauseMenu:not(.paused) {
+  display: none;
+}
+
+.PauseMenu.paused {
+  display: block;
+}
+
+.PauseMenu h1 {
+  position: absolute;
+  font-family: "Montserrat Black", sans-serif;
+  font-size: 4em;
+  color: #fff;
+  margin: auto 0;
+  text-align: center;
+  bottom: 50%;
+  width: 100%;
+}
+
+.PauseMenu h2 {
+  position: absolute;
+  width: 100%;
+  font-family: "Montserrat light", sans-serif;
+  font-size: 2em;
+  color: #fff;
+  margin: auto 0;
+  text-align: center;
+  top: 50%;
+}
+
+.PauseMenu .TopLeft {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+
+.PauseMenu .TopLeft .button {
+  font-size: 1.5em;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.05s ease;
+  transform-origin: 0% 50%;
+}
+
+.PauseMenu .TopLeft .button:active {
+  transform: scale(1.1);
+
+  color: #ff0;
+}

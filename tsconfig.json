@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "esModuleInterop": true,
     "lib": ["es2019", "dom"],
     "noEmit": true,

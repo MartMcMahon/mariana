@@ -61,10 +61,6 @@ export class Boat extends BaseEntity implements Entity {
     );
   }
 
-  onInputDeviceChange(usingController: boolean) {
-    this.tooltip.text = `Press ${usingController ? "Y" : "E"} To Shop`;
-  }
-
   diverIsPresent() {
     const diver = getDiver(this.game);
     if (!diver) {
@@ -73,7 +69,7 @@ export class Boat extends BaseEntity implements Entity {
 
     const xDistance = Math.abs(diver.getPosition().x - BOAT_X);
     const yDistance = diver.getDepth();
-    return !diver.onBoat && yDistance < SHOP_DEPTH && xDistance < SHOP_RANGE;
+    return yDistance < SHOP_DEPTH && xDistance < SHOP_RANGE;
   }
 
   diverWithinDropoffRange() {
@@ -119,6 +115,13 @@ export class Boat extends BaseEntity implements Entity {
   onRender(dt: number) {
     if (!this.game?.paused) {
       this.elapsedTime += dt;
+    }
+
+    const usingGamepad = this.game!.io.usingGamepad;
+    if (getDiver(this.game!)?.onBoat) {
+      this.tooltip.text = `Press ${usingGamepad ? "A" : "SPACE"} To Dive`;
+    } else {
+      this.tooltip.text = `Press ${usingGamepad ? "Y" : "E"} To Shop`;
     }
 
     this.tooltip.alpha = lerp(

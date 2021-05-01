@@ -66,13 +66,13 @@ export class UpgradeManager extends BaseEntity implements Entity {
     );
   }
 
+  getPurchasedUpgrades(): UpgradeId[] {
+    return [...this.upgradesPurchased];
+  }
+
   handlers = {
     depositSouls: (event: { amount: number }) => {
       this.money += event.amount;
-    },
-
-    buyUpgrade: (event: { upgradeId: UpgradeId }) => {
-      this.buyUpgrade(event.upgradeId);
     },
   };
 }

@@ -63,7 +63,9 @@ export class GameController extends BaseEntity implements Entity {
     openShop: async () => {
       const diver = getDiver(this.game)!;
       diver.onBoat = true;
-      this.game?.addEntity(new UpgradeShop());
+      if (!this.game?.entities.getById("upgradeShop")) {
+        this.game?.addEntity(new UpgradeShop());
+      }
     },
 
     diverDied: async () => {

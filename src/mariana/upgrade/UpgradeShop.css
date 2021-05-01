@@ -1,0 +1,94 @@
+.UpgradeShop {
+  background: #fff5;
+  cursor: default;
+  user-select: none;
+  position: absolute;
+  top: 24px;
+  width: 100%;
+  max-width: 500px;
+  left: 0; /* hack */
+  right: 0;
+  margin: auto;
+  max-height: calc(100vh - 48px);
+  padding: 24px;
+  border-radius: 4px;
+
+  box-shadow: 2px 1px 8px #0003;
+}
+
+.UpgradeShop h1 {
+  font-family: "Montserrat Black", sans-serif;
+  margin: 0;
+  padding: 8px 16px;
+}
+
+.UpgradeShop .Money {
+  font-family: "Montserrat Alternates", sans-serif;
+  padding: 12px;
+  text-align: center;
+  font-size: 1.5em;
+  float: right;
+}
+
+.UpgradeShop .UpgradeButton {
+  border-left: 4px solid #000;
+  border-top: 1px dashed #0003;
+  border-bottom: 1px dashed #0003;
+  padding: 12px;
+}
+
+.UpgradeShop .UpgradeButton + .UpgradeButton {
+  border-left-color: #000;
+  border-top: none;
+  padding: 12px;
+}
+
+.UpgradeShop .UpgradeButton.affordable {
+  cursor: pointer;
+}
+
+.UpgradeShop .UpgradeButton.affordable:hover {
+  border-left-color: #ff0;
+  background-color: #fff3;
+}
+
+.UpgradeShop .UpgradeButton:not(.affordable) {
+  opacity: 0.5;
+}
+
+.UpgradeShop .UpgradeButton .name {
+  font-family: "Montserrat Black", sans-serif;
+  font-size: 1.1em;
+  margin: 0;
+  display: inline;
+}
+
+.UpgradeShop .UpgradeButton .cost {
+  font-family: "Montserrat Alternates", sans-serif;
+  margin: 0;
+  float: right;
+}
+
+.UpgradeShop .UpgradeButton:not(.affordable) .cost {
+  color: #f00;
+}
+
+.UpgradeShop .UpgradeButton .description {
+  font-family: "Montserrat Light", sans-serif;
+}
+
+.UpgradeShop .PurchasedUpgrades {
+  font-family: "Montserrat Light", sans-serif;
+  font-style: italic;
+  font-size: 0.9em;
+  margin-top: 12px;
+}
+
+.UpgradeShop .PurchasedUpgrades span {
+  display: inline-block;
+  font-style: normal;
+  background-color: #fff9;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: 2px;
+}

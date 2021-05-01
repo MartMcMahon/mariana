@@ -32,7 +32,7 @@ const DIVER_DAMPING = 0.1; // Water friction
 const SURFACE_GRAVITY = 9.8; // meters / second^2
 const SUBMERGED_GRAVITY = 0; //5.0; // meters / second^2
 const HEAD_OFFSET = -0.35; // meters offset from center for head to be submerged
-const MAX_WAVE_FORCE = 15; // multiplier of wave velocity
+const MAX_WAVE_FORCE = 5; // multiplier of wave velocity
 const WAVE_DEPTH_FACTOR = 0.95; // multiplier of wave velocity
 
 interface Sprites {
@@ -172,7 +172,7 @@ export class Diver extends BaseEntity implements Entity {
 
         // Wave forces
         const waves = getWaves(this.game!);
-        const x = this.body.position[1];
+        const x = this.body.position[0];
         const surfaceVelocity = waves.getSurfaceVelocity(x);
         const d = this.getDepth() - HEAD_OFFSET; // that this number doesn't go negative
         const depthFactor = WAVE_DEPTH_FACTOR ** d;
