@@ -93,7 +93,7 @@ function UpgradeShopView({
         <div className="PurchasedUpgrades">
           Purchased:{" "}
           {purchasedUpgrades.map((upgradeId) => (
-            <span title={getUpgrade(upgradeId).description}>
+            <span title={getUpgrade(upgradeId).description} key={upgradeId}>
               {getUpgrade(upgradeId).name}
             </span>
           ))}
