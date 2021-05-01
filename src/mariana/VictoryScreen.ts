@@ -1,5 +1,5 @@
 import { Graphics, Sprite, Text, TextStyle } from "pixi.js";
-import snd_victory from "../../resources/audio/victory.flac";
+import snd_victory from "../../resources/audio/misc/victory.flac";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../core/entity/Entity";
 import { SoundInstance } from "../core/sound/SoundInstance";

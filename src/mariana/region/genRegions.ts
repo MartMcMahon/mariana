@@ -18,7 +18,6 @@ export function generateRegions() {
 
   const [numColumns, numRows] = WORLD_SIZE_REGIONS;
 
-  // TODO: Not the same tileset for every region
   const tileset = new Tileset(img_stoneTiles2, {
     columns: 3,
     rows: 6,
@@ -38,38 +37,35 @@ export function generateRegions() {
       if (column == 0 && depthLevel == 0) {
         rdata = data.start;
       } else if (depthLevel == 0) {
-
         let filteredRegions = data.regions.filter(
           (r: any) => r.left == rdata.right
         );
 
         rdata = filteredRegions[rInteger(0, filteredRegions.length)];
-
       } else if (column == 0) {
-
         let filteredRegions = data.regions.filter(
-            (r: any) => r.top == regionsData[depthLevel - 1][column].bottom
+          (r: any) => r.top == regionsData[depthLevel - 1][column].bottom
         );
 
         if (filteredRegions.length == 0) {
-          console.log("Failed on Col 0")
-          console.log(regionsData[depthLevel - 1][column])
+          console.log("Failed on Col 0");
+          console.log(regionsData[depthLevel - 1][column]);
         }
 
         rdata = filteredRegions[rInteger(0, filteredRegions.length)];
-
       } else {
-
         let filteredRegions = data.regions.filter(
-            (r: any) => r.left == rdata.right && r.top == regionsData[depthLevel - 1][column].bottom
+          (r: any) =>
+            r.left == rdata.right &&
+            r.top == regionsData[depthLevel - 1][column].bottom
         );
 
         if (filteredRegions.length == 0) {
-          console.log("Failed on Col !0")
-          console.log("left")
-          console.log(rdata.left)
-          console.log("Top")
-          console.log(regionsData[depthLevel - 1][column].bottom)
+          console.log("Failed on Col !0");
+          console.log("left");
+          console.log(rdata.left);
+          console.log("Top");
+          console.log(regionsData[depthLevel - 1][column].bottom);
         }
 
         rdata = filteredRegions[rInteger(0, filteredRegions.length)];

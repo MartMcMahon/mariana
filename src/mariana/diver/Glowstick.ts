@@ -1,22 +1,23 @@
 import { Body, Capsule, vec2 } from "p2";
 import { Sprite } from "pixi.js";
-import snd_glowStickCrack1 from "../../../resources/audio/glow-stick-crack-1.flac";
-import snd_glowStickDrop1 from "../../../resources/audio/glow-stick-drop-1.flac";
-import snd_glowStickDrop2 from "../../../resources/audio/glow-stick-drop-2.flac";
-import img_glowStick1 from "../../../resources/images/glow-stick-1.png";
-import img_glowStick2 from "../../../resources/images/glow-stick-2.png";
-import img_glowStick3 from "../../../resources/images/glow-stick-3.png";
+import snd_glowStickCrack1 from "../../../resources/audio/diver/glow-stick-crack-1.flac";
+import snd_glowStickDrop1 from "../../../resources/audio/impacts/glow-stick-drop-1.flac";
+import snd_glowStickDrop2 from "../../../resources/audio/impacts/glow-stick-drop-2.flac";
+import img_glowStick1 from "../../../resources/images/particles/glow-stick-1.png";
+import img_glowStick2 from "../../../resources/images/particles/glow-stick-2.png";
+import img_glowStick3 from "../../../resources/images/particles/glow-stick-3.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
-import { PositionalSound } from "../../core/sound/PositionalSound";
+import Game from "../../core/Game";
+import { SoundInstance } from "../../core/sound/SoundInstance";
 import { hslToHex } from "../../core/util/ColorUtils";
 import { clamp } from "../../core/util/MathUtil";
-import { choose, rNormal, rUniform } from "../../core/util/Random";
+import { choose, rUniform } from "../../core/util/Random";
 import { V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { Layer } from "../config/layers";
-import { P2Materials } from "../config/PhysicsMaterials";
 import { PointLight } from "../lighting/PointLight";
+import { ShuffleRing } from "../utils/ShuffleRing";
 
 export const GLOWSTICK_TEXTURES = [
   img_glowStick1,
@@ -24,28 +25,19 @@ export const GLOWSTICK_TEXTURES = [
   img_glowStick3,
 ];
 
-const DROP_SOUNDS = [snd_glowStickDrop1, snd_glowStickDrop2];
-const CRACK_SOUNDS = [snd_glowStickCrack1];
-export const GLOWSTICK_SOUNDS = [...DROP_SOUNDS, ...CRACK_SOUNDS];
+const DROP_SOUNDS = new ShuffleRing([snd_glowStickDrop1, snd_glowStickDrop2]);
+const CRACK_SOUNDS = new ShuffleRing([snd_glowStickCrack1]);
 
-const SIZE = [0.3, 0.08];
+const SIZE = [0.5, 0.1];
 const SPRITE_LENGTH = 0.45;
-
-const MIN_BOUNCE_SPEED = 1.0; // meters / second
-const BOUNCE_RESTITUTION = 0.3; // percent of engergy retained in bounce
 
 export default class GlowStick extends BaseEntity implements Entity {
   body: Body;
   light: PointLight;
   sprite: Sprite & GameSprite;
-  z: number;
-  zVelocity: number;
 
   constructor(position: V2d, velocity: V2d) {
     super();
-
-    this.z = 1;
-    this.zVelocity = rNormal(1, 0.4);
 
     this.body = new Body({
       mass: 0.1,
@@ -72,57 +64,44 @@ export default class GlowStick extends BaseEntity implements Entity {
       l: 0.8,
     });
     this.light = this.addChild(
-      new PointLight(position, { size: 10, color: color })
+      new PointLight({ position, size: 10, color: color })
     );
 
     this.sprite = Sprite.from(choose(...GLOWSTICK_TEXTURES));
     this.sprite.tint = color;
     this.sprite.anchor.set(0.5);
     this.sprite.scale.set(SPRITE_LENGTH / this.sprite.texture.width);
-    this.sprite.layerName = Layer.WORLD_FRONT;
+    this.sprite.layerName = Layer.WORLD;
+  }
+
+  onAdd(game: Game) {
+    game.addEntity(new SoundInstance(CRACK_SOUNDS.getNext()));
   }
 
   onTick(dt: number) {
-    if (this.z < 0) {
-      this.z = 0;
-      if (Math.abs(this.zVelocity) > MIN_BOUNCE_SPEED) {
-        // bounce
-        const gain = clamp(Math.abs(this.zVelocity) / 15) * 2;
-        const sound = choose(...DROP_SOUNDS);
-        const position = this.getPosition();
-        this.game?.addEntity(new PositionalSound(sound, position, { gain }));
+    const submerged = this.body.position[1] < 0;
+    const g = submerged ? 9.8 : 6;
+    this.body.angularDamping = submerged ? 3.0 : 1.0;
+    this.body.applyForce([0, 9.8 * this.body.mass]);
 
-        this.zVelocity *= -BOUNCE_RESTITUTION;
-        this.body.angularVelocity *= 0.5;
-        this.body.velocity[0] *= 0.5;
-        this.body.velocity[1] *= 0.5;
-      } else {
-        // on ground
-        this.zVelocity = 0;
-        this.turnToStatic();
-      }
-    } else {
-      this.z += this.zVelocity * dt;
-      this.zVelocity -= 9.8 * dt; // gravity
+    if (vec2.length(this.body.velocity) < 0.01) {
+      this.turnToStatic();
     }
   }
 
   onImpact() {
     const gain = clamp(vec2.length(this.body.velocity) / 5);
-    const sound = choose(...DROP_SOUNDS);
+    const sound = DROP_SOUNDS.getNext();
     const position = this.getPosition();
-    this.game?.addEntity(new PositionalSound(sound, position, { gain }));
-  }
-
-  afterPhysics() {
-    this.light.setPosition(this.body.position);
-    this.sprite.position.set(...this.body.position);
-    this.sprite.rotation = this.body.angle;
+    this.game?.addEntity(
+      new SoundInstance(sound, { gain, speed: rUniform(0.9, 1.1) })
+    );
   }
 
   onRender() {
-    const scale = 1 + this.z * 0.8;
-    this.sprite.scale.set((SPRITE_LENGTH / this.sprite.texture.width) * scale);
+    this.sprite.position.set(...this.body.position);
+    this.sprite.rotation = this.body.angle;
+    this.light.setPosition(this.body.position);
   }
 
   // Turn this into a static thing so we don't have any more on ticks or on renders or physics or whatnot
@@ -159,6 +138,4 @@ class StaticGlowstick extends BaseEntity {
     });
     this.destroy();
   }
-
-  // TODO: Destroy only the oldest ones
 }

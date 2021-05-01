@@ -1,15 +1,15 @@
 import { Body, Particle } from "p2";
 import { Sprite, Texture } from "pixi.js";
-import snd_smallweapon1 from "../../../resources/audio/smallweapon1.flac";
-import snd_smallweapon2 from "../../../resources/audio/smallweapon2.flac";
-import snd_smallweapon3 from "../../../resources/audio/smallweapon3.flac";
-import snd_smallweapon4 from "../../../resources/audio/smallweapon4.flac";
-import img_puffer0 from "../../../resources/images/puffer0.png";
-import img_puffer1 from "../../../resources/images/puffer1.png";
-import img_puffer2 from "../../../resources/images/puffer2.png";
-import img_puffer3 from "../../../resources/images/puffer3.png";
-import img_puffer4 from "../../../resources/images/puffer4.png";
-import img_spine from "../../../resources/images/spine.png";
+import snd_smallweapon1 from "../../../resources/audio/weapons/smallweapon1.flac";
+import snd_smallweapon2 from "../../../resources/audio/weapons/smallweapon2.flac";
+import snd_smallweapon3 from "../../../resources/audio/weapons/smallweapon3.flac";
+import snd_smallweapon4 from "../../../resources/audio/weapons/smallweapon4.flac";
+import img_puffer0 from "../../../resources/images/fish/puffer0.png";
+import img_puffer1 from "../../../resources/images/fish/puffer1.png";
+import img_puffer2 from "../../../resources/images/fish/puffer2.png";
+import img_puffer3 from "../../../resources/images/fish/puffer3.png";
+import img_puffer4 from "../../../resources/images/fish/puffer4.png";
+import img_pufferSpine from "../../../resources/images/fish/puffer_spine.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
@@ -152,7 +152,7 @@ class Spine extends BaseEntity implements Entity {
 
   constructor(position: V2d, direction: V2d) {
     super();
-    this.sprite = Sprite.from(img_spine);
+    this.sprite = Sprite.from(img_pufferSpine);
     this.sprite.anchor.set(0.5);
     this.sprite.rotation = direction.angle;
     this.sprite.width = this.sprite.height = SPINE_SIZE;

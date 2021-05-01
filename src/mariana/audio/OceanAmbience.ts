@@ -1,17 +1,12 @@
-import { vec2 } from "p2";
-import snd_aboveWaterMusic from "../../../resources/audio/above_water_music.flac";
-import snd_oceanTexture from "../../../resources/audio/ocean_texture.flac";
-import snd_splash from "../../../resources/audio/splash.flac";
-import snd_spookySinking from "../../../resources/audio/spooky_sinking.flac";
+import snd_splash from "../../../resources/audio/impacts/splash.flac";
+import snd_aboveWaterMusic from "../../../resources/audio/music-and-ambience/above_water_music.flac";
+import snd_oceanTexture from "../../../resources/audio/music-and-ambience/ocean_texture.flac";
+import snd_spookySinking from "../../../resources/audio/music-and-ambience/spooky_sinking.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
-import { clamp, lerp, polarToVec, smoothStep } from "../../core/util/MathUtil";
-import { rNormal, rUniform } from "../../core/util/Random";
-import { V } from "../../core/Vector";
-import { getDiver } from "../diver/Diver";
-import { SplashParticle } from "../effects/SurfaceSplash";
-import { getWaves } from "../effects/Waves";
+import { clamp, lerp, smoothStep } from "../../core/util/MathUtil";
+import { Diver, getDiver } from "../diver/Diver";
 
 const CUTOFF_HIGH = 250;
 const CUTOFF_LOW = 100;
@@ -90,6 +85,24 @@ export class OceanAmbience extends BaseEntity implements Entity {
       const t = this.game!.audio.currentTime;
       this.gain.gain.setTargetAtTime(1, t, 1);
     },
+
+    diverSubmerged: ({ diver }: { diver: Diver }) => {
+      this.addChild(
+        new SoundInstance(snd_splash, {
+          gain: clamp(Math.abs((diver.body.velocity[1] ?? 0) / 10), 0, 0.7),
+          outnode: () => this.filter,
+        })
+      );
+    },
+
+    diverSurfaced: ({ diver }: { diver: Diver }) => {
+      this.addChild(
+        new SoundInstance(snd_splash, {
+          gain: clamp(Math.abs((diver.body.velocity[1] ?? 0) / 10), 0, 0.7),
+          outnode: () => this.filter,
+        })
+      );
+    },
   };
 
   onTick() {
@@ -99,32 +112,6 @@ export class OceanAmbience extends BaseEntity implements Entity {
 
     const t = this.game!.audio.currentTime;
     const speed = 0.12;
-
-    if (this.wasAboveWater != isAboveWater) {
-      this.addChild(
-        new SoundInstance(snd_splash, {
-          gain: clamp(Math.abs((diver?.body.velocity[1] ?? 0) / 10), 0, 0.7),
-          outnode: () => this.filter,
-        })
-      );
-
-      // TODO: This should be somewhere else
-      if (diver) {
-        const diverPosition = diver.getPosition();
-        const speed = Math.abs(diver.body.velocity[1]);
-        const waves = getWaves(this.game!);
-        for (let i = 0; i < 15 * Math.sqrt(speed); i++) {
-          const x = rUniform(-0.3, 0.3) + diverPosition[0];
-          const y = waves.getSurfaceHeight(x);
-          const theta = waves.getSurfaceAngle(x);
-          const velocity = polarToVec(
-            rUniform(-Math.PI, Math.PI) + theta,
-            rUniform(0.5, 1) * speed
-          );
-          this.game!.addEntity(new SplashParticle(V(x, y), velocity));
-        }
-      }
-    }
 
     if (isAboveWater) {
       // above water

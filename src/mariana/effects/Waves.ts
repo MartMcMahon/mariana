@@ -44,10 +44,6 @@ export class Waves extends BaseEntity implements Entity {
     // this.addChild(new DebugWaves((x) => this.getSurfaceHeight(x)));
   }
 
-  onAdd() {
-    console.log(this.getUniforms(), this.getSurfaceHeight(0));
-  }
-
   onTick(dt: number) {
     this.t += dt;
   }

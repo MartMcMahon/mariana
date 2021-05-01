@@ -16,7 +16,6 @@ export class ReactEntity<Props> extends BaseEntity implements Entity {
   }
 
   onRender() {
-    // TODO: Don't do this everywhere
     this.reactRender();
   }
 

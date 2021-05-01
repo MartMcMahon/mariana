@@ -53,6 +53,8 @@ export default class Game {
 
   /** Total amount of game time that has elapsed */
   elapsedTime: number = 0;
+  /** Total amount of game time that has elapsed while not paused */
+  elapsedUnpausedTime: number = 0;
 
   averageFrameDuration = 1 / 60;
 
@@ -276,6 +278,9 @@ export default class Game {
 
     const renderDt = this.averageFrameDuration;
     this.elapsedTime += renderDt;
+    if (!this.paused) {
+      this.elapsedUnpausedTime += renderDt;
+    }
 
     const tickDt = (renderDt / this.tickIterations) * this.slowMo;
     this.iterationsRemaining += this.tickIterations;
@@ -380,7 +385,6 @@ export default class Game {
         entity.onLateRender(dt);
       }
     }
-    // this.renderer2d?.render();
     this.renderer.render();
   }
 

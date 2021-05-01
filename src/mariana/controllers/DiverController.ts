@@ -46,6 +46,11 @@ export class DiverController extends BaseEntity implements Entity {
     switch (key) {
       case "Space": {
         this.diver.jump();
+        break;
+      }
+      case "KeyQ": {
+        this.diver.throwGlowstick();
+        break;
       }
     }
   }

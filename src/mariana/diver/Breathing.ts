@@ -1,12 +1,18 @@
-import snd_breatheIn1 from "../../../resources/audio/breathe_in_1.flac";
-import snd_breatheOut1 from "../../../resources/audio/breathe_out_1.flac";
+import snd_breatheIn1 from "../../../resources/audio/diver/breathe_in_1.flac";
+import snd_breatheIn2 from "../../../resources/audio/diver/breathe_in_2.flac";
+import snd_breatheOut1 from "../../../resources/audio/diver/breathe_out_1.flac";
+import snd_breatheOut2 from "../../../resources/audio/diver/breathe_out_2.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { rBool, rNormal, rUniform } from "../../core/util/Random";
 import { V } from "../../core/Vector";
 import { Bubble } from "../effects/Bubble";
+import { ShuffleRing } from "../utils/ShuffleRing";
 import { Diver } from "./Diver";
+
+const INHALE_SOUNDS = new ShuffleRing([snd_breatheIn1, snd_breatheIn2]);
+const EXHALE_SOUNDS = new ShuffleRing([snd_breatheOut1, snd_breatheOut2]);
 
 // Controls the tempo of breathing, playing sounds, creating bubbles, etc.
 export class BreatheEffect extends BaseEntity implements Entity {
@@ -31,7 +37,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
       }
 
       this.game?.dispatch({ type: "breatheIn" });
-      this.addChild(new SoundInstance(snd_breatheIn1, { gain: 0.1 }));
+      this.addChild(new SoundInstance(INHALE_SOUNDS.getNext(), { gain: 0.1 }));
       await this.wait(this.cadence);
     }
     this.breatheOut();
@@ -40,7 +46,7 @@ export class BreatheEffect extends BaseEntity implements Entity {
   async breatheOut(pace = 1.0, amount: number = 1.0) {
     this.clearTimers();
     if (!this.diver.isSurfaced()) {
-      this.addChild(new SoundInstance(snd_breatheOut1, { gain: 0.1 }));
+      this.addChild(new SoundInstance(EXHALE_SOUNDS.getNext(), { gain: 0.1 }));
       await this.wait(0.8 / pace, () => {
         if (rBool(0.7 * pace)) {
           this.game!.addEntity(

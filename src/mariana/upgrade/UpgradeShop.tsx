@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-import snd_boughtUpgrade from "../../../resources/audio/bought_upgrade.flac";
+import snd_boughtUpgrade from "../../../resources/audio/ui/bought_upgrade.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";

@@ -1,10 +1,10 @@
 import { AnimatedSprite } from "pixi.js";
-import img_stingRay1 from "../../../resources/images/sting_ray_1.png";
-import img_stingRay2 from "../../../resources/images/sting_ray_2.png";
+import img_angler1 from "../../../resources/images/fish/angler_1.png";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { rBool } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { Diver } from "../diver/Diver";
+import { PointLight } from "../lighting/PointLight";
 import { GroundTile } from "../region/GroundTile";
 import { BaseFish } from "./BaseFish";
 
@@ -14,10 +14,13 @@ const PATROL_TIME = 5.0; // seconds travelled in each direction
 const WIDTH = 3;
 const HEIGHT = 1;
 
-export class StingRay extends BaseFish {
+export class AnglerFish extends BaseFish {
   sprite: AnimatedSprite & GameSprite;
 
   movingRight = rBool();
+  light: PointLight;
+
+  t = Math.random();
 
   constructor(position: V2d) {
     super(position, {
@@ -26,10 +29,10 @@ export class StingRay extends BaseFish {
       speed: SPEED,
       friction: FRICTION,
       hp: 20,
-      dropValue: 10,
+      dropValue: 50,
     });
 
-    this.sprite = AnimatedSprite.fromImages([img_stingRay1, img_stingRay2]);
+    this.sprite = AnimatedSprite.fromImages([img_angler1]);
 
     this.sprite.animationSpeed = 1;
     this.sprite.autoUpdate = false;
@@ -38,9 +41,7 @@ export class StingRay extends BaseFish {
     this.sprite.loop = true;
     this.sprite.position.set(...position);
 
-    if (this.movingRight) {
-      this.sprite.scale.x *= -1;
-    }
+    this.light = this.addChild(new PointLight({ position, size: 2 }));
   }
 
   async onAdd() {
@@ -49,19 +50,16 @@ export class StingRay extends BaseFish {
   }
 
   async turnAround() {
+    // this.clearTimers("turnAround");
     this.sprite.scale.x *= -1;
     this.movingRight = !this.movingRight;
 
-    await this.wait(PATROL_TIME);
+    await this.wait(PATROL_TIME, undefined, "turnAround");
     this.turnAround();
   }
 
-  onRender(dt: number) {
-    this.sprite.position.set(...this.body!.position);
-    this.sprite.update(dt);
-  }
-
   onTick(dt: number) {
+    this.t += dt;
     super.onTick(dt);
     const direction = this.movingRight ? 1 : -1;
     this.swim(V(direction, 0));
@@ -73,5 +71,21 @@ export class StingRay extends BaseFish {
     } else if (other instanceof GroundTile) {
       this.turnAround();
     }
+  }
+
+  getLightPosition() {
+    const x = this.facingRight ? 0.82 : -0.82;
+    return this.localToWorld([x, -0.78]);
+  }
+
+  onRender(dt: number) {
+    super.onRender(dt);
+
+    this.light.setPosition(this.getLightPosition());
+    this.light.intensity = 0.6 + 0.2 * Math.sin(this.t);
+  }
+
+  onDestroy() {
+    console.log("angler fish dead");
   }
 }

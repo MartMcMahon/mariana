@@ -1,6 +1,6 @@
 import { Sprite } from "pixi.js";
-import img_diveWatchBack from "../../../resources/images/dive-watch-back.png";
-import img_diveWatchNeedle from "../../../resources/images/dive-watch-needle.png";
+import img_diveWatchBack from "../../../resources/images/ui/dive-watch-back.png";
+import img_diveWatchNeedle from "../../../resources/images/ui/dive-watch-needle.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { clamp, degToRad, lerp } from "../../core/util/MathUtil";

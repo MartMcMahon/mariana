@@ -10,7 +10,7 @@ import { initContactMaterials } from "./config/PhysicsMaterials";
 import { GameController } from "./controllers/GameController";
 import { GraphicsQualityController } from "./controllers/GraphicsQualityController";
 import VolumeController from "./controllers/VolumeController";
-import { isFish } from "./enemies/BaseFish";
+import { isFish } from "./fish/BaseFish";
 import Preloader from "../core/resources/Preloader";
 import { getFontsToPreload } from "./fonts";
 

@@ -1,11 +1,11 @@
 import { Body, Capsule } from "p2";
 import { AnimatedSprite, Texture } from "pixi.js";
-import snd_ding from "../../../resources/audio/ding.flac";
-import snd_sharkMiss from "../../../resources/audio/shark-miss.flac";
-import snd_sharkbite from "../../../resources/audio/sharkbite.flac";
-import img_shark1 from "../../../resources/images/shark1.png";
-import img_shark2 from "../../../resources/images/shark2.png";
-import img_shark3 from "../../../resources/images/shark3.png";
+import snd_sharkMiss from "../../../resources/audio/fish/shark-miss.flac";
+import snd_sharkbite from "../../../resources/audio/fish/sharkbite.flac";
+import snd_ding from "../../../resources/audio/ui/ding.flac";
+import img_shark1 from "../../../resources/images/fish/shark1.png";
+import img_shark2 from "../../../resources/images/fish/shark2.png";
+import img_shark3 from "../../../resources/images/fish/shark3.png";
 import { GameSprite } from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { V, V2d } from "../../core/Vector";
@@ -31,6 +31,7 @@ const UNAGGRO_RANGE = 15; // meters
 const WIDTH = 5.0;
 const HEIGHT = 2;
 
+// TODO: Better shark agro sound
 const AGGRO_SOUND = snd_ding;
 
 export class Shark extends BaseFish {

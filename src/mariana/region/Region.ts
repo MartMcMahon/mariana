@@ -3,11 +3,11 @@ import Entity from "../../core/entity/Entity";
 import { rInteger, shuffle } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { TILE_SIZE_METERS, WORLD_SIZE_REGIONS } from "../constants";
-import { AnglerFish } from "../enemies/AnglerFish";
-import { Jellyfish } from "../enemies/Jellyfish";
-import { PufferFish } from "../enemies/PufferFish";
-import { Shark } from "../enemies/Shark";
-import { StingRay } from "../enemies/StingRay";
+import { AnglerFish } from "../fish/AnglerFish";
+import { Jellyfish } from "../fish/Jellyfish";
+import { PufferFish } from "../fish/PufferFish";
+import { Shark } from "../fish/Shark";
+import { StingRay } from "../fish/StingRay";
 import { Phone } from "../Phone";
 import { GroundTile } from "./GroundTile";
 import { RegionCSVData } from "./RegionData";
@@ -63,7 +63,6 @@ export class Region extends BaseEntity implements Entity {
 
     // get the deepest
     if (this.depthLevel === WORLD_SIZE_REGIONS[1] - 1) {
-      // TODO: This shouldn't be here
       spawnCells.sort((a, b) => a[1] - b[1]);
       // this one is never good
       spawnCells.pop();
@@ -97,8 +96,6 @@ export class Region extends BaseEntity implements Entity {
       this.addChild(new AnglerFish(V(x, y)));
     }
   }
-
-  // TODO: Loading and unloading when players get near
 
   handlers = {
     diveStart: () => {},

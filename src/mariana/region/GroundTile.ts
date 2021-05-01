@@ -1,6 +1,6 @@
 import { Body, Box, vec2 } from "p2";
 import { Sprite } from "pixi.js";
-import snd_metalHittingRock from "../../../resources/audio/metal_hitting_rock.flac";
+import snd_metalHittingRock from "../../../resources/audio/impacts/metal_hitting_rock.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";

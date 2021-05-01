@@ -212,9 +212,17 @@
  [√] Revamp upgrades
  [√] Upgrade Pixi Version
  [√] Menus with react?
+ [√] Revamp upgrade shop
+ [√] TODOs
+ [ ] Organize assets
+ [ ] Nicer damage overlay filter
+ [ ] Revamp world generation
+ [ ] Credits
  [ ] Glowsticks
- [ ] Revamp upgrade shop
- [ ] Make jellyfish glow
+ [ ] Positional sounds
  [ ] Make squid thing
  [ ] Make harpoon retraction smoother - retract when collides with diver?
  [ ] Do some performance profiling
+ [ ] TODOs again
+ [ ] Better death sound
+ [ ] Upgrade thumbnails

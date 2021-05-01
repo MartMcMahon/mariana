@@ -1,5 +1,5 @@
 import { BLEND_MODES, Graphics, Sprite } from "pixi.js";
-import img_daylight from "../../../resources/images/daylight.png";
+import img_daylight from "../../../resources/images/lights/daylight.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { lerp } from "../../core/util/MathUtil";

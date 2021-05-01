@@ -1,7 +1,6 @@
-import { Body, DistanceConstraint, Particle, vec2 } from "p2";
+import { Body, DistanceConstraint, Particle } from "p2";
 import { Graphics } from "pixi.js";
-import snd_reel from "../../../resources/audio/reel.flac";
-import snd_reelInHarpoon from "../../../resources/audio/reel_in_harpoon.flac";
+import snd_reelInHarpoon from "../../../resources/audio/weapons/reel_in_harpoon.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
@@ -72,7 +71,7 @@ export class Tether extends BaseEntity implements Entity {
   async retract() {
     this.retracting = true;
 
-    this.game!.addEntity(new SoundInstance(snd_reel, { gain: 0.05 }));
+    this.game!.addEntity(new SoundInstance(snd_reelInHarpoon, { gain: 0.05 }));
 
     const waitTime = RETRACT_TIME / NUM_SEGMENTS;
     for (let i = 0; i < this.constraints.length; i++) {

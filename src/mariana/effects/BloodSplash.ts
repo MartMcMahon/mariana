@@ -1,12 +1,11 @@
 import { Sprite } from "pixi.js";
-import img_blood1 from "../../../resources/images/blood-1.png";
-import img_blood2 from "../../../resources/images/blood-2.png";
-import img_blood3 from "../../../resources/images/blood-3.png";
-import img_bubble from "../../../resources/images/bubble.png";
+import img_blood1 from "../../../resources/images/particles/blood-1.png";
+import img_blood2 from "../../../resources/images/particles/blood-2.png";
+import img_blood3 from "../../../resources/images/particles/blood-3.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
-import { choose, rDirection, rNormal, rUniform } from "../../core/util/Random";
-import { V2d, V } from "../../core/Vector";
+import { choose, rDirection, rUniform } from "../../core/util/Random";
+import { V, V2d } from "../../core/Vector";
 import { Layer } from "../config/layers";
 
 const FRICTION = 1.5;

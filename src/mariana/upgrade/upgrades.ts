@@ -4,9 +4,9 @@ interface Upgrade {
   description: string;
   cost: number;
   prerequisites: UpgradeId[];
+  thumbnailUrl?: string;
 }
 
-// TODO: Find a way to not have to repeat these ids
 export type UpgradeId =
   | "flippers1"
   | "flippers2"

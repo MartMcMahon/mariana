@@ -1,14 +1,14 @@
 import { Body, Capsule } from "p2";
-import { Sprite } from "pixi.js";
-import snd_dialogHelmetPain1 from "../../../resources/audio/dialog_helmet_pain1.flac";
-import snd_dialogHelmetPain2 from "../../../resources/audio/dialog_helmet_pain2.flac";
-import snd_dialogHelmetPain3 from "../../../resources/audio/dialog_helmet_pain3.flac";
-import snd_dialogHelmetPain4 from "../../../resources/audio/dialog_helmet_pain4.flac";
-import snd_dialogHelmetPain5 from "../../../resources/audio/dialog_helmet_pain5.flac";
-import snd_dialogHelmetPain6 from "../../../resources/audio/dialog_helmet_pain6.flac";
-import img_diver from "../../../resources/images/diver.png";
-import img_diverLeft from "../../../resources/images/diver_left.png";
-import img_diverRight from "../../../resources/images/diver_right.png";
+import { Sprite, Texture } from "pixi.js";
+import snd_dialogHelmetPain1 from "../../../resources/audio/dialog/dialog_helmet_pain1.flac";
+import snd_dialogHelmetPain2 from "../../../resources/audio/dialog/dialog_helmet_pain2.flac";
+import snd_dialogHelmetPain3 from "../../../resources/audio/dialog/dialog_helmet_pain3.flac";
+import snd_dialogHelmetPain4 from "../../../resources/audio/dialog/dialog_helmet_pain4.flac";
+import snd_dialogHelmetPain5 from "../../../resources/audio/dialog/dialog_helmet_pain5.flac";
+import snd_dialogHelmetPain6 from "../../../resources/audio/dialog/dialog_helmet_pain6.flac";
+import img_diver from "../../../resources/images/diver/diver.png";
+import img_diverLeft from "../../../resources/images/diver/diver_left.png";
+import img_diverRight from "../../../resources/images/diver/diver_right.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import Game from "../../core/Game";
@@ -21,8 +21,11 @@ import { getUpgradeManager } from "../upgrade/UpgradeManager";
 import { ShuffleRing } from "../utils/ShuffleRing";
 import { HarpoonGun } from "../weapons/HarpoonGun";
 import { BreatheEffect } from "./Breathing";
+import { Flashlight } from "./Flashlight";
+import GlowStick from "./Glowstick";
 import { Inventory } from "./Inventory";
 import { HARPOON_OXYGEN_COST, OxygenManager } from "./OxygenManager";
+import { Submersion } from "./Submersion";
 
 const HEIGHT = 2.0; // in meters
 const WIDTH = 0.65; // in meters
@@ -60,10 +63,10 @@ export class Diver extends BaseEntity implements Entity {
   onBoat = true;
   isDead = false;
 
-  subSprites: Sprites = {
-    forward: Sprite.from(img_diver),
-    left: Sprite.from(img_diverLeft),
-    right: Sprite.from(img_diverRight),
+  textures = {
+    forward: Texture.from(img_diver),
+    left: Texture.from(img_diverLeft),
+    right: Texture.from(img_diverRight),
   };
 
   harpoonGun: HarpoonGun;
@@ -80,6 +83,8 @@ export class Diver extends BaseEntity implements Entity {
     this.oxygenManager = this.addChild(new OxygenManager(this));
     this.inventory = this.addChild(new Inventory(this));
     this.addChild(new BreatheEffect(this));
+    this.addChild(new Submersion(this));
+    this.addChild(new Flashlight(this));
 
     this.body = new Body({
       mass: 1,
@@ -94,15 +99,9 @@ export class Diver extends BaseEntity implements Entity {
     });
     this.body.addShape(shape, [0, 0], Math.PI / 2);
 
-    this.sprite = new Sprite();
+    this.sprite = new Sprite(this.textures.forward);
     this.sprite.anchor.set(0.5);
-    for (const subSprite of Object.values(this.subSprites) as Sprite[]) {
-      subSprite.scale.set(HEIGHT / subSprite.texture.height);
-      subSprite.anchor.set(0.5);
-      this.sprite.addChild(subSprite);
-    }
-
-    this.setSprite("forward");
+    this.sprite.scale.set(HEIGHT / this.sprite.texture.height);
   }
 
   getMaxSpeed(): number {
@@ -117,12 +116,6 @@ export class Diver extends BaseEntity implements Entity {
     }
 
     return speed;
-  }
-
-  setSprite(visibleSprite: keyof Sprites) {
-    for (const [name, sprite] of Object.entries(this.subSprites)) {
-      sprite.visible = name === visibleSprite;
-    }
   }
 
   // Return the current depth in meters under the surface
@@ -143,11 +136,11 @@ export class Diver extends BaseEntity implements Entity {
 
     const xMove = this.moveDirection[0];
     if (xMove > 0.1) {
-      this.setSprite("right");
+      this.sprite.texture = this.textures.right;
     } else if (xMove < -0.1) {
-      this.setSprite("left");
+      this.sprite.texture = this.textures.left;
     } else {
-      this.setSprite("forward");
+      this.sprite.texture = this.textures.forward;
     }
   }
 
@@ -213,6 +206,15 @@ export class Diver extends BaseEntity implements Entity {
     if (!this.onBoat) {
       this.harpoonGun.retract();
     }
+  }
+
+  throwGlowstick() {
+    this.game!.addEntity(
+      new GlowStick(
+        this.getPosition(),
+        this.aimDirection.add(this.body.velocity)
+      )
+    );
   }
 
   handlers = {

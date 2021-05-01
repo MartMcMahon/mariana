@@ -1,5 +1,5 @@
 import { Sprite } from "pixi.js";
-import img_waterSplash from "../../../resources/images/water-splash.png";
+import img_waterSplash from "../../../resources/images/particles/water-splash.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { rDirection, rUniform } from "../../core/util/Random";

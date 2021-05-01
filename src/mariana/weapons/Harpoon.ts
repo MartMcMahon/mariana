@@ -1,6 +1,6 @@
 import { Body, Box, ContactEquation, Shape, vec2 } from "p2";
 import { Sprite } from "pixi.js";
-import img_harpoon from "../../../resources/images/harpoon.png";
+import img_harpoon from "../../../resources/images/diver/harpoon.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { clamp, polarToVec } from "../../core/util/MathUtil";

@@ -1,5 +1,5 @@
 import { Sprite, Text } from "pixi.js";
-import img_boat from "../../resources/images/boat.png";
+import img_boat from "../../resources/images/environment/boat.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../core/entity/Entity";
 import Game from "../core/Game";
@@ -9,7 +9,7 @@ import { degToRad, lerp, polarToVec } from "../core/util/MathUtil";
 import { V } from "../core/Vector";
 import { Layer } from "./config/layers";
 import { getDiver } from "./diver/Diver";
-import { getWaves, Waves } from "./effects/Waves";
+import { getWaves } from "./effects/Waves";
 import { FONT_HEADING } from "./fonts";
 import { PointLight } from "./lighting/PointLight";
 
@@ -57,7 +57,7 @@ export class Boat extends BaseEntity implements Entity {
     this.sprite.addChild(this.tooltip);
 
     this.light = this.addChild(
-      new PointLight(V(0, 0), { size: 20, intensity: 0.2, color: 0xffeedd })
+      new PointLight({ size: 20, intensity: 0.2, color: 0xffeedd })
     );
   }
 

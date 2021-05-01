@@ -1,17 +1,18 @@
 import { Body, Box } from "p2";
 import { Sprite } from "pixi.js";
-import snd_fleshHit1 from "../../../resources/audio/flesh-hit-1.flac";
-import snd_fleshHit2 from "../../../resources/audio/flesh-hit-2.flac";
-import snd_fleshHit3 from "../../../resources/audio/flesh-hit-3.flac";
-import snd_fleshHit4 from "../../../resources/audio/flesh-hit-4.flac";
+import snd_fleshHit1 from "../../../resources/audio/impacts/flesh-hit-1.flac";
+import snd_fleshHit2 from "../../../resources/audio/impacts/flesh-hit-2.flac";
+import snd_fleshHit3 from "../../../resources/audio/impacts/flesh-hit-3.flac";
+import snd_fleshHit4 from "../../../resources/audio/impacts/flesh-hit-4.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
-import { choose, rInteger, rNormal, rUniform } from "../../core/util/Random";
+import { rUniform } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { BloodSplash } from "../effects/BloodSplash";
-import { makeSoulDrops, FishSoul } from "../FishSoul";
+import { makeSoulDrops } from "../FishSoul";
+import { ShuffleRing } from "../utils/ShuffleRing";
 import { Harpoon } from "../weapons/Harpoon";
 import { Harpoonable } from "../weapons/Harpoonable";
 
@@ -23,6 +24,13 @@ interface Options {
   dropValue?: number;
   hp?: number;
 }
+
+const HIT_SOUNDS = new ShuffleRing([
+  snd_fleshHit1,
+  snd_fleshHit2,
+  snd_fleshHit3,
+  snd_fleshHit4,
+]);
 
 export abstract class BaseFish
   extends BaseEntity
@@ -94,13 +102,7 @@ export abstract class BaseFish
   onHarpooned(harpoon: Harpoon) {
     const damage = harpoon.getDamageAmount();
     if (damage > 0) {
-      const sound = choose(
-        snd_fleshHit1,
-        snd_fleshHit2,
-        snd_fleshHit3,
-        snd_fleshHit4
-      );
-      this.game!.addEntity(new SoundInstance(sound));
+      this.game!.addEntity(new SoundInstance(HIT_SOUNDS.getNext()));
       this.game!.addEntity(
         new BloodSplash(
           this.getPosition(),

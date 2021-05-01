@@ -1,14 +1,14 @@
 import { Body, Particle } from "p2";
 import { AnimatedSprite, Texture } from "pixi.js";
-import snd_bellPositive1 from "../../resources/audio/bell_positive_1.flac";
-import snd_bellPositive2 from "../../resources/audio/bell_positive_2.flac";
-import img_pickup1 from "../../resources/images/pickup-1.png";
-import img_pickup2 from "../../resources/images/pickup-2.png";
-import img_pickup3 from "../../resources/images/pickup-3.png";
-import img_pickup4 from "../../resources/images/pickup-4.png";
-import img_pickup5 from "../../resources/images/pickup-5.png";
-import img_pickup6 from "../../resources/images/pickup-6.png";
-import img_pickup7 from "../../resources/images/pickup-7.png";
+import snd_bellPositive1 from "../../resources/audio/ui/bell_positive_1.flac";
+import snd_bellPositive2 from "../../resources/audio/ui/bell_positive_2.flac";
+import img_pickup1 from "../../resources/images/particles/pickup-1.png";
+import img_pickup2 from "../../resources/images/particles/pickup-2.png";
+import img_pickup3 from "../../resources/images/particles/pickup-3.png";
+import img_pickup4 from "../../resources/images/particles/pickup-4.png";
+import img_pickup5 from "../../resources/images/particles/pickup-5.png";
+import img_pickup6 from "../../resources/images/particles/pickup-6.png";
+import img_pickup7 from "../../resources/images/particles/pickup-7.png";
 import BaseEntity from "../core/entity/BaseEntity";
 import Entity from "../core/entity/Entity";
 import { SoundInstance } from "../core/sound/SoundInstance";
@@ -58,7 +58,8 @@ export class FishSoul extends BaseEntity implements Entity {
     );
 
     this.light = this.addChild(
-      new PointLight(this.getPosition(), {
+      new PointLight({
+        position: this.getPosition(),
         size: 2,
         color: 0xddffff,
       })

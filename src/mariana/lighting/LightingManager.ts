@@ -72,11 +72,12 @@ export default class LightingManager extends BaseEntity implements Entity {
     // const inverseMatrix = matrix.clone().invert();
     this.lightContainer.transform.setFromMatrix(matrix);
 
+    const renderTexture = this.texture;
     // Clear everything
-    this.renderer.render(this.darkness, this.texture, true);
+    this.renderer.render(this.darkness, { renderTexture });
 
     // Then render it all
-    this.renderer.render(this.lightContainer, this.texture, false);
+    this.renderer.render(this.lightContainer, { renderTexture, clear: false });
   }
 }
 

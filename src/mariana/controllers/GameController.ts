@@ -1,4 +1,4 @@
-import snd_musicalNope from "../../../resources/audio/musical_nope.flac";
+import snd_musicalNope from "../../../resources/audio/ui/musical_nope.flac";
 import img_stoneTiles2 from "../../../resources/images/tiles/stone_tiles2.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
@@ -7,9 +7,9 @@ import { SoundInstance } from "../../core/sound/SoundInstance";
 import { OceanAmbience } from "../audio/OceanAmbience";
 import { Boat } from "../Boat";
 import { Diver, getDiver } from "../diver/Diver";
-import { isFish } from "../enemies/BaseFish";
 import { Water } from "../environment/Background";
 import { Daylight } from "../environment/Daylight";
+import { isFish } from "../fish/BaseFish";
 import { DiveWatch } from "../hud/DiveWatch";
 import { FishCounter } from "../hud/FishCounter";
 import LightingManager from "../lighting/LightingManager";
