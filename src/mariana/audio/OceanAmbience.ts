@@ -57,7 +57,7 @@ export class OceanAmbience extends BaseEntity implements Entity {
       new SoundInstance(snd_aboveWaterMusic, {
         pauseable: false,
         continuous: true,
-        gain: 0.3,
+        gain: SURFACE_MUSIC_VOLUME,
         outnode: () => this.gain,
       })
     );

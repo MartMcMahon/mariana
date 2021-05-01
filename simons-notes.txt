@@ -214,7 +214,7 @@
  [√] Menus with react?
  [√] Revamp upgrade shop
  [√] TODOs
- [ ] Organize assets
+ [√] Organize assets
  [ ] Nicer damage overlay filter
  [ ] Revamp world generation
  [ ] Credits
