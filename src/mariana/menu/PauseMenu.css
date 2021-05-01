@@ -21,7 +21,7 @@
 .PauseMenu h1 {
   position: absolute;
   font-family: "Montserrat Black", sans-serif;
-  font-size: 4em;
+  font-size: 6em;
   color: #fff;
   margin: auto 0;
   text-align: center;
@@ -44,18 +44,25 @@
   position: absolute;
   top: 16px;
   left: 16px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: flex-start;
 }
 
 .PauseMenu .TopLeft .button {
-  font-size: 1.5em;
+  font-size: 2em;
   color: #fff;
   cursor: pointer;
   transition: all 0.05s ease;
   transform-origin: 0% 50%;
+  display: inline-block;
+}
+
+.PauseMenu .TopLeft .button:hover {
+  transform: scale(1.1);
+  color: #ff0;
 }
 
 .PauseMenu .TopLeft .button:active {
-  transform: scale(1.1);
-
-  color: #ff0;
+  transform: scale(1.15);
 }

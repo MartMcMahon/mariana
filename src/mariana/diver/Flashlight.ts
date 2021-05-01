@@ -3,7 +3,7 @@ import Entity from "../../core/entity/Entity";
 import { DirectionalLight } from "../lighting/DirectionalLight";
 import { Diver } from "./Diver";
 
-const ACTIVATION_DEPTH = 20;
+const ACTIVATION_DEPTH = 80;
 
 export class Flashlight extends BaseEntity implements Entity {
   light: DirectionalLight;

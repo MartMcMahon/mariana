@@ -64,14 +64,6 @@ export class GraphicsQualityController extends BaseEntity implements Entity {
     }
   }
 
-  onKeyDown(key: KeyCode) {
-    if (key === "KeyO") {
-      this.nextGraphicsQuality();
-    }
-  }
-
-  nextQuality() {}
-
   handlers = {
     toggleGraphicsQuality: () => {
       this.nextGraphicsQuality();
