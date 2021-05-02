@@ -2,6 +2,8 @@ import { Sprite } from "pixi.js";
 import img_waterSplash from "../../../resources/images/particles/water-splash.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
+import { colorLerp } from "../../core/util/ColorUtils";
+import { lerp } from "../../core/util/MathUtil";
 import { rDirection, rUniform } from "../../core/util/Random";
 import { V, V2d } from "../../core/Vector";
 import { Layer } from "../config/layers";
@@ -24,7 +26,7 @@ export class SplashParticle extends BaseEntity implements Entity {
     sprite.rotation = rDirection();
     sprite.alpha = 1.0;
     sprite.anchor.set(0.5);
-    sprite.tint = 0x99aaff;
+    sprite.tint = 0xffffff;
 
     this.sprite.layerName = Layer.WORLD_FRONT;
   }
@@ -47,6 +49,7 @@ export class SplashParticle extends BaseEntity implements Entity {
     sprite.y += dt * this.velocity[1];
 
     sprite.scale.set(this.size / sprite.texture.width);
+    sprite.tint = colorLerp(sprite.tint, 0x00eeff, dt);
 
     if (sprite.y >= waves.getSurfaceHeight(sprite.x)) {
       this.destroy();
