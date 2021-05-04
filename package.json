@@ -17,6 +17,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@pixi/tilemap": "^3.2.0",
     "@types/css-font-loading-module": "0.0.4",
     "@types/p2": "^0.7.36",
     "@types/react": "^17.0.4",

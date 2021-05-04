@@ -1,4 +1,3 @@
-import img_stoneTiles2 from "../../../resources/images/tiles/stone_tiles2.png";
 import data from "../../../resources/regions/regions.json";
 import { rInteger } from "../../core/util/Random";
 import { V } from "../../core/Vector";
@@ -10,7 +9,7 @@ import {
 } from "../constants";
 import { Region } from "./Region";
 import { getRegionCSV } from "./RegionData";
-import { Tileset } from "./Tileset";
+import { getDefaultTileset } from "../world/Tileset";
 
 // Generates all the regions
 export function generateRegions() {
@@ -18,11 +17,7 @@ export function generateRegions() {
 
   const [numColumns, numRows] = WORLD_SIZE_REGIONS;
 
-  const tileset = new Tileset(img_stoneTiles2, {
-    columns: 3,
-    rows: 6,
-    gap: 1,
-  });
+  const tileset = getDefaultTileset();
 
   // start down a ways so we don't have fish spawning right at the surface
   let topLeft = V(WORLD_LEFT_EDGE, REGIONS_START_DEPTH);

@@ -5,27 +5,26 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
 import { clamp } from "../../core/util/MathUtil";
-import { rUniform } from "../../core/util/Random";
+import { rCardinal, rUniform } from "../../core/util/Random";
 import { V2d } from "../../core/Vector";
 import { CollisionGroups } from "../config/CollisionGroups";
 import { TILE_SIZE_METERS } from "../constants";
 import { Harpoon } from "../weapons/Harpoon";
 import { Harpoonable } from "../weapons/Harpoonable";
-import { Tileset } from "./Tileset";
+import { Tileset } from "../world/Tileset";
 
 export class GroundTile extends BaseEntity implements Entity, Harpoonable {
   persistenceLevel = 1;
-  sprite: Sprite;
 
   constructor(position: V2d, tileset: Tileset, tileType: number) {
     super();
 
-    let texture = tileset.getTexture(tileType);
+    // let texture = tileset.getTexture(tileType);
 
-    this.sprite = Sprite.from(texture);
-    this.sprite.width = this.sprite.height = TILE_SIZE_METERS;
-    this.sprite.position.set(...position);
-    this.sprite.anchor.set(0.5);
+    // this.sprite = Sprite.from(texture);
+    // this.sprite.width = this.sprite.height = TILE_SIZE_METERS;
+    // this.sprite.position.set(...position);
+    // this.sprite.anchor.set(0.5);
 
     this.body = new Body({ mass: 0, position: position.clone() });
     this.body.addShape(

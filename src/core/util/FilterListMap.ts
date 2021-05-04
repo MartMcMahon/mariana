@@ -1,5 +1,6 @@
 import FilterList, { Filter } from "./FilterList";
 
+/**  */
 export class FilterListMap<T> {
   private _lists = new Map<Filter<T, any>, FilterList<T, any>>();
 

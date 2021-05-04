@@ -31,9 +31,9 @@ export class BreatheEffect extends BaseEntity implements Entity {
   async breatheIn() {
     this.clearTimers();
     if (!this.diver.isSurfaced()) {
-      if (this.diver.oxygenManager.currentOxygen <= 0) {
+      if (this.diver.air.currentOxygen <= 0) {
         // TODO: Suffocation sounds?
-        await this.waitUntil(() => this.diver.oxygenManager.currentOxygen > 1);
+        await this.waitUntil(() => this.diver.air.currentOxygen > 1);
       }
 
       this.game?.dispatch({ type: "breatheIn" });

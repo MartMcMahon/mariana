@@ -19,6 +19,12 @@ export default class Grid<T> {
     return this.data[x][y];
   }
 
+  delete([x, y]: Cell) {
+    if (this.data[x]) {
+      delete this.data[x][y];
+    }
+  }
+
   has(cell: Cell): boolean {
     return this.get(cell) != undefined;
   }

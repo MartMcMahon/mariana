@@ -1,7 +1,7 @@
-import snd_smallweapon1 from "../../../resources/audio/weapons/smallweapon1.flac";
-import snd_smallweapon2 from "../../../resources/audio/weapons/smallweapon2.flac";
-import snd_smallweapon3 from "../../../resources/audio/weapons/smallweapon3.flac";
-import snd_smallweapon4 from "../../../resources/audio/weapons/smallweapon4.flac";
+import snd_smallweaponalt1 from "../../../resources/audio/weapons/smallweaponalt_1.flac";
+import snd_smallweaponalt2 from "../../../resources/audio/weapons/smallweaponalt_2.flac";
+import snd_smallweaponalt3 from "../../../resources/audio/weapons/smallweaponalt_3.flac";
+import snd_smallweaponalt4 from "../../../resources/audio/weapons/smallweaponalt_4.flac";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { SoundInstance } from "../../core/sound/SoundInstance";
@@ -19,10 +19,10 @@ const SHOOT_SPEED = 60; // meters / second
 export const DAMPING = 0.07;
 
 const HARPOON_SOUNDS = new ShuffleRing([
-  snd_smallweapon1,
-  snd_smallweapon2,
-  snd_smallweapon3,
-  snd_smallweapon4,
+  snd_smallweaponalt1,
+  snd_smallweaponalt2,
+  snd_smallweaponalt3,
+  snd_smallweaponalt4,
 ]);
 
 export class HarpoonGun extends BaseEntity implements Entity {

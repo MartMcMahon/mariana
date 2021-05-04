@@ -10,6 +10,8 @@ interface Upgrade {
 export type UpgradeId =
   | "flippers1"
   | "flippers2"
+  | "weightBelt"
+  | "BCD"
   | "air1"
   | "air2"
   | "rebreather";
@@ -27,6 +29,18 @@ const UPGRADES: Record<UpgradeId, Upgrade> = {
     description: "Swim even faster",
     cost: 300,
     prerequisites: ["flippers1"],
+  },
+  weightBelt: {
+    name: "Weight Belt",
+    description: "Sink faster",
+    cost: 50,
+    prerequisites: [],
+  },
+  BCD: {
+    name: "BCD",
+    description: "Swim up faster",
+    cost: 250,
+    prerequisites: ["weightBelt"],
   },
   air1: {
     name: "Air Tank",

@@ -4,6 +4,7 @@ import { isUpgradeId, UpgradeId } from "./upgrades";
 const MONEY_KEY = "money";
 const UPGRADES_KEY = "upgradesPurchased";
 
+// TODO: This all seems broken
 export function loadMoney(): number {
   const storedPoints = parseInt(window.localStorage.getItem(MONEY_KEY) ?? "");
 

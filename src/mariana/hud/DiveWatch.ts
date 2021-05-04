@@ -60,7 +60,7 @@ export class DiveWatch extends BaseEntity implements Entity {
 
   onRender(dt: number) {
     const depthPercent = this.diver.getDepth() / WORLD_BOTTOM;
-    const airPercent = this.diver.oxygenManager.getOxygenPercent();
+    const airPercent = this.diver.air.getOxygenPercent();
 
     const airTargetAngle = lerp(MIN_AIR_ANGLE, MAX_AIR_ANGLE, airPercent);
 

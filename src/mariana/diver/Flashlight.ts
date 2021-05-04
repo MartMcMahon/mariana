@@ -11,7 +11,9 @@ export class Flashlight extends BaseEntity implements Entity {
   constructor(public diver: Diver) {
     super();
 
-    this.light = this.addChild(new DirectionalLight({ length: 15, width: 10 }));
+    this.light = this.addChild(
+      new DirectionalLight({ length: 15, width: 10, intensity: 0.7 })
+    );
   }
 
   onTick() {

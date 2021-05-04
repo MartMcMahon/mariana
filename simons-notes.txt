@@ -202,6 +202,8 @@
      - Explosives to mine a few tiles?
      - Pickaxe-like tool to remove individual tiles
 
+# Bugs
+ [ ] Diver catches on walls
 
 
 # Prioritized Things I wanna work on
@@ -214,16 +216,24 @@
  [√] Upgrade Pixi Version
  [√] Menus with react
  [√] Revamp upgrade shop
- [√] TODOs in code
  [√] Organize assets
  [√] Glowsticks
- [ ] Nicer damage overlay filter
  [ ] Revamp world generation
+ [ ] Nicer damage overlay filter
  [ ] Credits screen
  [ ] Positional sounds
  [ ] Make squid thing
  [ ] Make harpoon retraction smoother - retract when collides with diver?
  [ ] Do some performance profiling
- [ ] TODOs again
  [ ] Better death sound
  [ ] Upgrade shop thumbnails
+ [ ] Volume control
+
+
+# Art to ask Rachel for
+ [ ] More complete tileset — I should make a reference tileset for her
+ [ ] Shark animations
+ [ ] Plants
+ [ ] Some passive fish sprites
+ [ ] Moving squidger thing
+ [ ] Upgrade icons

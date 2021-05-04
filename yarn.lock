@@ -772,7 +772,7 @@
     "@pixi/core" "6.0.2"
     "@pixi/display" "6.0.2"
 
-"@pixi/canvas-renderer@6.0.2":
+"@pixi/canvas-renderer@^6.0.0-rc.3", "@pixi/canvas-renderer@6.0.2":
   "integrity" "sha512-SL3pLxAjEQdVN8Tp/p2svciKeA0DRH7HhlO95frVwxzvG4Z3GGYU39f3ejtCaLPqLGzEJmLND7lbIXh0b+Ornw=="
   "resolved" "https://registry.npmjs.org/@pixi/canvas-renderer/-/canvas-renderer-6.0.2.tgz"
   "version" "6.0.2"
@@ -792,12 +792,12 @@
     "@pixi/core" "6.0.2"
     "@pixi/loaders" "6.0.2"
 
-"@pixi/constants@6.0.2":
+"@pixi/constants@^6.0.0-rc.3", "@pixi/constants@6.0.2":
   "integrity" "sha512-4GSVKWr+qtjTj8IpRjXSnpkhF944ybjTSz9FnoqZZJgFxh/+9r53StHEGtKoK+BsSrmqbGzWax9krfc620KcLA=="
   "resolved" "https://registry.npmjs.org/@pixi/constants/-/constants-6.0.2.tgz"
   "version" "6.0.2"
 
-"@pixi/core@6.0.2":
+"@pixi/core@^6.0.0-rc.3", "@pixi/core@6.0.2":
   "integrity" "sha512-Bz0WQDncrXuLEjU6pX5INrCLd5UorgBfufgysQzncOITIER4sZjAq5R/mCS1M3d4mGFhXZQyMyQK+O4LacWvOQ=="
   "resolved" "https://registry.npmjs.org/@pixi/core/-/core-6.0.2.tgz"
   "version" "6.0.2"
@@ -809,7 +809,7 @@
     "@pixi/ticker" "6.0.2"
     "@pixi/utils" "6.0.2"
 
-"@pixi/display@6.0.2":
+"@pixi/display@^6.0.0-rc.3", "@pixi/display@6.0.2":
   "integrity" "sha512-5qJxwT07McA7EK2yFhqvAjEJpap4Xa2hUCRDfsxl+Fu1Y3zDNBKI7HB8+mWZdYtSnnh5fJxrrw5lPo4HX7M+6w=="
   "resolved" "https://registry.npmjs.org/@pixi/display/-/display-6.0.2.tgz"
   "version" "6.0.2"
@@ -871,7 +871,7 @@
   dependencies:
     "@pixi/core" "6.0.2"
 
-"@pixi/graphics@6.0.2":
+"@pixi/graphics@^6.0.0-rc.3", "@pixi/graphics@6.0.2":
   "integrity" "sha512-/hONnNsWIo8O/0yQf2voBRi0aLnt7RXHXiYLb1d0bMkfYVHbn6r+TYZsz/mjOC1MRW+B0Bkh5ZxRWOgF3IpCiA=="
   "resolved" "https://registry.npmjs.org/@pixi/graphics/-/graphics-6.0.2.tgz"
   "version" "6.0.2"
@@ -904,7 +904,7 @@
     "@pixi/utils" "6.0.2"
     "resource-loader" "^3.0.1"
 
-"@pixi/math@6.0.2":
+"@pixi/math@^6.0.0-rc.3", "@pixi/math@6.0.2":
   "integrity" "sha512-eA4VmqkWTUSRl1iYIu3sCitbg8+QfohU0Zk/61J1s0pzWtLjMECkrlcwiFfCxwNU7MhkOATQ53dxgmNtBa77zw=="
   "resolved" "https://registry.npmjs.org/@pixi/math/-/math-6.0.2.tgz"
   "version" "6.0.2"
@@ -1078,7 +1078,12 @@
   dependencies:
     "@pixi/settings" "6.0.2"
 
-"@pixi/utils@6.0.2":
+"@pixi/tilemap@^3.2.0":
+  "integrity" "sha512-ZDxZnMXOOhqcyEg0j2Wc/ERNUGMKlp/AbOLGkp3At5s6Rwlbyfg9jWpGKK+fNQj5oF1hx1ffTaZewGDMnu2QFQ=="
+  "resolved" "https://registry.npmjs.org/@pixi/tilemap/-/tilemap-3.2.0.tgz"
+  "version" "3.2.0"
+
+"@pixi/utils@^6.0.0-rc.3", "@pixi/utils@6.0.2":
   "integrity" "sha512-jx3ZYJ29mTJSqBPQbDUPPorsPXiGOQzL6IIW5vwE05LekYmwocR8b48vLYKdbr8XdyOQ7Eqe43PodiwCLjuWvA=="
   "resolved" "https://registry.npmjs.org/@pixi/utils/-/utils-6.0.2.tgz"
   "version" "6.0.2"

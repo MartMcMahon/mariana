@@ -127,6 +127,8 @@ export const ALL_IMAGES: string[] = [
   require("./images/particles/pickup-6.png"),
   require("./images/particles/pickup-7.png"),
   require("./images/particles/water-splash.png"),
+  require("./images/tiles/reference-tileset-numbered.png"),
+  require("./images/tiles/reference-tileset.png"),
   require("./images/tiles/stone_tiles.png"),
   require("./images/tiles/stone_tiles2.png"),
   require("./images/tiles/tile.png"),

@@ -9,7 +9,7 @@ import {
   WORLD_RIGHT_EDGE,
 } from "../constants";
 import { GroundTile } from "./GroundTile";
-import { Tileset } from "./Tileset";
+import { Tileset } from "../world/Tileset";
 
 export class WorldBounds extends BaseEntity implements Entity {
   constructor(tileset: Tileset) {

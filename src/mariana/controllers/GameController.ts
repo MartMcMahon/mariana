@@ -15,11 +15,12 @@ import { FishCounter } from "../hud/FishCounter";
 import LightingManager from "../lighting/LightingManager";
 import PauseMenu from "../menu/PauseMenu";
 import { generateRegions } from "../region/genRegions";
-import { Tileset } from "../region/Tileset";
+import { Tileset } from "../world/Tileset";
 import { WorldBounds } from "../region/WorldBounds";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
 import { VictoryScreen } from "../VictoryScreen";
+import { WorldMap } from "../world/WorldMap";
 import CameraController from "./CameraController";
 import { DiverController } from "./DiverController";
 
@@ -33,25 +34,28 @@ export class GameController extends BaseEntity implements Entity {
   handlers = {
     // Called at the beginning of the game
     newGame: () => {
-      this.game!.addEntity(new PauseMenu());
-      this.game!.addEntity(new LightingManager());
-      this.game!.addEntity(new Daylight());
-      this.game!.addEntity(new Water());
-      this.game!.addEntity(new Boat());
-      this.game!.addEntity(new OceanAmbience());
-      this.game!.addEntity(new UpgradeManager());
-      this.game?.addEntity(new CameraController(this.game.camera));
+      const game = this.game!;
+      game.addEntity(new PauseMenu());
+      game.addEntity(new LightingManager());
+      game.addEntity(new Daylight());
+      game.addEntity(new Water());
+      game.addEntity(new Boat());
+      game.addEntity(new OceanAmbience());
+      game.addEntity(new UpgradeManager());
+      game.addEntity(new CameraController(game.camera));
+      game.addEntity(new WorldMap());
 
-      this.game!.addEntities(generateRegions());
-      this.game?.addEntity(new WorldBounds(new Tileset(img_stoneTiles2, {})));
+      // game.addEntities(generateRegions());
+      // game.addEntity(new WorldBounds(new Tileset(img_stoneTiles2, {})));
       const diver = this.game!.addEntity(new Diver());
 
-      // this.game!.addEntity(new DamagedOverlay(() => diver));
-      this.game?.addEntity(new DiverController(diver));
-      this.game!.addEntity(new DiveWatch(diver));
-      this.game!.addEntity(new FishCounter(diver));
+      // TODO: Readd damage overlay when it's better
+      // game.addEntity(new DamagedOverlay(() => diver));
+      game.addEntity(new DiverController(diver));
+      game.addEntity(new DiveWatch(diver));
+      game.addEntity(new FishCounter(diver));
 
-      this.game!.dispatch({ type: "diveStart" });
+      game.dispatch({ type: "diveStart" });
     },
 
     diveStart: () => {
@@ -78,7 +82,7 @@ export class GameController extends BaseEntity implements Entity {
       const diver = getDiver(this.game);
 
       // hacky way to make sure we don't die...
-      diver?.oxygenManager.giveOxygen(10000);
+      diver?.air.giveOxygen(10000);
       for (const fish of this.game!.entities.getByFilter(isFish)) {
         fish.destroy();
       }

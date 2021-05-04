@@ -20,6 +20,7 @@ import { getWaves } from "../effects/Waves";
 import { getUpgradeManager } from "../upgrade/UpgradeManager";
 import { ShuffleRing } from "../utils/ShuffleRing";
 import { HarpoonGun } from "../weapons/HarpoonGun";
+import { WorldAnchor } from "../world/WorldAnchor";
 import { BreatheEffect } from "./Breathing";
 import { Flashlight } from "./Flashlight";
 import GlowStick from "./Glowstick";
@@ -38,12 +39,6 @@ const HEAD_OFFSET = -0.35; // meters offset from center for head to be submerged
 const MAX_WAVE_FORCE = 5; // multiplier of wave velocity
 const WAVE_DEPTH_FACTOR = 0.95; // multiplier of wave velocity
 
-interface Sprites {
-  forward: Sprite;
-  left: Sprite;
-  right: Sprite;
-}
-
 const HURT_SOUNDS = new ShuffleRing([
   snd_dialogHelmetPain1,
   snd_dialogHelmetPain2,
@@ -53,6 +48,7 @@ const HURT_SOUNDS = new ShuffleRing([
   snd_dialogHelmetPain6,
 ]);
 
+// TODO: Split functionality into more components if possible
 export class Diver extends BaseEntity implements Entity {
   persistenceLevel = 1;
   sprite: Sprite;
@@ -70,7 +66,7 @@ export class Diver extends BaseEntity implements Entity {
   };
 
   harpoonGun: HarpoonGun;
-  oxygenManager: OxygenManager;
+  air: OxygenManager;
   inventory: Inventory;
 
   aimDirection: V2d = V(0, 1);
@@ -80,11 +76,12 @@ export class Diver extends BaseEntity implements Entity {
     super();
 
     this.harpoonGun = this.addChild(new HarpoonGun(this));
-    this.oxygenManager = this.addChild(new OxygenManager(this));
+    this.air = this.addChild(new OxygenManager(this));
     this.inventory = this.addChild(new Inventory(this));
     this.addChild(new BreatheEffect(this));
     this.addChild(new Submersion(this));
     this.addChild(new Flashlight(this));
+    this.addChild(new WorldAnchor(() => this.getPosition(), 15, 15));
 
     this.body = new Body({
       mass: 1,
@@ -194,10 +191,7 @@ export class Diver extends BaseEntity implements Entity {
   }
 
   shoot() {
-    if (
-      !this.onBoat &&
-      this.oxygenManager.currentOxygen > HARPOON_OXYGEN_COST
-    ) {
+    if (!this.onBoat && this.air.currentOxygen > HARPOON_OXYGEN_COST) {
       this.harpoonGun.shoot(this.aimDirection);
     }
   }

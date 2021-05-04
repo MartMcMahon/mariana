@@ -11,7 +11,7 @@ import { StingRay } from "../fish/StingRay";
 import { Phone } from "../Phone";
 import { GroundTile } from "./GroundTile";
 import { RegionCSVData } from "./RegionData";
-import { Tileset } from "./Tileset";
+import { Tileset } from "../world/Tileset";
 
 export class Region extends BaseEntity implements Entity {
   persistenceLevel = 1;
