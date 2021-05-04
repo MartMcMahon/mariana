@@ -9,7 +9,7 @@ import {
 } from "../constants";
 import { Region } from "./Region";
 import { getRegionCSV } from "./RegionData";
-import { getDefaultTileset } from "../world/Tileset";
+import { getDefaultTileset } from "../utils/Tileset";
 
 // Generates all the regions
 export function generateRegions() {

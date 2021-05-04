@@ -1,5 +1,4 @@
 import snd_musicalNope from "../../../resources/audio/ui/musical_nope.flac";
-import img_stoneTiles2 from "../../../resources/images/tiles/stone_tiles2.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { KeyCode } from "../../core/io/Keys";
@@ -14,9 +13,6 @@ import { DiveWatch } from "../hud/DiveWatch";
 import { FishCounter } from "../hud/FishCounter";
 import LightingManager from "../lighting/LightingManager";
 import PauseMenu from "../menu/PauseMenu";
-import { generateRegions } from "../region/genRegions";
-import { Tileset } from "../world/Tileset";
-import { WorldBounds } from "../region/WorldBounds";
 import { UpgradeManager } from "../upgrade/UpgradeManager";
 import { UpgradeShop } from "../upgrade/UpgradeShop";
 import { VictoryScreen } from "../VictoryScreen";
@@ -45,8 +41,6 @@ export class GameController extends BaseEntity implements Entity {
       game.addEntity(new CameraController(game.camera));
       game.addEntity(new WorldMap());
 
-      // game.addEntities(generateRegions());
-      // game.addEntity(new WorldBounds(new Tileset(img_stoneTiles2, {})));
       const diver = this.game!.addEntity(new Diver());
 
       // TODO: Readd damage overlay when it's better

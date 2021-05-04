@@ -1,5 +1,4 @@
 import { CompositeTilemap } from "@pixi/tilemap";
-import { BaseTexture } from "pixi.js";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity, { GameSprite } from "../../core/entity/Entity";
 import Game from "../../core/Game";
@@ -8,8 +7,9 @@ import { V, V2d } from "../../core/Vector";
 import { Layer } from "../config/layers";
 import { TILE_SIZE_METERS, WORLD_SIZE_TILES } from "../constants";
 import { GroundTile } from "../region/GroundTile";
-import { getDefaultTileset, getTileType } from "./Tileset";
+import { getDefaultTileset, getTileType } from "../utils/Tileset";
 import { isWorldAnchor } from "./WorldAnchor";
+import { generateSolidMap } from "./worldGen";
 
 type TilePos = V2d;
 type TilePosString = `${number},${number}`;
@@ -34,6 +34,7 @@ export class WorldMap extends BaseEntity implements Entity {
     this.sprite = new CompositeTilemap();
     this.sprite.layerName = Layer.WORLD_BACK;
     this.sprite.scale.set(TILE_SIZE_METERS / 64);
+    this.solidMap = generateSolidMap();
   }
 
   onAdd(game: Game) {
@@ -50,8 +51,7 @@ export class WorldMap extends BaseEntity implements Entity {
     } else if (y > this.bottomBound) {
       return true;
     }
-    return y > Math.abs(x) + 4;
-    // return this.solidMap.get(tilePos) ?? false;
+    return this.solidMap.get(tilePos) ?? false;
   }
 
   getTileType(tilePos: TilePos): number {

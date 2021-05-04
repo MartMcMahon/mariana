@@ -11,7 +11,7 @@ import { CollisionGroups } from "../config/CollisionGroups";
 import { TILE_SIZE_METERS } from "../constants";
 import { Harpoon } from "../weapons/Harpoon";
 import { Harpoonable } from "../weapons/Harpoonable";
-import { Tileset } from "../world/Tileset";
+import { Tileset } from "../utils/Tileset";
 
 export class GroundTile extends BaseEntity implements Entity, Harpoonable {
   persistenceLevel = 1;

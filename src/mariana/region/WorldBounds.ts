@@ -1,4 +1,3 @@
-import img_stoneTiles2 from "../../../resources/images/tiles/stone_tiles2.png";
 import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { V } from "../../core/Vector";
@@ -8,8 +7,8 @@ import {
   WORLD_LEFT_EDGE,
   WORLD_RIGHT_EDGE,
 } from "../constants";
+import { Tileset } from "../utils/Tileset";
 import { GroundTile } from "./GroundTile";
-import { Tileset } from "../world/Tileset";
 
 export class WorldBounds extends BaseEntity implements Entity {
   constructor(tileset: Tileset) {

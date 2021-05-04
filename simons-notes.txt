@@ -218,7 +218,9 @@
  [√] Revamp upgrade shop
  [√] Organize assets
  [√] Glowsticks
- [ ] Revamp world generation
+ [√] Complete tileset
+ [√] Revamp world generation
+ [ ] Global audio mixer
  [ ] Nicer damage overlay filter
  [ ] Credits screen
  [ ] Positional sounds
@@ -231,9 +233,17 @@
 
 
 # Art to ask Rachel for
- [ ] More complete tileset — I should make a reference tileset for her
+ [ ] More complete tileset
  [ ] Shark animations
  [ ] Plants
  [ ] Some passive fish sprites
  [ ] Moving squidger thing
  [ ] Upgrade icons
+
+
+# World generation Ideas
+
+ [ ] Generate height of surface
+ [ ] Maybe add in some mountains?
+ [ ] Add in large caves
+ [ ] Connect paths between caves?

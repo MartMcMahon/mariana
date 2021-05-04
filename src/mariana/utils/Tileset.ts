@@ -172,9 +172,9 @@ export function getTileType(neighbors: Neighbors): number {
 
     // Bridges
     case 0b1010:
-      return 27;
-    case 0b0101:
       return 16;
+    case 0b0101:
+      return 27;
 
     default:
       throw new Error(`unknown bitfield: ${sides}`);
