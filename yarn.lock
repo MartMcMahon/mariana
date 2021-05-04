@@ -2945,6 +2945,11 @@
   "resolved" "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz"
   "version" "2.0.6"
 
+"fast-simplex-noise@^4.0.0":
+  "integrity" "sha512-2zRCJkPdMnPyXNEeI5IYgH555Nbd/j9nC8YVoOm5dmFDjqxuLD888nEAGB8cSUIyxLlNHCZVlZ7AO27Fm3boJA=="
+  "resolved" "https://registry.npmjs.org/fast-simplex-noise/-/fast-simplex-noise-4.0.0.tgz"
+  "version" "4.0.0"
+
 "fastparse@^1.1.2":
   "integrity" "sha512-483XLLxTVIwWK3QTrMGRqUfUpoOs/0hbQrl2oz4J0pAcm3A3bu84wxTFqGqkJzewCLdME38xJLJAxBABfQT8sQ=="
   "resolved" "https://registry.yarnpkg.com/fastparse/-/fastparse-1.1.2.tgz"
