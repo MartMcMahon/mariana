@@ -2,7 +2,7 @@ import BaseEntity from "../../core/entity/BaseEntity";
 import Entity from "../../core/entity/Entity";
 import { Camera2d } from "../../core/graphics/Camera2d";
 import { getPositionalSoundListener } from "../../core/sound/PositionalSoundListener";
-import { clamp } from "../../core/util/MathUtil";
+import { clamp, stepToward } from "../../core/util/MathUtil";
 import { V } from "../../core/Vector";
 import { Boat } from "../Boat";
 import { WORLD_BOTTOM, WORLD_LEFT_EDGE, WORLD_RIGHT_EDGE } from "../constants";
@@ -20,7 +20,7 @@ export default class CameraController extends BaseEntity implements Entity {
     this.camera.z = 30;
   }
 
-  onRender() {
+  onRender(dt: number) {
     const diver = getDiver(this.game);
     if (diver) {
       const [cameraWidth, cameraHeight] = this.camera.getViewportSize();
@@ -40,6 +40,12 @@ export default class CameraController extends BaseEntity implements Entity {
     const listener = getPositionalSoundListener(this.game);
     if (listener) {
       listener.setPosition(this.camera.position);
+    }
+
+    if (this.game?.io.keyIsDown("Minus")) {
+      this.camera.z += dt;
+    } else {
+      this.camera.z = stepToward(this.camera.z, 30, dt);
     }
   }
 
